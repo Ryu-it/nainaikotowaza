@@ -163,3 +163,6 @@ AIが作ったないことわざと意味・用例を見て笑って、ほっと
  | 認証         | Devise / Google認証                 |
  | VCS          | GitHub                              |
  | CI/CD        | GitHub Actions                      |
+
+## 画面遷移図
+[Figmaで見る](https://www.figma.com/design/Whvv7ajTtLstt9xWFO6quF/%E7%84%A1%E9%A1%8C?node-id=0-1&t=UN6kyosDwpZGuYSt-1)
