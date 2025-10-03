@@ -2,7 +2,9 @@
   <div class="text-xl flex p-6 justify-between items-center">
   <!-- 左側 -->
   <div>
-    <%= link_to "ホーム", root_path, class: "pl-8 font-bold" %>
+    <%= link_to root_path do %>
+      <i class="fa-solid fa-house text-2xl pl-8"></i>
+    <% end %>
   </div>
 
   <!-- 右側 -->
