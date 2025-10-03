@@ -57,6 +57,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-# fontawesomeの導入
-gem "font-awesome-sass", "~> 6.0"
