@@ -9,9 +9,14 @@
 
   <!-- 右側 -->
   <div class="flex gap-6">
-    <%= link_to "新規登録", "#", class: "py-2 px-4 font-bold" %>
+    <%= link_to "新規登録", new_user_registration_path, class: "py-2 px-4 font-bold" %>
     <%= link_to "ログイン", "#", class: "py-2 px-4 font-bold" %>
     <%= link_to "ランキング", "#", class: "py-2 px-4 font-bold" %>
   </div>
+  <% if current_user %>
+    <div class="flex gap-6">
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "py-2 px-4 font-bold" %>
+    </div>
+  <% end %>
   </div>
 </header>
