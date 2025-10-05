@@ -23,12 +23,72 @@
           <span class="text-sm mt-2">1人でことわざを作る</span>
         <% end %>
 
-        <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "flex flex-col items-center font-bold" do %>
-          <i class="fa-solid fa-bars text-2xl"></i>
-          <span class="text-sm mt-2">メニュー</span>
-    <% end %>
-  </div>
+        <%#　stimulusでハンバーカーメニューを表示 %>
+    <div data-controller="hamburger" class="relative inline-block">
+      <button data-action="click->hamburger#toggle" class="p-2 cursor-pointer">
+        <!-- 三本線アイコン -->
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
 
+        <%# メニュー部分 %>
+      <div
+        data-hamburger-target="menu"
+        class="absolute mt-8 right-15 w-40 bg-yellow-100 text-black rounded shadow-lg hidden z-50"
+      >
+        <nav class="w-72 bg-pink-50 border rounded-xl p-6">
+  <ul class="space-y-8">
+    <li>
+      <%= link_to root_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-house text-3xl"></i>
+        <span>ホーム</span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to "#", class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-regular fa-user text-3xl"></i>
+        <span>プロフィール</span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to "#", class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-crown text-3xl"></i>
+        <span>ランキング</span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to "#", class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-regular fa-eye text-3xl"></i>
+        <span>ことわざを見にいく</span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to "#", class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-magnifying-glass text-3xl"></i>
+        <span>ユーザーを探す</span>
+      <% end %>
+    </li>
+
+    <li class="pt-4">
+      <%= link_to destroy_user_session_path,
+                  method: :delete,
+                  data: { turbo_method: :delete },
+                  class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-right-from-bracket text-3xl"></i>
+        <span>ログアウト</span>
+      <% end %>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </div>
+</div>
 
     <% else %>
       <!-- 🏠 未ログイン時のメニュー -->
@@ -50,4 +110,3 @@
     <% end %>
   </div>
 </header>
-
