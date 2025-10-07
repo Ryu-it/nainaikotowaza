@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_06_060635) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_06_075741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_06_060635) do
     t.string "meaning", null: false
     t.text "example"
     t.integer "status", default: 0, null: false
-    t.bigint "room_id", null: false
+    t.bigint "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_proverbs_on_room_id"

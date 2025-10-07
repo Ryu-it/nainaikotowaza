@@ -1,5 +1,5 @@
 class Proverb < ApplicationRecord
-  belongs_to :room
+  belongs_to :room, optional: true
 
   has_many :proverb_contributors, dependent: :destroy
   has_many :users, through: :proverb_contributors
