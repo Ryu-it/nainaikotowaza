@@ -11,5 +11,5 @@ class Proverb < ApplicationRecord
   validates :example, length: { maximum: 300 }
   validates :status, presence: true
 
-  enum status: { in_progress: 0, completed: 1 }, _default: :in_progress
+  enum :status, { in_progress: 0, completed: 1 }, default: :in_progress
 end
