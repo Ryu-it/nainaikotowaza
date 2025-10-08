@@ -5,7 +5,7 @@ class Proverb < ApplicationRecord
   has_many :users, through: :proverb_contributors
 
   validates :word1, presence: true, length: { maximum: 10 }
-  validates :word1, presence: true, length: { maximum: 10 }
+  validates :word2, presence: true, length: { maximum: 10 }
   validates :title, presence: true, length: { maximum: 50 }
   validates :meaning, presence: true, length: { maximum: 100 }
   validates :example, length: { maximum: 300 }

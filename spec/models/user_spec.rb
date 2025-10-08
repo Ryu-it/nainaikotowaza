@@ -7,9 +7,7 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
   end
-end
 
-RSpec.describe User, type: :model do
   describe "バリデーション失敗" do
     it "名前が空白の時はユーザー登録ができない" do
       user = build(:user, name: "")
