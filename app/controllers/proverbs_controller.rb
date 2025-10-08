@@ -4,12 +4,21 @@ class ProverbsController < ApplicationController
   end
 
   def create
-    @proverb = current_user.proverbs.build(proverb_params)
-    if @proverb.save
-      redirect_to root_path, notice: "ことわざを登録しました。"
-    else
-      render :new, status: :unprocessable_entity
+    # 失敗した時にロールバックするためにトランザクションを使用
+    ActiveRecord::Base.transaction do
+      @proverb = Proverb.new(proverb_params)
+      @proverb.save!
+      @proverb.proverb_contributors.create!(user: current_user, role: :solo)
     end
+
+    redirect_to root_path, notice: "ことわざを登録しました。"
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
+  end
+
+  def index
+    @proverbs = Proverb.includes(proverb_contributors: :user)
+                       .order(created_at: :desc)
   end
 
   private
