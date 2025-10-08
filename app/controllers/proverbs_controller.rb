@@ -11,9 +11,10 @@ class ProverbsController < ApplicationController
       @proverb.proverb_contributors.create!(user: current_user, role: :solo)
     end
 
-    redirect_to root_path, notice: "ことわざを登録しました。"
-  rescue ActiveRecord::RecordInvalid
-    render :new, status: :unprocessable_entity
+    redirect_to proverbs_path, notice: "ことわざを投稿しました"
+    rescue ActiveRecord::RecordInvalid
+      flash.now[:alert] = "ことわざの投稿に失敗しました"
+      render :new, status: :unprocessable_entity
   end
 
   def index

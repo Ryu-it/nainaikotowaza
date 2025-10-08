@@ -1,0 +1,15 @@
+<% flash.each do |key, message| %>
+  <% css_class = case key.to_sym
+    when :notice
+      "bg-green-300 border-green-400 text-green-700" # 成功時
+    when :alert
+      "bg-red-300 border-red-400 text-red-700"       # エラー時
+    else
+      "bg-gray-100 border-gray-400 text-gray-700"    # その他
+    end
+  %>
+
+  <div class="text-center border px-4 py-3 rounded-md shadow-md <%= css_class %>">
+    <%= message %>
+  </div>
+<% end %>
