@@ -1,0 +1,51 @@
+<div class="h-full bg-rose-100 py-12">
+  <div class="mx-auto max-w-md bg-pink-50 border border-pink-100 rounded-2xl shadow-sm px-18 py-24">
+
+    <div class="mb-8">
+  <div class="flex items-center justify-center space-x-6 text-lg font-medium text-gray-900 bg-white border rounded-xl px-4 py-3">
+    <!-- 左のユーザー -->
+    <div class="flex items-center space-x-2">
+      <span><%= @proverb.proverb_contributors.first.user.name %></span>
+    </div>
+
+    <!-- 区切りの × -->
+    <% if @proverb.proverb_contributors.second&.user.present? %>
+      <span class="text-gray-700 text-xl">×</span>
+      <!-- 右のユーザー -->
+      <div class="flex items-center space-x-2">
+        <div class="w-5 h-5 bg-gray-300 rounded-full"></div>
+        <span><%= @proverb.proverb_contributors.second.user.name %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+    <%# タイトル %>
+    <div class="mb-8">
+      <div class="text-center text-lg font-medium text-gray-900 bg-white border rounded-xl px-4 py-3">
+        <%= @proverb.title %>
+      </div>
+    </div>
+
+    <%# 意味 %>
+    <section class="mb-8">
+      <h2 class="text-center text-gray-700 mb-2">意味</h2>
+      <div class="bg-white border rounded-xl px-4 py-4 leading-relaxed text-gray-900">
+        <%= @proverb.meaning %>
+      </div>
+    </section>
+
+    <%# 用例 %>
+    <section>
+      <h2 class="text-center text-gray-700 mb-2">用例</h2>
+      <div class="bg-white border rounded-xl px-4 py-4 leading-relaxed text-gray-900">
+        <%= @proverb.example %>
+      </div>
+    </section>
+
+    <%# 任意：戻るリンク %>
+    <div class="mt-8 text-center">
+      <%= link_to "一覧に戻る", proverbs_path, class: "text-pink-700 hover:underline" %>
+    </div>
+  </div>
+</div>

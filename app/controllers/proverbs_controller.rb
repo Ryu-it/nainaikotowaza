@@ -22,6 +22,11 @@ class ProverbsController < ApplicationController
                        .order(created_at: :desc)
   end
 
+  def show
+    @proverb = Proverb.includes(proverb_contributors: :user)
+                      .find(params[:id])
+  end
+
   private
 
   def proverb_params
