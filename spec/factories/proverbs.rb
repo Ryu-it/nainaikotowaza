@@ -7,5 +7,9 @@ FactoryBot.define do
     example { "MyText" }
     status { 1 }
     room { nil }
+
+    after(:create) do |proverb|
+      create(:proverb_contributor, proverb: proverb)
+    end
   end
 end

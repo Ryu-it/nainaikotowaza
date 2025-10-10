@@ -28,6 +28,11 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
+  # Capybaraのスクリーンショットを作成ごとに削除する
+  config.before(:suite) do
+    FileUtils.rm_rf(Dir["tmp/capybara/*"])
+  end
+
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|

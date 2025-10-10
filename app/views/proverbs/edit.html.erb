@@ -1,0 +1,42 @@
+<%= render "shared/flash_message" %>
+<div class="h-full w-full overflow-hidden bg-rose-100 grid place-items-center">
+  <%= form_with model: @proverb, class: "w-full max-w-2xl" do |f| %>
+    <div class="bg-white rounded-2xl shadow-xl p-12 space-y-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">ことわざを編集する</h2>
+
+      <div class="flex justify-center items-center gap-4">
+        <%= f.text_field :word1, placeholder: "単語を入力", class: "w-32 py-3 px-4 rounded-xl border text-center font-semibold" %>
+        <span class="text-2xl font-bold">✖️</span>
+        <%= f.text_field :word2, placeholder: "単語を入力", class: "w-32 py-3 px-4 rounded-xl border text-center font-semibold" %>
+      </div>
+
+      <!-- AI生成ボタン -->
+      <div>
+        <%= link_to "言葉をAIに作ってもらう", "#", class: "inline-block bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-semibold py-3 px-6 rounded-xl shadow transition" %>
+      </div>
+
+      <div>
+        <%= f.text_field :title, placeholder: "例：居酒屋に医者いらず", class: "w-full border rounded-xl py-3 px-6 text-center text-lg font-semibold" %>
+      </div>
+
+      <div>
+        <%= f.text_area :meaning, rows: 3, placeholder: "例：堅苦しい忠告や細かい規則は楽しむ場には似合わないという戒め", class: "w-full border rounded-xl py-3 px-4 text-sm" %>
+      </div>
+
+      <div>
+        <%= f.text_area :example, rows: 3, placeholder: "例：友達同士の飲み会で 「そんなに塩分や糖分を気にしてたら楽しめないよ。居酒屋に医者入らぬ、だね！」", class: "w-full border rounded-xl py-3 px-4 text-sm" %>
+      </div>
+
+      <!-- AI生成ボタン -->
+      <div>
+        <%= link_to "ことわざ、意味、用例をAIに作ってもらう", "#", class: "inline-block bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-semibold py-3 px-6 rounded-xl shadow transition" %>
+      </div>
+
+      <%= f.hidden_field :status, value: "completed" %>
+
+      <div>
+        <%= f.submit "編集", class: "w-32 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
+      </div>
+    </div>
+  <% end %>
+</div>
