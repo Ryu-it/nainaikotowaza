@@ -1,4 +1,5 @@
 class ProverbsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   def new
     @proverb = Proverb.new
   end
@@ -25,6 +26,20 @@ class ProverbsController < ApplicationController
   def show
     @proverb = Proverb.includes(proverb_contributors: :user)
                       .find(params[:id])
+  end
+
+  def edit
+    @proverb = Proverb.find(params[:id])
+  end
+
+  def update
+    @proverb = Proverb.find(params[:id])
+    if @proverb.update(proverb_params)
+      redirect_to proverb_path(@proverb), notice: "ことわざを編集しました"
+    else
+      flash.now[:alert] = "ことわざの編集に失敗しました"
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private

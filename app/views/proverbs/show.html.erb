@@ -1,3 +1,4 @@
+<%= render "shared/flash_message" %>
 <div class="h-full bg-rose-100 py-12">
   <div class="mx-auto max-w-md bg-pink-50 border border-pink-100 rounded-2xl shadow-sm px-18 py-24">
 
@@ -47,5 +48,13 @@
     <div class="mt-8 text-center">
       <%= link_to "一覧に戻る", proverbs_path, class: "text-pink-700 hover:underline" %>
     </div>
+
+    <% if user_signed_in? && current_user.id == @proverb.proverb_contributors.first.user_id %>
+    <div class="mt-8 text-center">
+      <%= link_to edit_proverb_path, class: "text-pink-700 hover:underline" do %>
+        <i class="fa-solid fa-pen-to-square text-2xl"></i>
+      <% end %>
+    </div>
+    <% end %>
   </div>
 </div>
