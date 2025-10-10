@@ -140,4 +140,22 @@ RSpec.describe "Proverbs", type: :system do
         expect(page).to have_content("ことわざの編集に失敗しました")
     end
   end
+
+  describe "投稿の削除に成功した時" do
+    scenario "遷移先は一覧ページ" do
+      visit proverb_path(proverb)
+      accept_confirm do
+      find("i.fa-solid.fa-trash").click
+      end
+      expect(page).to have_current_path(proverbs_path)
+    end
+
+    scenario "削除した時にフラッシュメッセージが出る" do
+      visit proverb_path(proverb)
+      accept_confirm do
+      find("i.fa-solid.fa-trash").click
+      end
+      expect(page).to have_content("ことわざを削除しました")
+    end
+  end
 end
