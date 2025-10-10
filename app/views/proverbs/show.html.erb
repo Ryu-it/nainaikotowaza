@@ -54,6 +54,9 @@
       <%= link_to edit_proverb_path, class: "text-pink-700 hover:underline" do %>
         <i class="fa-solid fa-pen-to-square text-2xl"></i>
       <% end %>
+      <%= link_to proverb_path(@proverb), method: :delete, data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "text-pink-700 hover:underline ml-4" do %>
+        <i class="fa-solid fa-trash text-2xl"></i>
+      <% end %>
     </div>
     <% end %>
   </div>

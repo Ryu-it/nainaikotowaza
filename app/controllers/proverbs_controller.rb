@@ -42,6 +42,16 @@ class ProverbsController < ApplicationController
     end
   end
 
+  def destroy
+    @proverb = Proverb.find(params[:id])
+    if @proverb.destroy
+    redirect_to proverbs_path, notice: "ことわざを削除しました"
+    else
+      Rails.logger.error "⚠️ ことわざ（ID: #{@proverb.id}）の削除に失敗しました"
+    render :show, alert: "削除に失敗しました"
+    end
+  end
+
   private
 
   def proverb_params
