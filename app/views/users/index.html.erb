@@ -1,34 +1,44 @@
-<div class="flex items-center justify-center h-full bg-rose-100">
-  <div class="bg-white rounded-xl border shadow-md px-10 py-10 w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center mb-10">ユーザー一覧</h2>
-
-    <div class="space-y-6">
+<div class="flex flex-col items-center h-full bg-rose-100 py-12">
+  <!-- 検索フォーム -->
+  <div class="w-full max-w-md mb-8">
+    <%= search_form_for @q, url: users_path, method: :get do |f| %>
+      <div class="relative">
+        <!-- 検索アイコン -->
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg"></i>
+        <%= f.search_field :name_cont,
+              class: "w-full rounded-xl border border-gray-300 bg-white px-12 py-3 text-lg text-gray-900 shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-300",
+              placeholder: "ユーザーを探す" %>
+        <%= f.submit "検索", class: "sr-only" %>
+      </div>
+    <% end %>
+  </div>
+  <!-- 一覧カード（白いパネル） -->
+  <div class="w-full max-w-2xl bg-white rounded-xl border shadow-md px-8 py-10">
+    <div class="space-y-8">
       <% @users.each do |user| %>
-        <% next if user == current_user %> <!-- 👈 自分をスキップ -->
+        <% next if user == current_user %> <!-- 自分は表示しない -->
 
         <div class="flex items-center justify-between">
-          <!-- 左側：アイコン＋名前 -->
-          <div class="flex items-center space-x-3">
+          <!-- 左：丸アイコン + 名前 -->
+          <div class="flex items-center gap-3">
             <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-            <p class="text-lg font-medium text-gray-800"><%= user.name %></p>
+            <p class="text-base sm:text-lg text-gray-900"><%= user.name %></p>
           </div>
 
-          <!-- 右側：フォローボタン -->
+          <!-- 右：フォローボタン（青/グレー） -->
           <% if current_user.following_users.include?(user) %>
             <%= link_to "フォローを外す",
                         user_follows_path(user.id),
                         data: { turbo_method: :delete },
-                        class: "px-4 py-1 border border-gray-400 rounded-md bg-gray-200 text-sm text-gray-800 hover:bg-gray-300 transition" %>
+                        class: "px-4 py-1 border border-gray-400 bg-gray-200 text-sm text-gray-800 rounded-md hover:bg-gray-300 transition" %>
           <% else %>
             <%= link_to "フォローする",
                         user_follows_path(user.id),
                         data: { turbo_method: :post },
-                        class: "px-4 py-1 border border-blue-800 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition" %>
+                        class: "px-4 py-1 border border-blue-800 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition" %>
           <% end %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
-
