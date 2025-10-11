@@ -30,4 +30,9 @@ class User < ApplicationRecord
     follow = active_follows.find_by(followed_id: other_user.id)
     follow&.destroy
   end
+
+  private
+  def self.ransackable_attributes(auth_object = nil)
+    %w[ name ]
+  end
 end
