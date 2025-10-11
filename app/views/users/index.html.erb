@@ -1,0 +1,34 @@
+<div class="flex items-center justify-center h-full bg-rose-100">
+  <div class="bg-white rounded-xl border shadow-md px-10 py-10 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-10">ユーザー一覧</h2>
+
+    <div class="space-y-6">
+      <% @users.each do |user| %>
+        <% next if user == current_user %> <!-- 👈 自分をスキップ -->
+
+        <div class="flex items-center justify-between">
+          <!-- 左側：アイコン＋名前 -->
+          <div class="flex items-center space-x-3">
+            <div class="w-4 h-4 rounded-full bg-gray-300"></div>
+            <p class="text-lg font-medium text-gray-800"><%= user.name %></p>
+          </div>
+
+          <!-- 右側：フォローボタン -->
+          <% if current_user.following_users.include?(user) %>
+            <%= link_to "フォローを外す",
+                        user_follows_path(user.id),
+                        data: { turbo_method: :delete },
+                        class: "px-4 py-1 border border-gray-400 rounded-md bg-gray-200 text-sm text-gray-800 hover:bg-gray-300 transition" %>
+          <% else %>
+            <%= link_to "フォローする",
+                        user_follows_path(user.id),
+                        data: { turbo_method: :post },
+                        class: "px-4 py-1 border border-blue-800 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

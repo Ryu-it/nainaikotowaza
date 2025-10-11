@@ -16,4 +16,11 @@ Rails.application.routes.draw do
   root "homes#index"
 
   resources :proverbs
+
+  resources :users, only: %i[index] do
+    member do
+      get :following, :followers
+    end
+    resource :follows, only: %i[create destroy]
+  end
 end
