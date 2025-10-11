@@ -11,11 +11,23 @@ class User < ApplicationRecord
   # ユーザーが誰をフォローしているかのレコードを取得する(followレコードの取得)
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   # ユーザーがフォローしている人のレコードを取得する(userレコードの取得)
-  has_many :following, through: :active_follows, source: :followed
+  has_many :following_users, through: :active_follows, source: :followed
+
   # ユーザーが誰にフォローされているかのレコードを取得する(followレコードの取得)
   has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   # ユーザーがフォローされている人のレコードを取得する(userレコードの取得)
-  has_many :followers, through: :passive_follows, source: :follower
+  has_many :follower_users, through: :passive_follows, source: :follower
 
   validates :name, presence: true, length: { maximum: 15 }
+
+  def follow(other_user)
+    unless self == other_user
+      active_follows.find_or_create_by(followed_id: other_user.id)
+    end
+  end
+
+  def unfollow(other_user)
+    follow = active_follows.find_by(followed_id: other_user.id)
+    follow&.destroy
+  end
 end
