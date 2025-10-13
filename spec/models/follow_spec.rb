@@ -22,4 +22,12 @@ RSpec.describe Follow, type: :model do
       expect(duplicate_follow).not_to be_valid
     end
   end
+
+  describe "フォローが削除できる" do
+    let(:user) { create(:user, :with_active_follows) }
+    it "フォローを削除できること" do
+      follow = user.active_follows.first
+      expect { follow.destroy }.to change { Follow.count }.by(-1)
+    end
+  end
 end
