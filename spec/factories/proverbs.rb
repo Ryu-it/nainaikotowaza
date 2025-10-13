@@ -8,8 +8,16 @@ FactoryBot.define do
     status { 1 }
     room { nil }
 
-    after(:create) do |proverb|
-      create(:proverb_contributor, proverb: proverb)
+    transient do
+      owner { nil }   # ← 追加：紐づけたいユーザーを受け取る
+    end
+
+    after(:create) do |proverb, evaluator|
+      create(
+        :proverb_contributor,
+        proverb: proverb,
+        user: evaluator.owner || create(:user) # 渡されなければ新規ユーザー
+      )
     end
   end
 end

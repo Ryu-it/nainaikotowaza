@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
-  before do
-    user = create(:user)
-  end
+    let!(:user) { create(:user) }
 
   describe "トップページの確認" do
       it "トップページに特定の文字がある" do
@@ -27,7 +25,7 @@ RSpec.describe "Users", type: :system do
     describe "ログインしたとき" do
       it "ページにフラッシュメッセージがある" do
         visit new_user_session_path
-        fill_in "Eメール", with: "test@gmail.com"
+        fill_in "Eメール", with: user.email
         fill_in "パスワード", with: "12345678"
         click_button "Log in"
         expect(page).to have_content("ログインしました")
@@ -37,7 +35,7 @@ RSpec.describe "Users", type: :system do
     describe "ログアウトしたとき" do
       it "ページにフラッシュメッセージがある", js: true do
         visit new_user_session_path
-        fill_in "Eメール", with: "test@gmail.com"
+        fill_in "Eメール", with: user.email
         fill_in "パスワード", with: "12345678"
         click_button "Log in"
         find(".hamburger-button").click

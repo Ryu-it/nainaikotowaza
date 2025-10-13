@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Proverbs", type: :system do
-  let(:proverb) { create(:proverb) }
+  let(:user)    { create(:user) }
+  let(:proverb) { create(:proverb, owner: user) }
   before do
     proverb
     visit new_user_session_path
-    fill_in "Eメール", with: "test@gmail.com"
+    fill_in "Eメール", with: user.email
     fill_in "パスワード", with: "12345678"
     click_button "Log in"
     expect(page).to have_content("ログインしました") # まずはここで保証
