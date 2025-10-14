@@ -23,4 +23,6 @@ Rails.application.routes.draw do
     end
     resource :follows, only: %i[create destroy]
   end
+
+  resources :notifications, only: %i[index]
 end

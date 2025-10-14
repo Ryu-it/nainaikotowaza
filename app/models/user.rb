@@ -18,6 +18,11 @@ class User < ApplicationRecord
   # ユーザーがフォローされている人のレコードを取得する(userレコードの取得)
   has_many :follower_users, through: :passive_follows, source: :follower
 
+  # 自分が送った通知のレコードを取得
+  has_many :active_notifications, class_name: "Notification", foreign_key: "actor_id", dependent: :destroy
+  # 自分が受け取った通知のレコードを取得
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "recipient_id", dependent: :destroy
+
   validates :name, presence: true, length: { maximum: 15 }
 
   def follow(other_user)
