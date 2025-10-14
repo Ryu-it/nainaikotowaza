@@ -3,7 +3,7 @@
     <% if current_user %>
       <!-- 🔔 ログイン時のメニュー -->
       <div class="flex justify-between items-center px-12">
-        <%= link_to "#", class: "flex flex-col items-center font-bold" do %>
+        <%= link_to notifications_path, class: "flex flex-col items-center font-bold" do %>
           <i class="fa-solid fa-bell text-2xl"></i>
           <span class="text-sm mt-2">お知らせ</span>
         <% end %>

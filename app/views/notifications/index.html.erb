@@ -1,0 +1,44 @@
+<div class="flex items-center justify-center h-full bg-rose-100">
+  <div class="flex flex-col space-y-4 w-full max-w-2xl p-6">
+    <div class="border bg-pink-50 rounded-xl py-8 px-6 shadow-sm">
+
+      <% if @notifications.present? %>
+        <% @notifications.each do |notification| %>
+          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
+            <%# ===== アイコン部分 ===== %>
+            <% case notification.action %>
+            <% when "follow" %>
+              <i class="fa-solid fa-user text-2xl mr-3"></i>
+            <% when "laugh" %>
+              <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
+            <% when "deep" %>
+              <i class="fa-solid fa-brain text-2xl mr-3"></i>
+            <% else %>
+              <i class="fa-regular fa-bell text-2xl mr-3"></i>
+            <% end %>
+
+            <%# ===== テキスト部分 ===== %>
+            <div class="text-gray-900 text-lg leading-snug">
+              「<span class="font-bold"><%= notification.actor.name %></span>」さんが
+              <% if notification.action == "follow" %>
+                あなたをフォローしました
+              <% elsif notification.action == "laugh" %>
+                「<a href="#" class="font-semibold text-gray-800 hover:underline">
+                  <%#= notification.notifiable.try(:title) || "投稿" %>
+                </a>」に笑えるを押しました
+              <% elsif notification.action == "deep" %>
+                「<a href="#" class="font-semibold text-gray-800 hover:underline">
+                  <%#= notification.notifiable.try(:title) || "投稿" %>
+                </a>」に深いを押しました
+              <% else %>
+                通知がありました
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
+      <% end %>
+    </div>
+  </div>
+</div>
