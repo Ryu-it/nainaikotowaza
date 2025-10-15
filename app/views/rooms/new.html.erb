@@ -1,3 +1,4 @@
+<%= render "shared/flash_message" %>
 <div class="h-full flex items-center justify-center bg-rose-100">
   <div class="flex flex-col items-center justify-center space-y-10">
     
@@ -23,6 +24,7 @@
       </div>
 
       <!-- 検索結果一覧 -->
+      <%= form_with model: @room, class: "" do |f| %>
       <div class="w-full max-w-md mx-auto px-4 py-4 space-y-5">
         <% @users.each do |user| %>
           <% next if user == current_user %> <!-- 自分は表示しない -->
@@ -34,7 +36,7 @@
 
             <!-- 左：ラジオ + 丸アイコン + 名前 -->
             <label class="flex items-center gap-3">
-              <%= radio_button_tag :selected_user, user.name, false,
+              <%= f.radio_button :user_name, user.name,
                     class: "w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500",
                     data: { radio_select_target: "radio", action: "change->radio-select#pick" } %>
               <div class="flex items-center gap-3">
@@ -70,10 +72,11 @@
                data-radio-select-target="field"
                class="w-64 border border-gray-300 rounded-xl py-2 px-4 text-center text-gray-800 font-medium mb-6 focus:outline-none">
         <br>
-        <%= link_to "部屋を作る", "#",
+        <%= f.submit "部屋を作る",
+              data: { radio_select_ignore: true },
               class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-8 rounded-xl transition" %>
       </div>
+      <% end %>
     </div>
   </div>
 </div>
-
