@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_13_135805) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_15_065532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_13_135805) do
     t.index ["room_id"], name: "index_proverbs_on_room_id"
   end
 
+  create_table "room_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "room_id", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_room_users_on_room_id"
+    t.index ["user_id", "room_id"], name: "index_room_users_on_user_id_and_room_id", unique: true
+    t.index ["user_id"], name: "index_room_users_on_user_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.integer "owner_id", null: false
     t.datetime "created_at", null: false
@@ -88,5 +99,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_13_135805) do
   add_foreign_key "proverb_contributors", "proverbs"
   add_foreign_key "proverb_contributors", "users"
   add_foreign_key "proverbs", "rooms"
+  add_foreign_key "room_users", "rooms"
+  add_foreign_key "room_users", "users"
   add_foreign_key "rooms", "users", column: "owner_id"
 end
