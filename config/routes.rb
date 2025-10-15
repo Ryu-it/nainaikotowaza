@@ -25,4 +25,8 @@ Rails.application.routes.draw do
   end
 
   resources :notifications, only: %i[index]
+
+  resources :rooms, only: %i[new create] do
+    resources :proverbs, only: %i[new create], module: :rooms
+  end
 end
