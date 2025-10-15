@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :owner, class_name: "Room", foreign_key: "owner_id", dependent: :destroy
   has_many :proverb_contributors, dependent: :destroy
   has_many :proverbs, through: :proverb_contributors
+  has_many :room_users, dependent: :destroy
+  has_many :rooms, through: :room_users
 
   # ユーザーが誰をフォローしているかのレコードを取得する(followレコードの取得)
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
