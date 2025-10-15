@@ -10,5 +10,8 @@ application.register("hamburger", HamburgerController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import RadioSelectController from "./radio_select_controller"
+application.register("radio-select", RadioSelectController)
+
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)

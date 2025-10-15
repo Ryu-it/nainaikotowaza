@@ -22,16 +22,18 @@
   </head>
 
   <body class="h-screen overflow-hidden flex flex-col">
-    <header class="h-20 flex-shrink-0">
-      <%= render "shared/header" %>
-    </header>
+  <header class="h-20 flex-shrink-0">
+    <%= render "shared/header" %>
+  </header>
 
-    <main class="relative flex-1 overflow-hidden">
-      <%= yield %>
-    </main>
+  <!-- ★ mainを画面の残り高さ分に固定 -->
+  <main class="flex-1 overflow-hidden" style="height: calc(100vh - 5rem);">
+    <%= yield %>
+  </main>
 
-    <footer>
-      <%= render "shared/footer" %>
-    </footer>
-  </body>
+  <footer class="flex-shrink-0">
+    <%= render "shared/footer" %>
+  </footer>
+</body>
+
 </html>
