@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   def index
     @q = User.ransack(params[:q])
     # 検索をした時だけ表示させる
