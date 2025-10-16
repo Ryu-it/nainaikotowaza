@@ -13,6 +13,7 @@ class Notification < ApplicationRecord
   validates :action, presence: true
   validates :notifiable_id, presence: true
   validates :notifiable_type, presence: true
+  validates :is_checked, inclusion: { in: [ true, false ] }
 
   # scopeを使ってレコード取得を簡潔に
   scope :unread, -> { where(is_checked: false) }
