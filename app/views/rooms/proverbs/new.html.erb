@@ -1,4 +1,6 @@
 <%= render "shared/flash_message" %>
+<% if current_user.id == @room.owner_id %>
 <div class="h-full w-full overflow-hidden bg-rose-100 grid place-items-center">
   hello
 </div>
+<% end %>
