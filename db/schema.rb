@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_15_065532) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_16_030135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_15_065532) do
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.bigint "room_id", null: false
+    t.bigint "inviter_id", null: false
+    t.bigint "invitee_id", null: false
+    t.string "token_digest", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "used_at"
+    t.boolean "revoked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_invitations_on_expires_at"
+    t.index ["invitee_id"], name: "index_invitations_on_invitee_id"
+    t.index ["inviter_id"], name: "index_invitations_on_inviter_id"
+    t.index ["room_id"], name: "index_invitations_on_room_id"
+    t.index ["token_digest"], name: "index_invitations_on_token_digest", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -94,6 +111,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_15_065532) do
 
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "invitations", "rooms"
+  add_foreign_key "invitations", "users", column: "invitee_id"
+  add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "notifications", "users", column: "actor_id"
   add_foreign_key "notifications", "users", column: "recipient_id"
   add_foreign_key "proverb_contributors", "proverbs"
