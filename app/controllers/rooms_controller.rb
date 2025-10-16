@@ -17,6 +17,24 @@ class RoomsController < ApplicationController
       # RoomUserを2つ作成する
       @room.room_users.create!(user: current_user, role: :word_giver)
       @room.room_users.create!(user: user, role: :proverb_maker)
+
+      # 招待を作成する
+      @invitation = Invitation.create!(
+        inviter: current_user,
+        invitee: user,
+        room: @room,
+        token_digest: SecureRandom.hex(10),
+        expires_at: 3.days.from_now,
+        revoked: false
+      )
+
+      # 通知を作成する
+      @notification = Notification.new(
+        actor: current_user,
+        recipient: user,
+        action: :invitation, notifiable: @invitation
+      )
+      @notification.save! if @notification.valid?
     end
     redirect_to new_room_proverb_path(@room), notice: "ルームを作成しました"
 
