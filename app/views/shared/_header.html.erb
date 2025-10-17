@@ -17,8 +17,17 @@
           <span class="text-sm mt-2">お知らせ</span>
         <% end %>
 
-        <%= link_to "#", class: "flex flex-col items-center font-bold" do %>
-          <i class="fa-regular fa-envelope text-2xl"></i>
+        <%= link_to messages_path, class: "flex flex-col items-center font-bold" do %>
+          <!-- 上段: アイコン + バッジを横並び -->
+          <span class="inline-flex items-center">
+            <i class="fa-regular fa-envelope text-2xl"></i>
+              <% if @unread_notifications_count.to_i > 0 %>
+                <span class="ml-1 min-w-5 h-5 px-1 text-xs leading-5 text-white bg-blue-500 rounded-full text-center">
+                  <%= @unread_notifications_count %>
+                </span>
+              <% end %>
+          </span>
+          <!-- 下段: ラベル -->
           <span class="text-sm mt-2">メッセージ</span>
         <% end %>
 

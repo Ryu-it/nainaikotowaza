@@ -1,0 +1,32 @@
+<div class="flex items-center justify-center h-full bg-rose-100">
+  <div class="flex flex-col space-y-4 w-full max-w-2xl p-6">
+    <div class="border bg-pink-50 rounded-xl py-8 px-6 shadow-sm">
+
+      <% if @notifications.present? %>
+        <% @notifications.each do |notification| %>
+          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
+            <%# ===== アイコン部分 ===== %>
+            <% if notification.invitation? %>
+              <i class="fa-regular fa-envelope text-2xl mr-3"></i>
+            <% else %>
+              ありません
+            <% end %>
+
+            <%# ===== テキスト部分 ===== %>
+            <div class="text-gray-900 text-lg leading-snug">
+              「<span class="font-bold"><%= notification.actor.name %></span>」さんが
+              <% if notification.action == "invitation" %>
+              <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %>
+              <%= link_to "部屋に参加する", accept_invitation_url(token: token) %>
+              <% else %>
+                通知がありました
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
+      <% end %>
+    </div>
+  </div>
+</div>
