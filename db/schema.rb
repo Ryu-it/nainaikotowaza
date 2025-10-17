@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_16_030135) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_17_125819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,7 +28,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_030135) do
     t.bigint "room_id", null: false
     t.bigint "inviter_id", null: false
     t.bigint "invitee_id", null: false
-    t.string "token_digest", null: false
     t.datetime "expires_at", null: false
     t.datetime "used_at"
     t.boolean "revoked", default: false, null: false
@@ -38,7 +37,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_030135) do
     t.index ["invitee_id"], name: "index_invitations_on_invitee_id"
     t.index ["inviter_id"], name: "index_invitations_on_inviter_id"
     t.index ["room_id"], name: "index_invitations_on_room_id"
-    t.index ["token_digest"], name: "index_invitations_on_token_digest", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -67,16 +65,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_16_030135) do
   end
 
   create_table "proverbs", force: :cascade do |t|
-    t.string "word1", null: false
-    t.string "word2", null: false
-    t.string "title", null: false
-    t.string "meaning", null: false
+    t.string "word1"
+    t.string "word2"
+    t.string "title"
+    t.string "meaning"
     t.text "example"
     t.integer "status", default: 0, null: false
     t.bigint "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_proverbs_on_room_id"
+    t.check_constraint "(status = 2) IS NOT TRUE OR title IS NOT NULL AND char_length(title::text) <= 50 AND meaning IS NOT NULL AND char_length(meaning::text) <= 100", name: "proverbs_title_meaning_required_when_completed"
+    t.check_constraint "(status = ANY (ARRAY[1, 2])) IS NOT TRUE OR word1 IS NOT NULL AND char_length(word1::text) <= 10 AND word2 IS NOT NULL AND char_length(word2::text) <= 10", name: "proverbs_words_required_when_in_progress_or_completed"
+    t.check_constraint "example IS NULL OR char_length(example) <= 300", name: "proverbs_example_max_length"
+    t.check_constraint "status = ANY (ARRAY[0, 1, 2])", name: "proverbs_status_enum"
   end
 
   create_table "room_users", force: :cascade do |t|

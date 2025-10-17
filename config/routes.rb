@@ -27,6 +27,11 @@ Rails.application.routes.draw do
   resources :notifications, only: %i[index]
 
   resources :rooms, only: %i[new create] do
-    resources :proverbs, only: %i[new create], module: :rooms
+    resources :proverbs, only: %i[new create edit], module: :rooms
   end
+
+  resources :messages, only: %i[index]
+
+  # InvitationのURLヘルパーメソッド用ルーティング
+  get "invitations/accept", to: "invitations#accept", as: :accept_invitation
 end

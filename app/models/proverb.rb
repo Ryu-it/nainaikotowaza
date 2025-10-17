@@ -4,12 +4,13 @@ class Proverb < ApplicationRecord
   has_many :proverb_contributors, dependent: :destroy
   has_many :users, through: :proverb_contributors
 
-  validates :word1, presence: true, length: { maximum: 10 }
-  validates :word2, presence: true, length: { maximum: 10 }
-  validates :title, presence: true, length: { maximum: 50 }
-  validates :meaning, presence: true, length: { maximum: 100 }
-  validates :example, length: { maximum: 300 }
-  validates :status, presence: true
+    # enumに応じたバリデーション
+    validates :word1, presence: true, length: { maximum: 10 }, if: -> { in_progress? || completed? }
+    validates :word2, presence: true, length: { maximum: 10 }, if: -> { in_progress? || completed? }
+    validates :title, presence: true, length: { maximum: 50 }, if: :completed?
+    validates :meaning, presence: true, length: { maximum: 100 }, if: :completed?
+    validates :example, length: { maximum: 300 }
+    validates :status, presence: true
 
-  enum :status, { in_progress: 0, completed: 1 }, default: :in_progress
+  enum :status, { draft: 0, in_progress: 1, completed: 2 }, default: :draft
 end

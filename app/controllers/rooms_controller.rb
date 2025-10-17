@@ -17,13 +17,13 @@ class RoomsController < ApplicationController
       # RoomUserを2つ作成する
       @room.room_users.create!(user: current_user, role: :word_giver)
       @room.room_users.create!(user: user, role: :proverb_maker)
+      @room.create_proverb!(status: :draft)   # ← 必須項目を要求しない段階で作る
 
       # 招待を作成する
       @invitation = Invitation.create!(
         inviter: current_user,
         invitee: user,
         room: @room,
-        token_digest: SecureRandom.hex(10),
         expires_at: 3.days.from_now,
         revoked: false
       )
