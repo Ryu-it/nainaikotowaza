@@ -1,6 +1,48 @@
 <%= render "shared/flash_message" %>
-<% if current_user.id == @room.owner_id %>
 <div class="h-full w-full overflow-hidden bg-rose-100 grid place-items-center">
-  hello
+  <%= form_with(model: [@room, @proverb], class: "w-full max-w-2xl") do |f| %>
+    <div class="bg-white rounded-2xl shadow-xl p-12 space-y-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">言葉を投稿する</h2>
+
+      <div class="flex justify-center items-center gap-4">
+        <%= f.text_field :word1, placeholder: "単語を入力", class: "w-32 py-3 px-4 rounded-xl border text-center font-semibold" %>
+        <span class="text-2xl font-bold">✖️</span>
+        <%= f.text_field :word2, placeholder: "単語を入力", class: "w-32 py-3 px-4 rounded-xl border text-center font-semibold" %>
+      </div>
+
+
+      <div>
+        <%= f.submit "この言葉で作ってもらう", class: "w-48 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
+      </div>
+
+      <div class="space-y-8">
+        <% ["ないないことわざ", "意味", "用例"].each do |label| %>
+          <div class="relative group w-full">
+            <div class="bg-gray-200 select-none w-full border rounded-xl py-8 px-6 text-center text-lg font-semibold">
+              <span class="text-gray-400"><%= label %></span>
+            </div>
+            <!-- hover時に表示 -->
+            <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
+                        bg-black/60 text-white text-sm font-medium rounded-xl
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        招待した相手が入力します
+            </div>
+          </div>
+        <% end %>
+
+        <div class="relative group mx-auto w-48">
+          <div class="bg-gray-200 select-none w-48 border rounded-xl py-3 px-6 text-center text-lg font-semibold">
+            <span class="text-gray-400">投稿</span>
+          </div>
+          <!-- hover時に表示 -->
+          <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
+                      bg-black/60 text-white text-sm font-medium rounded-xl
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      招待した相手が入力します
+          </div>
+        </div>
+      </div>
+      <%= f.hidden_field :status, value: "in_progress" %>
+    </div>
+  <% end %>
 </div>
-<% end %>

@@ -9,10 +9,10 @@ class InvitationsController < ApplicationController
     # 招待先本人か
     return redirect_to messages_path, alert: "招待先ではありません。" unless current_user == invitation.invitee
 
-    # すでにメンバーか？
+    # 招待されたルームのメンバーがいるかどうか
     already_member = room.room_users.exists?(user_id: current_user.id)
 
-    # 期限切れ or 取り消し
+    # 期限切れ or 取り消しされているかの確認
     if invitation.expires_at.past? || invitation.revoked?
       return already_member ?
         redirect_to(edit_room_proverb_path(room, room.proverb), notice: "すでに参加済みのため入室しました。") :
