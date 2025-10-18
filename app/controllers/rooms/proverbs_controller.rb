@@ -3,6 +3,7 @@ class Rooms::ProverbsController < ApplicationController
   def new
     @room = Room.find(params[:room_id])
     @proverb = @room.build_proverb
+    @proverb_maker_name = @room.room_users.find_by(role: :proverb_maker)&.user&.name
   end
 
   def create
