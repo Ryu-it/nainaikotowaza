@@ -12,7 +12,8 @@ class Rooms::ProverbsController < ApplicationController
     if @proverb.save
       redirect_to edit_room_proverb_path(@room, @proverb), notice: "ことわざの言葉を送りました"
     else
-      render :new, alert: "ことわざの言葉の投稿に失敗しました"
+      flash.now[:alert] = "ことわざの言葉の投稿に失敗しました"
+      render :new, status: :unprocessable_entity
     end
   end
 
