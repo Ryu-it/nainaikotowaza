@@ -16,6 +16,7 @@
         </div>
 
         <div>
+          <%= f.hidden_field :status, value: "in_progress" %>
           <%= f.submit "この言葉で作ってもらう", class: "w-48 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
         </div>
 
@@ -44,8 +45,6 @@
             </div>
           </div>
         </div>
-
-        <%= f.hidden_field :status, value: "in_progress" %>
       </div>
     <% end %>
 

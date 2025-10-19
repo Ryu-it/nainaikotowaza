@@ -9,23 +9,23 @@ RSpec.describe Proverb, type: :model do
   end
 
   describe "バリデーション失敗" do
-    it "word1が空白の時はことわざを作成できない" do
-      proverb = build(:proverb, word1: "")
+    it "in_progressの時、word1が空白の時はことわざを作成できない" do
+      proverb = build(:proverb, word1: "", status: :in_progress)
       expect(proverb).not_to be_valid
     end
 
-    it "word2が空白の時はことわざを作成できない" do
-      proverb = build(:proverb, word2: "")
+    it "in_progressの時、word2が空白の時はことわざを作成できない" do
+      proverb = build(:proverb, word2: "", status: :in_progress)
       expect(proverb).not_to be_valid
     end
 
-    it "titleが空白の時はことわざを作成できない" do
-      proverb = build(:proverb, title: "")
+    it "completedの時、titleが空白の時はことわざを作成できない" do
+      proverb = build(:proverb, title: "", status: :completed)
       expect(proverb).not_to be_valid
     end
 
-    it "meaningが空白の時はことわざを作成できない" do
-      proverb = build(:proverb, meaning: "")
+    it "completedの時、meaningが空白の時はことわざを作成できない" do
+      proverb = build(:proverb, meaning: "", status: :completed)
       expect(proverb).not_to be_valid
     end
 
@@ -39,13 +39,13 @@ RSpec.describe Proverb, type: :model do
       expect(proverb).not_to be_valid
     end
 
-    it "titleが51文字以上の時はことわざを作成できない" do
-      proverb = build(:proverb, title: "a" * 51)
+    it "completedの時、titleが51文字以上の時はことわざを作成できない" do
+      proverb = build(:proverb, title: "a" * 51, status: :completed)
       expect(proverb).not_to be_valid
     end
 
-    it "meaningが101文字以上の時はことわざを作成できない" do
-      proverb = build(:proverb, meaning: "a" * 101)
+    it "completedの時、meaningが101文字以上の時はことわざを作成できない" do
+      proverb = build(:proverb, meaning: "a" * 101, status: :completed)
       expect(proverb).not_to be_valid
     end
 
