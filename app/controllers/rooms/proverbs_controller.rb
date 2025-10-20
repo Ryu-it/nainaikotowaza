@@ -13,7 +13,14 @@ class Rooms::ProverbsController < ApplicationController
     @proverb.assign_attributes(proverb_params)
 
     if @proverb.save
-      redirect_to edit_room_proverb_path(@room, @proverb), notice: "ことわざの言葉を送りました"
+      # 👇 current_user の役割を判定して遷移先を分ける
+      if @room.room_users.exists?(user_id: current_user.id, role: :word_giver)
+        redirect_to root_path, notice: "ことわざの言葉を送りました"
+      elsif @room.room_users.exists?(user_id: current_user.id, role: :proverb_maker)
+        redirect_to proverbs_path, notice: "ことわざを作成しました"
+      else
+        redirect_to root_path, alert: "権限がありません"
+      end
     else
       flash.now[:alert] = "更新に失敗しました"
       render :edit, status: :unprocessable_entity
