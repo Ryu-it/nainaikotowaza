@@ -42,6 +42,14 @@ RSpec.configure do |config|
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
+
+  # system spec で Warden ヘルパーを使えるように
+  config.include Warden::Test::Helpers, type: :system
+
+  # 各 example をクリーンにするためのセットアップ/片付け
+  config.before(type: :system) { Warden.test_mode! }
+  config.after(type: :system)  { Warden.test_reset! }
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
