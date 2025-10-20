@@ -24,8 +24,8 @@ RSpec.describe "Proverbs", type: :system do
         within('form[action="/rooms"]', visible: :all) do
           click_button "部屋を作る"
         end
-        # 正規表現を使って、/rooms/数字/proverbs/new というパスであることを確認
-        expect(page).to have_current_path(%r{\A/rooms/\d+/proverbs/new\z}, ignore_query: true)
+        # 正規表現を使って、/rooms/数字/proverbs/数字/edit というパスであることを確認
+        expect(page).to have_current_path(%r{\A/rooms/\d+/proverbs/\d+/edit\z}, ignore_query: true)
     end
 
     scenario "ルーム作成に成功した時にフラッシュメッセージが出る", js: true do
