@@ -1,19 +1,22 @@
 class Rooms::ProverbsController < ApplicationController
   before_action :authenticate_user!
-  def new
+
+  def edit
     @room = Room.find(params[:room_id])
-    @proverb = @room.build_proverb
-    @proverb_maker_name = @room.room_users.find_by(role: :proverb_maker)&.user&.name
+    @proverb = @room.proverb
   end
 
-  def create
-    @room = Room.find(params[:room_id])
-    @proverb = @room.build_proverb(proverb_params)
+  def update
+    @room    = Room.find(params[:room_id])
+    @proverb = @room.proverb
+
+    @proverb.assign_attributes(proverb_params)
+
     if @proverb.save
       redirect_to edit_room_proverb_path(@room, @proverb), notice: "ことわざの言葉を送りました"
     else
-      flash.now[:alert] = "ことわざの言葉の投稿に失敗しました"
-      render :new, status: :unprocessable_entity
+      flash.now[:alert] = "更新に失敗しました"
+      render :edit, status: :unprocessable_entity
     end
   end
 

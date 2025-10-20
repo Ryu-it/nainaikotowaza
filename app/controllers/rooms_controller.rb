@@ -17,7 +17,7 @@ class RoomsController < ApplicationController
       # RoomUserを2つ作成する
       @room.room_users.create!(user: current_user, role: :word_giver)
       @room.room_users.create!(user: user, role: :proverb_maker)
-      @room.create_proverb!(status: :draft)   # ← 必須項目を要求しない段階で作る
+      @proverb = @room.create_proverb!(status: :draft)   # ← 必須項目を要求しない段階で作る
 
       # 招待を作成する
       @invitation = Invitation.create!(
@@ -36,7 +36,7 @@ class RoomsController < ApplicationController
       )
       @notification.save! if @notification.valid?
     end
-    redirect_to new_room_proverb_path(@room), notice: "ルームを作成しました"
+    redirect_to edit_room_proverb_path(@room, @proverb), notice: "ルームを作成しました"
 
   rescue ActiveRecord::RecordInvalid
     flash.now[:alert] = "ルームの作成に失敗しました"
