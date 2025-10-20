@@ -2,6 +2,8 @@
 <div class="bg-rose-100 h-full py-12 px-8">
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     <% @proverbs.each do |proverb| %>
+    <%# タイトルが空なら表示させない %>
+    <% next if proverb.title.blank? %>
       <%# 投稿をクリックしたときに詳細のurlに飛ぶように %>
       <div
     data-controller="redirect"
