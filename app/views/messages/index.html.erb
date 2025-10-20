@@ -14,7 +14,7 @@
 
             <%# ===== テキスト部分 ===== %>
             <div class="text-gray-900 text-lg leading-snug">
-              「<span class="font-bold"><%= notification.actor.name %></span>」さんが
+              「<span class="font-bold"><%= notification.actor.name %></span>」さんがあなたを招待しました
               <% if notification.action == "invitation" %>
               <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %>
               <%= link_to "部屋に参加する", accept_invitation_url(token: token) %>
