@@ -21,19 +21,22 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="h-screen overflow-hidden flex flex-col">
+  <body class="h-screen flex flex-col">
   <header class="h-20 flex-shrink-0">
     <%= render "shared/header" %>
   </header>
 
-  <!-- ★ mainを画面の残り高さ分に固定 -->
-  <main class="flex-1 overflow-hidden" style="height: calc(100vh - 5rem);">
-    <%= yield %>
-  </main>
+  <!-- ★ mainの画面をスクロールできるように -->
+  <main
+  class="flex-1 min-h-0 overflow-auto"
+  style="height: calc(100vh - 5rem);"
+  >
+  <%= yield %>
+</main>
 
   <footer class="flex-shrink-0">
     <%= render "shared/footer" %>
   </footer>
-</body>
+  </body>
 
 </html>
