@@ -43,6 +43,11 @@ class User < ApplicationRecord
     follow&.destroy
   end
 
+  # other_user を自分がフォローしているかどうか
+  def following?(other_user)
+    following_users.include?(other_user)
+  end
+
   private
   def self.ransackable_attributes(auth_object = nil)
     %w[ name ]

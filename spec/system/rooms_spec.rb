@@ -10,7 +10,7 @@ RSpec.describe "Proverbs", type: :system do
     expect(page).to have_content("ログインしました") # まずはここで保証
   end
 
-  describe "ルーム作成の確認" do
+  describe "ルーム作成が成功した時" do
     scenario "ルーム作成したら遷移先はroom/proverb#new" do
     other_user = create(:user, name: "tonton")
       user.follow(other_user)
@@ -42,6 +42,31 @@ RSpec.describe "Proverbs", type: :system do
           click_button "部屋を作る"
         end
       expect(page).to have_content("ルームを作成しました")
+    end
+  end
+
+  describe "ルーム作成が失敗した時" do
+    scenario "フォローしていないユーザーを選択した時にエラーメッセージが出る", js: true do
+      other_user = create(:user, name: "tonton")
+      visit new_room_path
+      # formが2つあるので最初のformを指定する
+      within(all("form")[0]) do
+        fill_in "q_name_cont", with: other_user.name
+        find_field("q_name_cont").send_keys(:enter)
+      end
+      choose "room_user_name_#{other_user.name}"
+        within('form[action="/rooms"]', visible: :all) do
+          click_button "部屋を作る"
+        end
+      expect(page).to have_content("フォローしているユーザーのみです")
+    end
+
+    scenario "ユーザーを選択せずにルーム作成ボタンを押した時にエラーメッセージが出る", js: true do
+      visit new_room_path
+        within('form[action="/rooms"]', visible: :all) do
+          click_button "部屋を作る"
+        end
+      expect(page).to have_content("ユーザーを選択してください")
     end
   end
 end

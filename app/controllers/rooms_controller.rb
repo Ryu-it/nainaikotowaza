@@ -9,8 +9,24 @@ class RoomsController < ApplicationController
   end
 
   def create
+    # render :new のために必要
+    @q = User.ransack(params[:q])
+    @users = params[:q].present? ? @q.result(distinct: true) : User.none
+
+    # params から user_name を取り出して User を探す
+    user = User.find_by(name: params.dig(:room, :user_name))
+    unless user
+      flash.now[:alert] = "ユーザーを選択してください"
+      return render :new, status: :unprocessable_entity
+    end
+
+    # current_user がその user をフォローしているか確認
+    unless current_user.following?(user)
+      flash.now[:alert] = "フォローしているユーザーのみです"
+      return render :new, status: :unprocessable_entity
+    end
+
     # 失敗した時にロールバックするためにトランザクションを使用
-    user = User.find_by!(name: params.dig(:room, :user_name))
     ActiveRecord::Base.transaction do
       @room = Room.new(room_params)
       @room.save!
