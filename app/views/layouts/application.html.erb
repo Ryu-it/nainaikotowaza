@@ -22,21 +22,18 @@
   </head>
 
   <body class="h-screen flex flex-col">
-  <header class="h-20 flex-shrink-0">
+  <header class="">
     <%= render "shared/header" %>
   </header>
 
   <!-- ★ mainの画面をスクロールできるように -->
   <main
-  class="flex-1 min-h-0 overflow-auto"
-  style="height: calc(100vh - 5rem);"
-  >
+  class="min-h-screen overflow-auto">
   <%= yield %>
 </main>
 
-  <footer class="flex-shrink-0">
+  <footer class="">
     <%= render "shared/footer" %>
   </footer>
   </body>
-
 </html>
