@@ -1,9 +1,9 @@
 <%= render "shared/flash_message" %>
-<div class="h-screen w-full overflow-hidden bg-rose-100 grid items-start justify-items-center">
+<div class="min-h-screen w-full overflow-hidden bg-rose-100 grid items-start justify-items-center">
   <div class="w-full max-w-6xl p-8 relative">
     <% my_ru = @room.room_users.find_by(user_id: current_user.id) %>
 
-<%= form_with model: [@room, @proverb], class: "..." do |f| %>
+<%= form_with model: [@room, @proverb], class: "" do |f| %>
   <% if my_ru&.word_giver? %>
     <%= render "form_word_giver", f: f %>
   <% elsif my_ru&.proverb_maker? %>
