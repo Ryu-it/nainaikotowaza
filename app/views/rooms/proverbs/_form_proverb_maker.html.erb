@@ -1,15 +1,16 @@
 <!-- 🌸 左：フォーム -->
-  <%= form_with(model: [@room, @proverb], class: "w-full md:flex-1 max-w-5xl md:col-start-2 justify-self-center") do |f| %>
-  <div class="w-full md:w-[700px] mx-auto bg-white rounded-2xl shadow-xl p-12 space-y-8 text-center">
+<%= form_with(
+      model: [@room, @proverb],
+      class: "w-full max-w-full mx-auto px-4 sm:px-6 md:px-8 md:flex-1 md:col-start-2 justify-self-center"
+    ) do |f| %>
+  <div class="w-full max-w-full sm:max-w-[520px] md:max-w-[700px] mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-12 space-y-6 sm:space-y-8 text-center">
 
     <!-- 上段：word1/word2（グレー・編集不可・hoverで案内・未入力時は「まだありません」） -->
-    <div class="flex justify-center items-center gap-6">
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
       <!-- word1 -->
-      <div class="relative group">
+      <div class="relative group w-full sm:w-auto">
         <div
-          class="w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed"
-          aria-disabled="true"
-        >
+          class="w-full sm:w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed"
           <span class="text-gray-800">
             <%= @proverb.word1.presence || "まだありません" %>
           </span>
@@ -21,14 +22,12 @@
         </div>
       </div>
 
-      <span class="text-2xl font-bold text-gray-700 select-none">✕</span>
+      <span class="text-2xl font-bold text-gray-700 select-none my-2 sm:my-0">✕</span>
 
       <!-- word2 -->
-      <div class="relative group">
+      <div class="relative group w-full sm:w-auto">
         <div
-          class="w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed"
-          aria-disabled="true"
-        >
+          class="w-full sm:w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed">
           <span class="text-gray-800">
             <%= @proverb.word2.presence || "まだありません" %>
           </span>
@@ -41,16 +40,16 @@
       </div>
     </div>
 
-    <div class="relative group mx-auto w-48">
-        <div class="bg-gray-300/70 w-48 border border-gray-400 rounded-xl py-3 px-6 text-center text-lg font-semibold cursor-not-allowed select-none">
-          <span class="text-gray-800">投稿</span>
-        </div>
-        <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
-                    bg-black/60 text-white text-sm font-medium rounded-xl
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          入力できません（招待した相手が入力します）
-        </div>
+    <div class="relative group mx-auto w-full sm:w-48">
+      <div class="bg-gray-300/70 w-full sm:w-48 border border-gray-400 rounded-xl py-3 px-6 text-center text-lg font-semibold cursor-not-allowed select-none"> <!-- CHANGED -->
+        <span class="text-gray-800">投稿</span>
       </div>
+      <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
+                  bg-black/60 text-white text-sm font-medium rounded-xl
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        入力できません（招待した相手が入力します）
+      </div>
+    </div>
 
     <!-- 中段：編集フォーム（白） -->
     <!-- タイトル -->
@@ -80,7 +79,7 @@
     <div class="pt-2">
       <%= f.hidden_field :status, value: "completed" %>
       <%= f.submit "投稿",
-            class: "w-40 mx-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
+            class: "w-full sm:w-40 mx-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
     </div>
 
   </div>
@@ -88,34 +87,32 @@
 
 
 
-    <!-- 🌸 右：使い方（アコーディオン） -->
-    <aside
-  class="w-full md:w-64 md:absolute md:top-8
-         md:left-1/2 md:translate-x-[420px]"  data-controller="accordion">
-
-      <div class="text-right md:text-left space-y-3">
-        <div class="text-center space-y-2">
-          <p class="font-semibold text-gray-800">一緒に作っているユーザー</p>
-          <div class="border rounded-md px-4 py-1 inline-block bg-white shadow-sm">
-            <%= @room.room_users.find_by(role: :word_giver)&.user&.name %>
-          </div>
-        </div>
-
-        <button
-  data-action="click->accordion#toggle"
-  class="block mx-auto text-gray-700 font-semibold hover:text-blue-600 transition cursor-pointer"
-        >
-        使い方をみる
-        </button>
-
-        <div
-          data-accordion-target="content"
-          class="mt-2 text-sm text-gray-600 bg-white border rounded-xl p-4 shadow-sm transition-all duration-300"
-          hidden
-        >
-          <p><strong>Step1.</strong><br>あなたが好きな言葉を選ぶ（白い部分）</p>
-          <p class="mt-2"><strong>Step2.</strong><br>「この言葉で作ってもらう」ボタンをクリック</p>
-          <p class="mt-2"><strong>Step3.</strong><br>招待したユーザーがことわざを作る。部屋を作ったときに招待の通知が相手に伝わっています。</p>
-        </div>
+<!-- 🌸 右：使い方（アコーディオン） -->
+<aside
+  class="w-full mt-6 md:mt-0 md:w-64 md:absolute md:top-8 md:left-1/2 md:translate-x-[420px]"  data-controller="accordion">
+  <div class="text-center md:text-left space-y-3">
+    <div class="text-center space-y-2">
+      <p class="font-semibold text-gray-800">一緒に作っているユーザー</p>
+      <div class="border rounded-md px-4 py-1 inline-block bg-white shadow-sm">
+        <%= @room.room_users.find_by(role: :word_giver)&.user&.name %>
       </div>
-    </aside>
+    </div>
+
+    <button
+      data-action="click->accordion#toggle"
+      class="block mx-auto md:mx-0 text-gray-700 font-semibold hover:text-blue-600 transition cursor-pointer">
+      使い方をみる
+    </button>
+
+    <div
+      data-accordion-target="content"
+      class="mt-2 text-sm text-gray-600 bg-white border rounded-xl p-4 shadow-sm transition-all duration-300"
+      hidden
+    >
+      <p><strong>Step1.</strong><br>あなたが好きな言葉を選ぶ（白い部分）</p>
+      <p class="mt-2"><strong>Step2.</strong><br>「この言葉で作ってもらう」ボタンをクリック</p>
+      <p class="mt-2"><strong>Step3.</strong><br>招待したユーザーがことわざを作る。部屋を作ったときに招待の通知が相手に伝わっています。</p>
+    </div>
+  </div>
+</aside>
+

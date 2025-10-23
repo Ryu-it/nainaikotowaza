@@ -1,7 +1,7 @@
 <%= render "shared/flash_message" %>
-<div class="h-screen w-full bg-cover bg-center"
+<div class="min-h-screen w-full bg-cover bg-center"
      style="background-image: url('<%= asset_path('sakura.jpg') %>');">
-  <div class="relative h-full flex flex-col items-center justify-center space-y-20 text-center">
+  <div class="min-h-screen relative h-full flex flex-col items-center justify-center space-y-20 text-center">
     <h1 class="text-4xl font-bold">ないないことわざ</h1>
     <%= link_to "ことわざ一覧", proverbs_path, class: "bg-white py-12 px-30 font-bold rounded-xl shadow-lg hover:bg-rose-50 transition" %>
   </div>
