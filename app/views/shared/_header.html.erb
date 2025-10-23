@@ -21,9 +21,9 @@
           <!-- 上段: アイコン + バッジを横並び -->
           <span class="inline-flex items-center">
             <i class="fa-regular fa-envelope text-2xl"></i>
-              <% if @unread_notifications_count.to_i > 0 %>
+              <% if @unread_invitations_count.to_i > 0 %>
                 <span class="ml-1 min-w-5 h-5 px-1 text-xs leading-5 text-white bg-blue-500 rounded-full text-center">
-                  <%= @unread_notifications_count %>
+                  <%= @unread_invitations_count %>
                 </span>
               <% end %>
           </span>
