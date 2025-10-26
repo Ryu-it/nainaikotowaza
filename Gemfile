@@ -70,3 +70,9 @@ gem "devise-i18n"
 gem "rails-i18n"
 
 gem "ransack"
+
+# .envとして環境変数を管理するためのgem
+gem "dotenv-rails"
+
+# OpenAI APIを利用するためのgem
+gem "ruby-openai"
