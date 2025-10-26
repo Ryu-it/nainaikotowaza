@@ -34,4 +34,8 @@ Rails.application.routes.draw do
 
   # InvitationのURLヘルパーメソッド用ルーティング
   get "invitations/accept", to: "invitations#accept", as: :accept_invitation
+
+  # aiで言葉かことわざを作成するルーティング
+  post "/ai/generate_words",   to: "ai#generate_words"   # 単語2つを生成
+  post "/ai/generate_proverb", to: "ai#generate_proverb" # 単語を参照して ことわざ/意味/用例 を生成
 end
