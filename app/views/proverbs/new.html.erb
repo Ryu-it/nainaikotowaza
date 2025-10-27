@@ -2,7 +2,7 @@
 <div class="min-h-screen w-full overflow-hidden bg-rose-100 grid place-items-center"
      data-controller="ai">
 
-  <turbo-frame id="proverb_form" class="w-full flex justify-center">
+  <turbo-frame id="proverb_form" target="_top" class="w-full flex justify-center">
     <%= render "proverbs/form", proverb: @proverb %>
   </turbo-frame>
 
