@@ -59,4 +59,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_inactive_sign_up_path_for(resource)
     super(resource)
   end
+
+  # Override to set a unique uid for each user
+  def build_resource(hash = {})
+  hash[:uid] = User.create_unique_string
+  super
+  end
+
+  # Allow users to update their account without providing current password(if only google auth)
+  def update_resource(resource, params)
+    return super if params["password"].present?
+    resource.update_without_password(params.except("current_password"))
+  end
 end

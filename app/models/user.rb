@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   has_many :owner, class_name: "Room", foreign_key: "owner_id", dependent: :destroy
   has_many :proverb_contributors, dependent: :destroy
@@ -32,6 +33,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 15 }
 
+  validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
+
   def follow(other_user)
     unless self == other_user
       active_follows.find_or_create_by(followed_id: other_user.id)
@@ -46,6 +49,20 @@ class User < ApplicationRecord
   # other_user を自分がフォローしているかどうか
   def following?(other_user)
     following_users.include?(other_user)
+  end
+
+  # uidをランダムに生成して返す
+  def self.create_unique_string
+    SecureRandom.uuid
+  end
+
+  # OAuth認証でユーザー情報を取得
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+    end
   end
 
   private
