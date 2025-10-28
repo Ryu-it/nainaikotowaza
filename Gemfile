@@ -81,3 +81,6 @@ gem "ruby-openai"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+
+# Lineログインを実装するためのgem
+gem "omniauth-line"
