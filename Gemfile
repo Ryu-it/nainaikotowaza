@@ -76,3 +76,8 @@ gem "dotenv-rails"
 
 # OpenAI APIを利用するためのgem
 gem "ruby-openai"
+
+# Googleログインを実装するためのgem
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
