@@ -315,4 +315,9 @@ Devise.setup do |config|
   config.omniauth :google_oauth2,
                   ENV["GOOGLE_CLIENT_ID"],
                   ENV["GOOGLE_CLIENT_SECRET"]
+
+  # Lineログインのための設定
+  config.omniauth :line,
+                  ENV["LINE_CLIENT_ID"],
+                  ENV["LINE_CLIENT_SECRET"]
 end
