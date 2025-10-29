@@ -46,6 +46,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     callback_for(:google)
   end
 
+  # LINEログイン処理
+  def line
+    callback_for(:line)
+  end
+
   def failure
     redirect_to root_path
   end

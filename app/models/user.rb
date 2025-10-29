@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [ :google_oauth2 ]
+         :omniauthable, omniauth_providers: %i[ google_oauth2 line ]
 
   has_many :owner, class_name: "Room", foreign_key: "owner_id", dependent: :destroy
   has_many :proverb_contributors, dependent: :destroy
@@ -34,6 +34,11 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 15 }
 
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
+
+  # lineの時はemail不要
+  def email_required?
+    provider != "line"
+  end
 
   def follow(other_user)
     unless self == other_user
