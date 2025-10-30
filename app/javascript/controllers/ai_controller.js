@@ -22,17 +22,6 @@ export default class extends Controller {
     }
   }
 
-  // fetchを安全にするための簡易タイムアウト（任意）
-  async fetchWithTimeout(resource, options = {}, timeoutMs = 10000) {
-    const controller = new AbortController()
-    const id = setTimeout(() => controller.abort(), timeoutMs)
-    try {
-      return await fetch(resource, { ...options, signal: controller.signal })
-    } finally {
-      clearTimeout(id)
-    }
-  }
-
   // 言葉の提案
   async generateWords(event) {
     event.preventDefault()
@@ -40,7 +29,7 @@ export default class extends Controller {
     this.setLoading(btn, true, "考え中…")
 
     try {
-      const response = await this.fetchWithTimeout("/ai/generate_words", {
+      const response = await fetch("/ai/generate_words", {
         method: "POST",
         headers: {
           "Accept": "text/vnd.turbo-stream.html",
@@ -69,8 +58,15 @@ export default class extends Controller {
     const word1 = document.querySelector("#proverb_word1")?.value || ""
     const word2 = document.querySelector("#proverb_word2")?.value || ""
 
+    // === ここでチェックを追加 ===
+  if (!word1 || !word2) {
+    alert("言葉が入力されていません。2つの言葉を入力してください。")
+    this.setLoading(btn, false)
+    return
+  }
+
     try {
-      const response = await this.fetchWithTimeout("/ai/generate_proverb", {
+      const response = await fetch("/ai/generate_proverb", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
