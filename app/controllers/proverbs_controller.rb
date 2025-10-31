@@ -1,5 +1,6 @@
 class ProverbsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_params, only: %i[ edit update destroy ]
   def new
     @proverb = Proverb.new
   end
@@ -25,15 +26,13 @@ class ProverbsController < ApplicationController
 
   def show
     @proverb = Proverb.includes(proverb_contributors: :user)
-                      .find(params[:id])
+                      .find_by!(public_uid: params[:id])
   end
 
   def edit
-    @proverb = Proverb.find(params[:id])
   end
 
   def update
-    @proverb = Proverb.find(params[:id])
     if @proverb.update(proverb_params)
       redirect_to proverb_path(@proverb), notice: "ことわざを編集しました"
     else
@@ -43,11 +42,9 @@ class ProverbsController < ApplicationController
   end
 
   def destroy
-    @proverb = Proverb.find(params[:id])
     if @proverb.destroy
     redirect_to proverbs_path, notice: "ことわざを削除しました"
     else
-      Rails.logger.error "⚠️ ことわざ（ID: #{@proverb.id}）の削除に失敗しました"
     render :show, alert: "削除に失敗しました"
     end
   end
@@ -56,5 +53,9 @@ class ProverbsController < ApplicationController
 
   def proverb_params
     params.require(:proverb).permit(:word1, :word2, :title, :meaning, :example, :status, :room_id)
+  end
+
+  def set_params
+    @proverb = Proverb.find_by!(public_uid: params[:id])
   end
 end

@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_29_021826) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_31_113044) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "follows", force: :cascade do |t|
@@ -74,6 +75,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_29_021826) do
     t.bigint "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "public_uid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["public_uid"], name: "index_proverbs_on_public_uid", unique: true
     t.index ["room_id"], name: "index_proverbs_on_room_id"
     t.check_constraint "(status = 2) IS NOT TRUE OR title IS NOT NULL AND char_length(title::text) <= 50 AND meaning IS NOT NULL AND char_length(meaning::text) <= 100", name: "proverbs_title_meaning_required_when_completed"
     t.check_constraint "(status = ANY (ARRAY[1, 2])) IS NOT TRUE OR word1 IS NOT NULL AND char_length(word1::text) <= 10 AND word2 IS NOT NULL AND char_length(word2::text) <= 10", name: "proverbs_words_required_when_in_progress_or_completed"

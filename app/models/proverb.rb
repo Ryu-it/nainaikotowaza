@@ -11,6 +11,12 @@ class Proverb < ApplicationRecord
     validates :meaning, presence: true, length: { maximum: 100 }, if: :completed?
     validates :example, length: { maximum: 300 }
     validates :status, presence: true
+    validates :public_uid, uniqueness: true
 
   enum :status, { draft: 0, in_progress: 1, completed: 2 }, default: :draft
+
+  # link_to で使うために to_param をオーバーライド
+  def to_param
+    public_uid
+  end
 end
