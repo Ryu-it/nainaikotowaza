@@ -6,7 +6,7 @@ RSpec.describe "Users", type: :system do
   describe "トップページの確認" do
       it "トップページに特定の文字がある" do
         visit root_path
-        expect(page).to have_content("ないないことわざ")
+        expect(page).to have_content("NAINAI KOTOWAZA")
       end
     end
 

@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@layer utilities {
+  .sakura-petal {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 230, 241, 0.95) 0%, rgba(246, 160, 185, 0.8) 55%, rgba(214, 92, 132, 0.6) 100%);
+    border-radius: 70% 40% 65% 45%;
+    box-shadow:
+      0 12px 24px rgba(247, 214, 224, 0.05),
+      inset 0 2px 6px rgba(255, 255, 255, 0.35);
+    pointer-events: none;
+  }
+
+  .sakura-petal--trail {
+    animation: sakura-trail linear forwards;
+    opacity: 0.85;
+    will-change: transform, opacity;
+  }
+}
+
+@keyframes sakura-trail {
+  0% {
+    transform: translate3d(0, 0, 0)
+               rotate(var(--start-tilt, 0deg))
+               scale(var(--start-scale, 1));
+    opacity: 0;
+  }
+  10% { opacity: 0.9; }
+  60% {
+    transform: translate3d(calc(var(--drift-x, 40px) * 0.6), 60vh, 0)
+               rotate(calc(var(--end-tilt, 320deg) * 0.7))
+               scale(calc(var(--start-scale, 1) * 1.05));
+  }
+  100% {
+    transform: translate3d(calc(var(--drift-x, 40px)), 120vh, 0)
+               rotate(var(--end-tilt, 320deg))
+               scale(calc(var(--start-scale, 1) * 0.9));
+    opacity: 0;
+  }
+}

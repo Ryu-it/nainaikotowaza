@@ -1,8 +1,29 @@
 <%= render "shared/flash_message" %>
-<div class="min-h-screen w-full bg-cover bg-center"
-     style="background-image: url('<%= asset_path('sakura.jpg') %>');">
-  <div class="min-h-screen relative h-full flex flex-col items-center justify-center space-y-20 text-center">
-    <h1 class="text-4xl font-bold">ないないことわざ</h1>
-    <%= link_to "ことわざ一覧", proverbs_path, class: "bg-white py-12 px-30 font-bold rounded-xl shadow-lg hover:bg-rose-50 transition" %>
-  </div>
+<div
+  class="relative min-h-screen overflow-hidden
+         bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950
+         flex items-center justify-center"
+  data-controller="motion"
+  data-motion-sakura-count-value="0"
+  data-motion-sakura-min-size-value="10"
+  data-motion-sakura-max-size-value="20"
+  data-motion-sakura-min-sec-value="2"
+  data-motion-sakura-max-sec-value="4"
+  data-motion-sakura-max-drift-value="120"
+>
+  <!-- 桜が舞う層 -->
+  <div
+    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+    data-motion-target="sakuraLayer"
+  ></div>
+
+  <!-- ふわっと出るタイトル -->
+  <h1
+  data-controller="reveal"
+  data-reveal-delay-value="400"
+  class="relative z-10 text-4xl sm:text-6xl font-serif text-rose-100
+         opacity-0 translate-y-2 scale-95 transition duration-700 ease-out"
+>
+  NAINAI KOTOWAZA
+</h1>
 </div>
