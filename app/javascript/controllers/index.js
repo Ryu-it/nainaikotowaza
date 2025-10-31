@@ -16,8 +16,14 @@ application.register("hamburger", HamburgerController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MotionController from "./motion_controller"
+application.register("motion", MotionController)
+
 import RadioSelectController from "./radio_select_controller"
 application.register("radio-select", RadioSelectController)
 
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
+
+import RevealController from "./reveal_controller"
+application.register("reveal", RevealController)
