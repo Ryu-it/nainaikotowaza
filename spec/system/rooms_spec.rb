@@ -25,7 +25,7 @@ RSpec.describe "Proverbs", type: :system do
           click_button "部屋を作る"
         end
         # 正規表現を使って、/rooms/数字/proverbs/数字/edit というパスであることを確認
-        expect(page).to have_current_path(%r{\A/rooms/\d+/proverbs/\d+/edit\z}, ignore_query: true)
+        expect(page).to have_current_path(%r{\A/rooms/\d+/proverbs/[0-9a-f-]+/edit\z}, ignore_query: true)
     end
 
     scenario "ルーム作成に成功した時にフラッシュメッセージが出る", js: true do
