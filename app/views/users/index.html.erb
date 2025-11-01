@@ -22,7 +22,9 @@
           <!-- 左：丸アイコン + 名前 -->
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-            <p class="text-base sm:text-lg text-gray-900"><%= user.name %></p>
+            <%= link_to user_path(user) do %>
+  <p class="text-base sm:text-lg text-gray-900"><%= user.name %></p>
+<% end %>
           </div>
 
           <!-- 右：フォローボタン（青/グレー） -->

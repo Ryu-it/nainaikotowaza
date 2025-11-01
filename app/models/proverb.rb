@@ -15,6 +15,9 @@ class Proverb < ApplicationRecord
 
   enum :status, { draft: 0, in_progress: 1, completed: 2 }, default: :draft
 
+  scope :titled, -> { where.not(title: [ nil, "" ]) }
+  scope :recent, -> { order(created_at: :desc) }
+
   # link_to で使うために to_param をオーバーライド
   def to_param
     public_uid
