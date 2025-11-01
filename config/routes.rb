@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :proverbs
 
-  resources :users, only: %i[index] do
+  resources :users, only: %i[index show] do
     member do
       get :following, :followers
     end
