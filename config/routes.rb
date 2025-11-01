@@ -33,6 +33,9 @@ Rails.application.routes.draw do
 
   resources :messages, only: %i[index]
 
+  # スリープ対策のルーティング
+  get "health", to: "health#show"
+
   # InvitationのURLヘルパーメソッド用ルーティング
   get "invitations/accept", to: "invitations#accept", as: :accept_invitation
 
