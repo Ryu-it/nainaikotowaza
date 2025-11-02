@@ -1,43 +1,109 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= render "shared/flash_message" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="min-h-screen bg-rose-100 flex items-center justify-center py-12 px-4">
+  <div class="w-full max-w-xl">
+    <div class="bg-white rounded-2xl shadow-xl border border-rose-100">
+      <div class="px-8 sm:px-10 pt-10">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8">アカウント編集</h2>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+
+          <!-- Name -->
+          <div>
+            <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :name, autofocus: true, autocomplete: "name",
+                  class: "block w-full rounded-xl border-gray-300 shadow-sm focus:ring-rose-400 focus:border-rose-400 px-4 py-3" %>
+          </div>
+
+          <!-- Avatar -->
+          <div>
+            <%= f.label :avatar, class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.file_field :avatar,
+                  class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                         file:rounded-xl file:border-0
+                         file:text-sm file:font-semibold
+                         file:bg-rose-50 file:text-rose-700
+                         hover:file:bg-rose-100
+                         focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400" %>
+            <% if resource.avatar.attached? %>
+              <div class="mt-4">
+                <p class="text-sm text-gray-600 mb-2">Current Avatar:</p>
+                <%= image_tag resource.avatar.variant(resize_to_limit: [120, 120]), class: "h-24 w-24 rounded-full object-cover border border-rose-100 shadow-sm" %>
+              </div>
+            <% end %>
+          </div>
+
+
+          <!-- Email -->
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                  class: "block w-full rounded-xl border-gray-300 shadow-sm focus:ring-rose-400 focus:border-rose-400 px-4 py-3" %>
+          </div>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class="text-sm text-gray-600 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3">
+              Currently waiting confirmation for:
+              <span class="font-semibold"><%= resource.unconfirmed_email %></span>
+            </p>
+          <% end %>
+
+          <!-- Password -->
+          <div>
+            <div class="flex items-baseline justify-between">
+              <%= f.label :password, class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <span class="text-xs text-gray-500">(変更しない場合は空のまま)</span>
+            </div>
+            <%= f.password_field :password, autocomplete: "new-password",
+                  class: "block w-full rounded-xl border-gray-300 shadow-sm focus:ring-rose-400 focus:border-rose-400 px-4 py-3" %>
+            <% if @minimum_password_length %>
+              <p class="mt-1 text-xs text-gray-500"><%= @minimum_password_length %> characters minimum</p>
+            <% end %>
+          </div>
+
+          <!-- Password confirmation -->
+          <div>
+            <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                  class: "block w-full rounded-xl border-gray-300 shadow-sm focus:ring-rose-400 focus:border-rose-400 px-4 py-3" %>
+          </div>
+
+          <!-- Current password -->
+          <div>
+            <div class="flex items-baseline justify-between">
+              <%= f.label :current_password, class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <span class="text-xs text-gray-500">(変更確認のため現在のパスワードが必要です)</span>
+            </div>
+            <%= f.password_field :current_password, autocomplete: "current-password",
+                  class: "block w-full rounded-xl border-gray-300 shadow-sm focus:ring-rose-400 focus:border-rose-400 px-4 py-3" %>
+          </div>
+
+          <!-- Actions -->
+          <div class="mb-4 pt-2">
+            <%= f.submit "更新",
+                  class: "w-full inline-flex justify-center items-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-400 transition" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="px-8 sm:px-10 py-8 border-t border-rose-100 bg-rose-50/40 rounded-b-2xl space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">アカウントを削除</h3>
+          <div class="flex items-center justify-between gap-4">
+            <p class="text-sm text-gray-600">アカウントを削除できます。</p>
+            <%= button_to "アカウント削除",
+                  registration_path(resource_name),
+                  method: :delete,
+                  data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" },
+                  class: "inline-flex items-center rounded-lg border border-red-300 text-red-700 px-4 py-2 text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 transition" %>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <%= link_to "戻る", :back,
+                class: "text-sm font-medium text-rose-600 hover:text-rose-700 underline underline-offset-4" %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>
