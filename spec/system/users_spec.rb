@@ -43,4 +43,33 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_content("ログアウトしました")
       end
     end
+
+    describe "avatarを登録した時" do
+      it "プロフィール編集をした遷移先はusers#show" do
+        visit new_user_session_path
+        fill_in "Eメール", with: user.email
+        fill_in "パスワード", with: "12345678"
+        click_button "Log in"
+        expect(page).to have_content("ログインしました")
+        visit edit_user_registration_path
+        attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
+        fill_in "現在のパスワード", with: "12345678"
+        click_button "更新"
+        expect(page).to have_current_path(user_path(user))
+      end
+
+      it "プロフィールページにavatarが表示される" do
+        visit new_user_session_path
+        fill_in "Eメール", with: user.email
+        fill_in "パスワード", with: "12345678"
+        click_button "Log in"
+        expect(page).to have_content("ログインしました")
+        visit edit_user_registration_path
+        attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
+        fill_in "現在のパスワード", with: "12345678"
+        click_button "更新"
+        expect(page).to have_content("アカウント情報を変更しました。")
+        expect(page).to have_selector("img[src$='test_image.png']")
+      end
+    end
   end

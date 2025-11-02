@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :room_users, dependent: :destroy
   has_many :rooms, through: :room_users
 
+  # プロフィール画像のアップロード
+  has_one_attached :avatar
+
   # ユーザーが誰をフォローしているかのレコードを取得する(followレコードの取得)
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   # ユーザーがフォローしている人のレコードを取得する(userレコードの取得)
