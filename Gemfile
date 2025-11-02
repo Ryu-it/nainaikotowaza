@@ -87,3 +87,6 @@ gem "omniauth-line"
 # 画像を扱うためのgem
 gem "image_processing", "~> 1.2"
 gem "ruby-vips"
+
+# Active StorageでS3を利用するためのgem
+gem "aws-sdk-s3"
