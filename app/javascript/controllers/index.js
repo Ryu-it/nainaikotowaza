@@ -19,6 +19,9 @@ application.register("hello", HelloController)
 import MotionController from "./motion_controller"
 application.register("motion", MotionController)
 
+import PreviewsController from "./previews_controller"
+application.register("previews", PreviewsController)
+
 import RadioSelectController from "./radio_select_controller"
 application.register("radio-select", RadioSelectController)
 
