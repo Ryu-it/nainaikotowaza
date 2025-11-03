@@ -60,12 +60,8 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# === デバッグ用: ENVが見えているか確認 ===
-RUN echo "=== AWS_REGION ===" && echo "$AWS_REGION" && echo "==================="
-
-
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN ACTIVE_STORAGE_SERVICE=local SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 RUN rm -rf node_modules
