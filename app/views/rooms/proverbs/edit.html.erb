@@ -1,5 +1,5 @@
 <%= render "shared/flash_message" %>
-<div class="min-h-screen w-full overflow-hidden bg-rose-100 grid items-start justify-items-center">
+<div class="min-h-screen w-full overflow-hidden bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 grid items-start justify-items-center">
   <div class="w-full max-w-6xl p-8 relative">
     <% my_ru = @room.room_users.find_by(user_id: current_user.id) %>
 
