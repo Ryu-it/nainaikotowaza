@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
 
   before_action :set_unread_invitations_count, if: :user_signed_in?
 
+  def after_sign_in_path_for(resource)
+    if session.delete(:oauth_first_login)
+      edit_user_registration_path                               # 初回のみユーザー編集ページ
+    else
+      root_path                                                 # 元いた場所
+    end
+  end
+
   private
   # notificationsテーブルのfalseレコードを取得してカウント(Invitaionは除く)
   def set_unread_notifications_count
