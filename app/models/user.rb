@@ -38,6 +38,9 @@ class User < ApplicationRecord
 
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
+  validate :avatar_size
+  validate :avatar_type
+
   # lineの時はemail不要
   def email_required?
     provider != "line"
@@ -76,5 +79,19 @@ class User < ApplicationRecord
   private
   def self.ransackable_attributes(auth_object = nil)
     %w[ name ]
+  end
+
+  # avatarのサイズを制限
+  def avatar_size
+    if avatar.attached? && avatar.blob.byte_size > 10.megabytes
+      errors.add(:avatar, "10MB以下にしてください")
+    end
+  end
+
+  # avatarの形式を制限
+  def avatar_type
+    if avatar.attached? && !avatar.blob.content_type.in?(%w[ image/jpeg image/png image/jpg ])
+      errors.add(:avatar, "JPEG、PNG、JPG形式にしてください")
+    end
   end
 end

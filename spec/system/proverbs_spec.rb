@@ -63,7 +63,7 @@ RSpec.describe "Proverbs", type: :system do
       fill_in "proverb_meaning", with: "トンビ"
       fill_in "proverb_example", with: "トンビ"
       click_button "投稿"
-        expect(page).to have_content("ことわざの投稿に失敗しました")
+      expect(page).to have_content("ことわざの投稿に失敗しました")
     end
   end
 
