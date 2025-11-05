@@ -42,13 +42,13 @@
       </div>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:max-w-md">
-        <%= link_to "#",
+        <%= link_to following_user_path(@user),
                     class: "flex flex-col justify-between rounded-xl border border-rose-200 bg-rose-50 px-6 py-4 hover:bg-rose-100 transition" do %>
           <span class="text-xs text-gray-500">フォロー中</span>
           <span class="mt-1 text-2xl font-semibold text-gray-900"><%= @following_count %></span>
         <% end %>
 
-        <%= link_to "#",
+        <%= link_to followers_user_path(@user),
                     class: "flex flex-col justify-between rounded-xl border border-rose-200 bg-rose-50 px-6 py-4 hover:bg-rose-100 transition" do %>
           <span class="text-xs text-gray-500">フォロワー</span>
           <span class="mt-1 text-2xl font-semibold text-gray-900"><%= @followers_count %></span>
