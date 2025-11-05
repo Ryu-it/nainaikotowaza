@@ -1,0 +1,13 @@
+<div id="comment_<%= comment.id %>" class="border-b border-gray-200 py-2">
+  <div class="flex items-start justify-between">
+    <div>
+      <strong><%= comment.user.name %></strong>
+      <p><%= comment.content %></p>
+    </div>
+    <% if current_user == comment.user %>
+      <%= link_to "削除", proverb_comment_path(comment.proverb, comment),
+          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+          class: "text-sm text-rose-500 hover:underline" %>
+    <% end %>
+  </div>
+</div>
