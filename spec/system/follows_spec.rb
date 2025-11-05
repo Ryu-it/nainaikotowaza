@@ -72,4 +72,38 @@ RSpec.describe "follows", type: :system do
       expect(page).to have_content("フォローする")
     end
   end
+
+  describe "ユーザー詳細のfollowsの変化" do
+    scenario "フォローしたら相手のフォロワーが増える", js: true do
+      other_user = create(:user)
+      visit user_path(other_user)
+      click_link "フォローする"
+      expect(page).to have_content("フォロワー 1")
+    end
+
+    scenario "フォローしたら相手のフォロワーに名前がある", js: true do
+      other_user = create(:user)
+      visit user_path(other_user)
+      click_link "フォローする"
+      visit followers_user_path(other_user)
+      expect(page).to have_content(user.name)
+    end
+
+    scenario "フォローしたら自分のフォロー中が増える", js: true do
+      other_user = create(:user)
+      visit user_path(other_user)
+      click_link "フォローする"
+      expect(page).to have_content("フォローを外す")
+      visit user_path(user)
+      expect(page).to have_content("フォロー中 1")
+    end
+
+    scenario "フォローしたら自分のフォロー中に名前がある", js: true do
+      other_user = create(:user)
+      visit user_path(other_user)
+      click_link "フォローする"
+      visit following_user_path(user)
+      expect(page).to have_content(other_user.name)
+    end
+  end
 end
