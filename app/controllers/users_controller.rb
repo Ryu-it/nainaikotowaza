@@ -12,4 +12,14 @@ class UsersController < ApplicationController
     @followers_count  = @user.follower_users.count
     @proverbs = @user.proverbs.titled.recent
   end
+
+  def following
+    @user = User.find(params[:id])
+    @users = @user.following_users
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.follower_users
+  end
 end
