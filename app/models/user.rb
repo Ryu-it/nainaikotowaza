@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :proverbs, through: :proverb_contributors
   has_many :room_users, dependent: :destroy
   has_many :rooms, through: :room_users
+  has_many :comments, dependent: :destroy
 
   # プロフィール画像のアップロード
   has_one_attached :avatar
