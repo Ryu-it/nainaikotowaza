@@ -49,6 +49,9 @@ group :development, :test do
   gem "rspec-rails"
   # FactoryBotでテストデータを簡単に作成するためのgem
   gem "factory_bot_rails"
+
+  # レコードを簡単に作成するためのgem
+  gem "faker"
 end
 
 group :development do
