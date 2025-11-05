@@ -3,6 +3,7 @@ class Proverb < ApplicationRecord
 
   has_many :proverb_contributors, dependent: :destroy
   has_many :users, through: :proverb_contributors
+  has_many :comments, dependent: :destroy
 
     # enumに応じたバリデーション
     validates :word1, presence: true, length: { maximum: 10 }, if: -> { in_progress? || completed? }
