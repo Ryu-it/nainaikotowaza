@@ -64,7 +64,7 @@ RSpec.describe "Comments", type: :system do
       comment = create(:comment, user: user, proverb: proverb)
       visit proverb_path(proverb)
       accept_confirm do
-      click_link "削除"
+      find("i.fa-solid.fa-trash").click
       end
       expect(page).to have_content("コメントを削除しました。")
     end
@@ -74,7 +74,7 @@ RSpec.describe "Comments", type: :system do
       comment = create(:comment, content: "素晴らしいことわざですね！", user: user, proverb: proverb)
       visit proverb_path(proverb)
       accept_confirm do
-      click_link "削除"
+      find("i.fa-solid.fa-trash").click
       end
       expect(page).not_to have_content("素晴らしいことわざですね！")
     end
