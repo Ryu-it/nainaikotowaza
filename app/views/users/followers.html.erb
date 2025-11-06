@@ -25,9 +25,8 @@
                                   class: "h-16 w-16 rounded-full object-cover border border-rose-100 shadow-sm" %>
                   <% else %>
                     <div
-  class="rounded-full bg-rose-100 text-rose-600 inline-flex items-center justify-center
+  class="h-16 w-16 rounded-full bg-rose-100 text-rose-600 inline-flex items-center justify-center
          text-lg font-semibold border border-rose-200 shadow-sm leading-none"
-  style="width:64px; height:64px; flex:0 0 64px;"
 >                      <%= (user.name.presence || "?").first.upcase %>
                     </div>
                   <% end %>

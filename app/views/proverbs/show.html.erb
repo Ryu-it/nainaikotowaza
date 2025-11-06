@@ -1,12 +1,12 @@
 <%= render "shared/flash_message" %>
 <div class="flex justify-center min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950">
   <div class="w-full max-w-4xl px-4 py-12">
-    <div class="flex flex-col lg:flex-row lg:items-start lg:gap-8">
+    <div class="flex flex-col">
       <div class="flex-1">
         <div class="mb-4 mt-4 bg-pink-50 border border-pink-100 rounded-2xl shadow-sm px-10 py-12">
           <div class="max-w-2xl mx-auto">
           <div class="space-y-10">
-            <div class="flex items-center justify-center space-x-6 text-lg font-medium text-gray-900 px-6 py-4">
+            <div class="flex items-center justify-center space-x-6 text-xl font-medium text-gray-900 px-6 py-4">
   <!-- 左のユーザー -->
   <div class="flex items-center space-x-2">
     <% user = @proverb.proverb_contributors.first.user %>
@@ -15,8 +15,7 @@
       <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
                     class: "h-12 w-12 rounded-full object-cover border border-rose-100 shadow-sm" %>
     <% else %>
-      <div class="rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm"
-           style="width:48px; height:48px; flex:0 0 48px;">
+      <div class="h-12 w-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm">
         <%= (user.name.presence || "?").first.upcase %>
       </div>
     <% end %>
@@ -34,9 +33,9 @@
       <%= link_to user_path(user), class: "flex items-center space-x-2 hover:opacity-80 transition" do %>
       <% if user.avatar.attached? %>
         <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
-                      class: "h-10 w-10 rounded-full object-cover border border-rose-100 shadow-sm" %>
+                      class: "h-12 w-12 rounded-full object-cover border border-rose-100 shadow-sm" %>
       <% else %>
-        <div class="h-10 w-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm">
+        <div class="h-12 w-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm">
           <%= (user.name.presence || "?").first.upcase %>
         </div>
       <% end %>
