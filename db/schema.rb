@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_05_093938) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_06_105259) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -122,6 +122,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_05_093938) do
     t.check_constraint "status = ANY (ARRAY[0, 1, 2])", name: "proverbs_status_enum"
   end
 
+  create_table "reactions", force: :cascade do |t|
+    t.string "reactable_type", null: false
+    t.bigint "reactable_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "kind", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reactable_type", "reactable_id"], name: "index_reactions_on_reactable"
+    t.index ["user_id", "reactable_type", "reactable_id", "kind"], name: "index_reactions_on_user_and_reactable_and_kind", unique: true
+    t.index ["user_id"], name: "index_reactions_on_user_id"
+  end
+
   create_table "room_users", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "room_id", null: false
@@ -174,6 +186,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_05_093938) do
   add_foreign_key "proverb_contributors", "proverbs"
   add_foreign_key "proverb_contributors", "users"
   add_foreign_key "proverbs", "rooms"
+  add_foreign_key "reactions", "users"
   add_foreign_key "room_users", "rooms"
   add_foreign_key "room_users", "users"
   add_foreign_key "rooms", "users", column: "owner_id"
