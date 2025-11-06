@@ -5,9 +5,9 @@
       <p><%= comment.content %></p>
     </div>
     <% if current_user == comment.user %>
-      <%= link_to "削除", proverb_comment_path(comment.proverb, comment),
-          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-          class: "text-sm text-rose-500 hover:underline" %>
+    <%= link_to proverb_comment_path(comment.proverb, comment), method: :delete, data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "text-pink-700 hover:underline" do %>
+              <i class="fa-solid fa-trash text-2xl"></i>
+    <% end %>
     <% end %>
   </div>
 </div>
