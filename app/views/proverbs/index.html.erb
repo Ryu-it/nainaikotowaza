@@ -4,22 +4,29 @@
     <% @proverbs.each do |proverb| %>
     <%# タイトルが空なら表示させない %>
     <% next if proverb.title.blank? %>
-      <%# 投稿をクリックしたときに詳細のurlに飛ぶように %>
-      <div
-    data-controller="redirect"
-    data-redirect-url-value="<%= proverb_path(proverb) %>"
-    data-action="click->redirect#navigate"
-    role="button"
-    class="cursor-pointer"
-    data-turbo="false">
-        <div class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-between">
-          <!-- ユーザー情報 -->
-          <% proverb.proverb_contributors.each do |proverb_contributor| %>
-            <%= proverb_contributor.user.name %>
-          <% end %>
-          <!-- ことわざタイトル -->
-          <div class="border rounded-xl px-4 py-3 text-center w-full font-medium text-gray-900">
-            <%= proverb.title %>
+      <div class="space-y-3">
+        <%# 投稿をクリックしたときに詳細のurlに飛ぶように %>
+        <div
+          data-controller="redirect"
+          data-redirect-url-value="<%= proverb_path(proverb) %>"
+          data-action="click->redirect#navigate"
+          role="button"
+          class="cursor-pointer"
+          data-turbo="false">
+          <div class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-between">
+            <!-- ユーザー情報 -->
+            <% proverb.proverb_contributors.each do |proverb_contributor| %>
+              <%= proverb_contributor.user.name %>
+            <% end %>
+            <!-- ことわざタイトル -->
+            <div class="border rounded-xl px-4 py-3 text-center w-full font-medium text-gray-900">
+              <%= proverb.title %>
+            </div>
+                    <!-- クリック領域の外に配置するのは今のままでOK -->
+<div class="flex items-center gap-2">
+  <%= render "reactions/laugh", reactable: proverb %>
+  <%= render "reactions/deep",  reactable: proverb %>
+</div>
           </div>
         </div>
       </div>
