@@ -38,3 +38,9 @@
     opacity: 0;
   }
 }
+
+@layer base {
+  html {
+    font-family: 'Zen Kurenaido', sans-serif;
+  }
+}
