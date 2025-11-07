@@ -18,6 +18,11 @@ Rails.application.routes.draw do
 
   resources :proverbs do
     resources :comments, only: %i[create destroy]
+    resources :reactions, only: %i[create destroy]
+  end
+
+  resources :comments, only: [] do
+    resources :reactions, only: %i[create destroy]
   end
 
   resources :users, only: %i[index show] do

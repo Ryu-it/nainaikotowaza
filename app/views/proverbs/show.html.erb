@@ -89,6 +89,10 @@
             <% end %>
           </div>
           <% end %>
+          <div class="flex justify-center items-center gap-2">
+            <%= render "reactions/laugh", reactable: @proverb %>
+              <%= render "reactions/deep",  reactable: @proverb %>
+          </div>
         </div>
       </div>
 

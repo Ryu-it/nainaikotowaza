@@ -1,0 +1,14 @@
+<%# app/views/reactions/_deep.html.erb %>
+<% count  = reactable.reactions.where(kind: :deep).count %>
+<% active = user_signed_in? && reactable.reactions.exists?(kind: :deep, user_id: current_user.id) %>
+
+<%= button_to polymorphic_path([reactable, :reactions]),
+              params: { kind: :deep },
+              method: :post,
+              class: [
+                "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
+                active ? "bg-blue-600 text-white border-blue-700" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50"
+              ].join(" ") do %>
+  💡 <span>深い</span>
+  <span class="ml-1 text-xs opacity-80"><%= count %></span>
+<% end %>
