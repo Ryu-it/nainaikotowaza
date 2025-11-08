@@ -4,10 +4,11 @@
 <%= button_to polymorphic_path([reactable, (rv.active ? rv.existing : :reactions)]),
               params: { kind: :like },
               method: (rv.active ? :delete : :post),
-              class: [
-                "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
-                rv.active ? "bg-rose-600 text-white border-rose-700" : "bg-white text-rose-700 border-rose-200 hover:bg-rose-50"
-              ].join(" ") do %>
-  👍 <span>いいね</span>
-  <span class="ml-1 text-xs opacity-80"><%= rv.count %></span>
+              class: "inline-flex items-center gap-1 cursor-pointer" do %>
+
+  <i class="fa-solid fa-heart text-xl transition-transform duration-200
+             <%= rv.active ? 'text-rose-500 scale-110' : 'text-gray-500 scale-100' %>"></i>
+
+  <span class="ml-1 text-xl opacity-80"><%= rv.count %></span>
 <% end %>
+
