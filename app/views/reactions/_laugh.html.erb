@@ -1,14 +1,19 @@
-<%# app/views/reactions/_laugh.html.erb %>
-<% count  = reactable.reactions.where(kind: :laugh).count %>
-<% active = user_signed_in? && reactable.reactions.exists?(kind: :laugh, user_id: current_user.id) %>
+<% existing = user_signed_in? ? reactable.reactions.find_by(user: current_user, kind: :laugh) : nil %>
+<% active   = existing.present? %>
+<% count    = reactable.reactions.where(kind: :laugh).count %>
 
-<%= button_to polymorphic_path([reactable, :reactions]),
-              params: { kind: :laugh },
-              method: :post,
-              class: [
-                "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
-                active ? "bg-yellow-400 text-black border-yellow-500" : "bg-white text-yellow-700 border-yellow-200 hover:bg-yellow-50"
-              ].join(" ") do %>
-  😂 <span>わらい</span>
+<%= button_to(
+      polymorphic_path([reactable, (active ? existing : :reactions)]),
+      params: { kind: :laugh },
+      method: (active ? :delete : :post),
+      class: [
+        "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
+        active ?
+          "bg-yellow-400 text-black border-yellow-500 hover:bg-yellow-500" :
+          "bg-white text-yellow-700 border-yellow-200 hover:bg-yellow-50"
+      ].join(" ")
+    ) do %>
+  <i class="fa-solid fa-face-grin-beam"></i>
+    <span>わらえる</span>
   <span class="ml-1 text-xs opacity-80"><%= count %></span>
 <% end %>
