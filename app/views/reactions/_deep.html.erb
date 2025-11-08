@@ -1,14 +1,13 @@
-<% existing = user_signed_in? ? reactable.reactions.find_by(user: current_user, kind: :deep) : nil %>
-<% active   = existing.present? %>
-<% count    = reactable.reactions.where(kind: :deep).count %>
+<%# ヘルパークラスからメソッドを呼んでいる %>
+<% rv = reaction_view(reactable, current_user, :deep) %>
 
-<%= button_to polymorphic_path([reactable, (active ? existing : :reactions)]),
+<%= button_to polymorphic_path([reactable, (rv.active ? rv.existing : :reactions)]),
               params: { kind: :deep },
-              method: (active ? :delete : :post),
+              method: (rv.active ? :delete : :post),
               class: [
                 "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
-                active ? "bg-blue-600 text-white border-blue-700" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50"
+                rv.active ? "bg-blue-600 text-white border-blue-700" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50"
               ].join(" ") do %>
   💡 <span>深い</span>
-  <span class="ml-1 text-xs opacity-80"><%= count %></span>
+  <span class="ml-1 text-xs opacity-80"><%= rv.count %></span>
 <% end %>
