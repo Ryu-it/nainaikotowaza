@@ -14,6 +14,12 @@ class ReactionsController < ApplicationController
     end
   end
 
+  def destroy
+    @reaction = @reactable.reactions.find(params[:id])
+    @reaction.destroy!
+    redirect_back(fallback_location: root_path, notice: "リアクションを削除しました。")
+  end
+
   private
 
   # どのモデルにリアクションをつけるかを判定

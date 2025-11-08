@@ -1,9 +1,10 @@
-<% count  = reactable.reactions.where(kind: :like).count %>
-<% active = user_signed_in? && reactable.reactions.exists?(kind: :like, user_id: current_user.id) %>
+<% existing = user_signed_in? ? reactable.reactions.find_by(user: current_user, kind: :like) : nil %>
+<% active   = existing.present? %>
+<% count    = reactable.reactions.where(kind: :like).count %>
 
-<%= button_to polymorphic_path([reactable, :reactions]),
+<%= button_to polymorphic_path([reactable, (active ? existing : :reactions)]),
               params: { kind: :like },
-              method: :post,
+              method: (active ? :delete : :post),
               class: [
                 "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
                 active ? "bg-rose-600 text-white border-rose-700" : "bg-white text-rose-700 border-rose-200 hover:bg-rose-50"
