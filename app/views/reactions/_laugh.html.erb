@@ -1,18 +1,34 @@
-<%# ヘルパークラスからメソッドを呼んでいる %>
 <% rv = reaction_view(reactable, current_user, :laugh) %>
 
 <%= button_to(
       polymorphic_path([reactable, (rv.active ? rv.existing : :reactions)]),
       params: { kind: :laugh },
       method: (rv.active ? :delete : :post),
-      class: [
-        "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
-        rv.active ?
-          "bg-yellow-400 text-black border-yellow-500 hover:bg-yellow-500" :
-          "bg-white text-yellow-700 border-yellow-200 hover:bg-yellow-50"
-      ].join(" ")
+      class: "inline-flex items-center gap-2 cursor-pointer"
     ) do %>
-  <i class="fa-solid fa-face-grin-beam"></i>
-    <span>わらえる</span>
-  <span class="ml-1 text-xs opacity-80"><%= rv.count %></span>
+
+  <!-- アイコン＋ラベル用のラッパ。上に出すため relative を付与 -->
+  <span
+    data-controller="reaction-hover"
+    data-action="mouseenter->reaction-hover#show mouseleave->reaction-hover#hide"
+    class="relative inline-flex items-center"
+  >
+    <!-- ラベル：絶対配置でアイコンの“上”に -->
+    <span
+      data-reaction-hover-target="label"
+      class="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7
+             whitespace-nowrap rounded-md bg-white/90 px-2 py-0.5 text-xs text-gray-700 shadow
+             opacity-0 translate-y-1 transition-all transition duration-150"
+      aria-hidden="true"
+    >
+      笑える
+    </span>
+
+    <!-- アイコンだけ色変化 -->
+    <i class="fa-solid fa-face-laugh-squint text-xl transition
+               <%= rv.active ? 'text-yellow-500' : 'text-gray-700' %>"></i>
+  </span>
+
+  <!-- カウント（右側にそのまま表示） -->
+  <span class="text-xl opacity-80"><%= rv.count %></span>
 <% end %>

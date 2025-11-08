@@ -25,6 +25,9 @@ application.register("previews", PreviewsController)
 import RadioSelectController from "./radio_select_controller"
 application.register("radio-select", RadioSelectController)
 
+import ReactionHoverController from "./reaction_hover_controller"
+application.register("reaction-hover", ReactionHoverController)
+
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
 

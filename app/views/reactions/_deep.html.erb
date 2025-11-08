@@ -1,13 +1,33 @@
-<%# ヘルパークラスからメソッドを呼んでいる %>
 <% rv = reaction_view(reactable, current_user, :deep) %>
 
 <%= button_to polymorphic_path([reactable, (rv.active ? rv.existing : :reactions)]),
               params: { kind: :deep },
               method: (rv.active ? :delete : :post),
-              class: [
-                "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition",
-                rv.active ? "bg-blue-600 text-white border-blue-700" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50"
-              ].join(" ") do %>
-  💡 <span>深い</span>
-  <span class="ml-1 text-xs opacity-80"><%= rv.count %></span>
+              class: "inline-flex items-center gap-2 cursor-pointer" do %>
+
+  <!-- アイコン＋ラベル用のラッパ（relative で上に配置できるように） -->
+  <span
+    data-controller="reaction-hover"
+    data-action="mouseenter->reaction-hover#show mouseleave->reaction-hover#hide"
+    class="relative inline-flex items-center"
+  >
+    <!-- 上に表示されるラベル（absolute） -->
+    <span
+      data-reaction-hover-target="label"
+      class="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7
+             whitespace-nowrap rounded-md bg-white/90 px-2 py-0.5 text-xs text-gray-700 shadow
+             opacity-0 translate-y-1 transition-all transition duration-150"
+      aria-hidden="true"
+    >
+      深い
+    </span>
+
+    <!-- アイコンだけ色変化 -->
+    <i class="fa-solid fa-lightbulb text-xl transition
+               <%= rv.active ? 'text-blue-500' : 'text-gray-700' %>"></i>
+  </span>
+
+  <!-- カウント -->
+  <span class="text-xl opacity-80"><%= rv.count %></span>
 <% end %>
+
