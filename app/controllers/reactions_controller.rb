@@ -8,16 +8,16 @@ class ReactionsController < ApplicationController
       kind: params[:kind]
     )
     if @reaction.save
-      redirect_back(fallback_location: root_path, notice: "リアクションを追加しました。")
+      redirect_back(fallback_location: root_path)
     else
-      redirect_back(fallback_location: root_path, alert: "リアクションの追加に失敗しました。")
+      redirect_back(fallback_location: root_path)
     end
   end
 
   def destroy
     @reaction = @reactable.reactions.find(params[:id])
     @reaction.destroy!
-    redirect_back(fallback_location: root_path, notice: "リアクションを削除しました。")
+    redirect_back(fallback_location: root_path)
   end
 
   private
