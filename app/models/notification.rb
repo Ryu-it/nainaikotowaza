@@ -6,7 +6,7 @@ class Notification < ApplicationRecord
   # 通知を受け取ったユーザー
   belongs_to :recipient, class_name: "User"
 
-  enum action: { follow: 0, invitation: 1, deep: 2 }
+  enum :action, { follow: 0, invitation: 1, deep: 2 }
 
   validates :actor_id, presence: true
   validates :recipient_id, presence: true
