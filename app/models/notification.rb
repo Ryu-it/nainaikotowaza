@@ -15,7 +15,11 @@ class Notification < ApplicationRecord
   validates :notifiable_type, presence: true
   validates :is_checked, inclusion: { in: [ true, false ] }
 
-  # scopeを使ってレコード取得を簡潔に
+  # scopeを使って通知の閲覧の有無を簡潔に
   scope :unread, -> { where(is_checked: false) }
   scope :read, -> { where(is_checked: true) }
+
+  # scopeを使って招待モデルを簡潔に取得
+  scope :invitations, -> { where(notifiable_type: "Invitation") }
+  scope :excluding_invitations, -> { where.not(notifiable_type: "Invitation") }
 end

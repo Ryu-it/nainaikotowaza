@@ -50,9 +50,8 @@ class User < ApplicationRecord
   end
 
   def follow(other_user)
-    unless self == other_user
-      active_follows.find_or_create_by(followed_id: other_user.id)
-    end
+    return if self == other_user
+    active_follows.find_or_create_by(followed_id: other_user.id)
   end
 
   def unfollow(other_user)
