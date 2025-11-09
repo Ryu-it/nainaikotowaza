@@ -15,13 +15,19 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  # notificationsテーブルのfalseレコードを取得してカウント(Invitaionは除く)
+  # 招待以外の未読通知数
   def set_unread_notifications_count
-    @unread_notifications_count = current_user.passive_notifications.unread.where.not(notifiable_type: "Invitation").count
+    @unread_notifications_count = current_user.passive_notifications
+                                              .unread
+                                              .excluding_invitations
+                                              .count
   end
 
-  # notificationsテーブルのnotifiable=invitaionのfalseレコードを取得してカウント
+  # 招待の未読通知数
   def set_unread_invitations_count
-    @unread_invitations_count = current_user.passive_notifications.unread.where(notifiable_type: "Invitation").count
-  end
+    @unread_invitations_count = current_user.passive_notifications
+                                            .unread
+                                            .invitations
+                                            .count
+  end  
 end
