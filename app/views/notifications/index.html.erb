@@ -4,47 +4,64 @@
 
       <% visible_notifications = @notifications.reject { |n| n.action == "invitation" } %>
 
-<% if visible_notifications.present? %>
-  <% visible_notifications.each do |notification| %>
-    <%# アイコン部分 %>
-    <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
-      <% case notification.action %>
-      <% when "follow" %>
-        <i class="fa-solid fa-user text-2xl mr-3"></i>
-      <% when "reaction" %>
-        <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
-      <% when "deep" %>
-        <i class="fa-solid fa-brain text-2xl mr-3"></i>
+      <% if visible_notifications.present? %>
+        <% visible_notifications.each do |notification| %>
+          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
+            <!-- アイコン -->
+            <% case notification.action %>
+            <% when "follow" %>
+              <i class="fa-solid fa-user text-2xl mr-3"></i>
+            <% when "reaction" %>
+              <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
+            <% else %>
+              <i class="fa-regular fa-bell text-2xl mr-3"></i>
+            <% end %>
+
+            <!-- テキスト -->
+            <div class="text-gray-900 text-lg leading-snug">
+              「
+              <%= link_to notification.actor.name,
+                          user_path(notification.actor),
+                          class: "font-bold text-gray-900 hover:underline" %>
+              」さんが
+              <% case notification.action %>
+              <% when "follow" %>
+                あなたをフォローしました
+
+              <% when "reaction" %>
+                <%# Reaction のときだけ reactable/post_link を作る %>
+                <% if notification.notifiable&.respond_to?(:reactable) %>
+                  <% reactable = notification.notifiable.reactable %>
+                  <% post_link =
+                       if reactable.is_a?(Proverb)
+                         link_to "投稿", proverb_path(reactable),
+                                 class: "font-semibold text-gray-800 hover:underline"
+                       elsif reactable.is_a?(Comment)
+                         link_to "コメント", proverb_path(reactable.proverb, anchor: "comment-#{reactable.id}"),
+                                 class: "font-semibold text-gray-800 hover:underline"
+                       end %>
+                <% end %>
+
+                <% case notification.notifiable&.kind %>
+                <% when "like" %>
+                  「<%= post_link || "投稿" %>」に「いいね」を押しました
+                <% when "laugh" %>
+                  「<%= post_link || "投稿" %>」に「わらえる」を押しました
+                <% when "deep" %>
+                  「<%= post_link || "投稿" %>」に「深い」を押しました
+                <% else %>
+                  「<%= post_link || "投稿" %>」にリアクションしました
+                <% end %>
+
+              <% else %>
+                通知が届きました
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
       <% end %>
-
-      <%# テキスト部分 %>
-      <div class="text-gray-900 text-lg leading-snug">
-  「<span class="font-bold"><%= notification.actor.name %></span>」さんが
-  <% case notification.action %>
-  <% when "follow" %>
-    あなたをフォローしました
-  <% when "reaction" %>
-    <% case notification.notifiable.kind %>
-    <% when "like" %>
-      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「いいね」を押しました
-    <% when "laugh" %>
-      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「わらえる」を押しました
-    <% when "deep" %>
-      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「深い」を押しました
-    <% else %>
-      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」にリアクションしました
-    <% end %>
-  <% else %>
-    通知が届きました
-  <% end %>
-</div>
-
-
-    </div>
-  <% end %>
-<% else %>
-  <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
-<% end %>
     </div>
   </div>
 </div>
