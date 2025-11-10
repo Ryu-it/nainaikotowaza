@@ -3,23 +3,27 @@
     <div class="border bg-pink-50 rounded-xl py-8 px-6 shadow-sm">
 
       <% if @notifications.present? %>
-  <% @notifications.each do |notification| %>
-    <% next unless notification.action == "invitation" %>
+        <% @notifications.each do |notification| %>
+          <% next unless notification.action == "invitation" %>
 
-    <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
-      <i class="fa-regular fa-envelope text-2xl mr-3"></i>
+          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
+            <i class="fa-regular fa-envelope text-2xl mr-3"></i>
 
-      <div class="text-gray-900 text-lg leading-snug">
-        「<span class="font-bold"><%= notification.actor.name %></span>」さんがあなたを招待しました
-        <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %>
-        <%= link_to "部屋に参加する", accept_invitation_url(token: token),
-                    class: "ml-3 font-semibold text-blue-600 hover:underline" %>
-      </div>
-    </div>
-  <% end %>
-<% else %>
-  <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
-<% end %>
+            <div class="text-gray-900 text-lg leading-snug">
+              「
+              <%= link_to notification.actor.name,
+                          user_path(notification.actor),
+                          class: "font-bold text-gray-900 hover:underline" %>
+              」さんがあなたを招待しました
+              <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %>
+              <%= link_to "部屋に参加する", accept_invitation_url(token: token),
+                          class: "ml-3 font-semibold text-blue-600 hover:underline" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
+      <% end %>
     </div>
   </div>
 </div>

@@ -18,7 +18,10 @@ RSpec.describe "notifications", type: :system do
     scenario "フォロー通知の文言が出る" do
       log_in_as(recipient)
       visit notifications_path
-      expect(page).to have_content("「#{actor.name}」さんが あなたをフォローしました")
+      # ユーザー名のリンクがあること（hrefまでチェック）
+      expect(page).to have_link(actor.name, href: user_path(actor))
+      # 残りの文言だけ確認
+      expect(page).to have_text("さんが あなたをフォローしました")
     end
   end
 end
