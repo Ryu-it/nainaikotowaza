@@ -79,6 +79,7 @@ RSpec.describe "notifications", type: :system do
       login_as(actor, scope: :user)
       visit user_path(recipient)
       click_link "フォローを外す"
+      expect(page).to have_text("フォローする")
       logout(:user)
 
       # 4) recipient で通知が消えていること
