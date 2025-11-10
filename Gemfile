@@ -93,3 +93,5 @@ gem "ruby-vips"
 
 # Active StorageでS3を利用するためのgem
 gem "aws-sdk-s3"
+
+gem "kaminari"
