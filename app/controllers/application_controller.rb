@@ -29,5 +29,5 @@ class ApplicationController < ActionController::Base
                                             .unread
                                             .invitations
                                             .count
-  end  
+  end
 end
