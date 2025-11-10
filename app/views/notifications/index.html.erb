@@ -29,29 +29,35 @@
                 あなたをフォローしました
 
               <% when "reaction" %>
-                <%# Reaction のときだけ reactable/post_link を作る %>
-                <% if notification.notifiable&.respond_to?(:reactable) %>
-                  <% reactable = notification.notifiable.reactable %>
-                  <% post_link =
-                       if reactable.is_a?(Proverb)
-                         link_to "投稿", proverb_path(reactable),
-                                 class: "font-semibold text-gray-800 hover:underline"
-                       elsif reactable.is_a?(Comment)
-                         link_to "コメント", proverb_path(reactable.proverb, anchor: "comment-#{reactable.id}"),
-                                 class: "font-semibold text-gray-800 hover:underline"
-                       end %>
-                <% end %>
+  <% reactable = notification.notifiable&.reactable %>
 
-                <% case notification.notifiable&.kind %>
-                <% when "like" %>
-                  「<%= post_link || "投稿" %>」に「いいね」を押しました
-                <% when "laugh" %>
-                  「<%= post_link || "投稿" %>」に「わらえる」を押しました
-                <% when "deep" %>
-                  「<%= post_link || "投稿" %>」に「深い」を押しました
-                <% else %>
-                  「<%= post_link || "投稿" %>」にリアクションしました
-                <% end %>
+  <%
+post_link = (
+  case reactable
+  when Proverb
+    link_to "投稿", proverb_path(reactable),
+            class: "font-semibold text-gray-800 hover:underline"
+  when Comment
+    link_to "コメント",
+            proverb_path(reactable.proverb, anchor: "comment-#{reactable.id}"),
+            class: "font-semibold text-gray-800 hover:underline"
+  else
+    "投稿"
+  end
+)
+%>
+
+  <% case notification.notifiable.kind %>
+  <% when "like"  %>
+    「<%= post_link %>」に「いいね」をしました
+  <% when "laugh" %>
+    「<%= post_link %>」に「わらえる」をしました
+  <% when "deep"  %>
+    「<%= post_link %>」に「深い」をしました
+  <% else %>
+    「<%= post_link %>」にリアクションしました
+<% end %>
+
 
               <% else %>
                 通知が届きました
