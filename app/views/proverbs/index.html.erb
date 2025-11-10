@@ -1,5 +1,18 @@
 <%= render "shared/flash_message" %>
 <div class="bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 min-h-screen py-12 px-8">
+  <%= search_form_for @q, url: proverbs_path, method: :get do |f| %>
+    <div class="mb-10 max-w-3xl mx-auto">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <%= f.search_field :title_or_meaning_or_users_name_cont,
+                             placeholder: "タイトル・意味・ユーザー名で検索",
+                             class: "flex-1 border border-white/30 bg-white/80 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 transition" %>
+          <%= f.submit "検索", class: "whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl px-6 py-3 transition" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     <% @proverbs.each do |proverb| %>
     <%# タイトルが空なら表示させない %>

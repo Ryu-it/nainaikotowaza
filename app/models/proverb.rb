@@ -24,4 +24,15 @@ class Proverb < ApplicationRecord
   def to_param
     public_uid
   end
+
+  private
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[ title meaning ]
+  end
+
+  # 関連名を検索可能にする
+  def self.ransackable_associations(auth_object = nil)
+    %w[ proverb_contributors users ]
+  end
 end
