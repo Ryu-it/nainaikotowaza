@@ -20,8 +20,10 @@ class ProverbsController < ApplicationController
   end
 
   def index
-    @proverbs = Proverb.includes(proverb_contributors: :user)
-                       .order(created_at: :desc)
+    @q = Proverb.ransack(params[:q])
+    @proverbs = @q.result(distinct: true)
+                  .includes(proverb_contributors: :user)
+                  .order(created_at: :desc)
   end
 
   def show
