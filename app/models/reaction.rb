@@ -2,6 +2,8 @@ class Reaction < ApplicationRecord
   belongs_to :user
   belongs_to :reactable, polymorphic: true
 
+  has_one :notification, as: :notifiable, dependent: :destroy
+
   enum :kind, { like: 0, laugh: 1, deep: 2 }, default: :like
 
   validates :user_id, presence: true
