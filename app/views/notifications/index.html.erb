@@ -11,7 +11,7 @@
       <% case notification.action %>
       <% when "follow" %>
         <i class="fa-solid fa-user text-2xl mr-3"></i>
-      <% when "laugh" %>
+      <% when "reaction" %>
         <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
       <% when "deep" %>
         <i class="fa-solid fa-brain text-2xl mr-3"></i>
@@ -19,15 +19,27 @@
 
       <%# テキスト部分 %>
       <div class="text-gray-900 text-lg leading-snug">
-        「<span class="font-bold"><%= notification.actor.name %></span>」さんが
-        <% if notification.action == "follow" %>
-          あなたをフォローしました
-        <% elsif notification.action == "laugh" %>
-          「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に笑えるを押しました
-        <% elsif notification.action == "deep" %>
-          「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に深いを押しました
-        <% end %>
-      </div>
+  「<span class="font-bold"><%= notification.actor.name %></span>」さんが
+  <% case notification.action %>
+  <% when "follow" %>
+    あなたをフォローしました
+  <% when "reaction" %>
+    <% case notification.notifiable.kind %>
+    <% when "like" %>
+      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「いいね」を押しました
+    <% when "laugh" %>
+      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「わらえる」を押しました
+    <% when "deep" %>
+      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」に「深い」を押しました
+    <% else %>
+      「<a href="#" class="font-semibold text-gray-800 hover:underline">投稿</a>」にリアクションしました
+    <% end %>
+  <% else %>
+    通知が届きました
+  <% end %>
+</div>
+
+
     </div>
   <% end %>
 <% else %>
