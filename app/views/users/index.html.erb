@@ -19,13 +19,18 @@
         <% next if user == current_user %> <!-- 自分は表示しない -->
 
         <div class="flex items-center justify-between">
-          <!-- 左：丸アイコン + 名前 -->
-          <div class="flex items-center gap-3">
-            <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-            <%= link_to user_path(user) do %>
-  <p class="text-base sm:text-lg text-gray-900"><%= user.name %></p>
-<% end %>
-          </div>
+          <!-- 左：アイコン + 名前 -->
+          <%= link_to user_path(user), class: "flex items-center gap-3 hover:opacity-80 transition" do %>
+            <% if user.avatar.attached? %>
+              <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
+                            class: "h-10 w-10 rounded-full object-cover border border-rose-100 shadow-sm" %>
+            <% else %>
+              <div class="h-10 w-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm">
+                <%= (user.name.presence || "?").first.upcase %>
+              </div>
+            <% end %>
+            <p class="text-base sm:text-lg text-gray-900 font-medium"><%= user.name %></p>
+          <% end %>
 
           <!-- 右：フォローボタン（青/グレー） -->
           <% if current_user.following_users.include?(user) %>
