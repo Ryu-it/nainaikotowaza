@@ -24,7 +24,7 @@ class ProverbsController < ApplicationController
     @proverbs = @q.result(distinct: true)
                   .includes(proverb_contributors: :user)
                   .order(created_at: :desc)
-                  .page(params[:page]).per(10)
+                  .page(params[:page]).per(12)
   end
 
   def show
