@@ -13,6 +13,8 @@
               <i class="fa-solid fa-user text-2xl mr-3"></i>
             <% when "reaction" %>
               <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
+            <% when "comment" %>
+              <i class="fa-regular fa-comment-dots text-2xl mr-3"></i>
             <% else %>
               <i class="fa-regular fa-bell text-2xl mr-3"></i>
             <% end %>
@@ -58,6 +60,19 @@ post_link = (
     「<%= post_link %>」にリアクションしました
 <% end %>
 
+
+              <% when "comment" %>
+                <% comment = notification.notifiable if notification.notifiable.is_a?(Comment) %>
+                <% if comment.present? %>
+                  <% comment_link =
+                    link_to "投稿",
+                            proverb_path(comment.proverb, anchor: "comment_#{comment.id}"),
+                            class: "font-semibold text-gray-800 hover:underline"
+                  %>
+                  「<%= comment_link %>」にコメントしました
+                <% else %>
+                  コメントしました
+                <% end %>
 
               <% else %>
                 通知が届きました
