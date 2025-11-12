@@ -51,4 +51,7 @@ Rails.application.routes.draw do
     post :generate_words,   to: "words#generate"
     post :generate_proverb, to: "proverbs#generate"
   end
+
+  # OGP画像生成用ルーティング
+  get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 end
