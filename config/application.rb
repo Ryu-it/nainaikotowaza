@@ -24,5 +24,8 @@ module Myapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # 画像処理にruby-vipsを使用する
+    config.active_storage.variant_processor = :vips
   end
 end
