@@ -14,6 +14,9 @@ RUN apt-get update -qq \
 RUN apt-get update -qq && apt-get install -y \
     build-essential libpq-dev nodejs yarn vim pkg-config \
     libvips libvips-dev \
+    libcairo2 libpango1.0-0 \
+    imagemagick \
+    fonts-noto-cjk fonts-noto-color-emoji \
  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
 
 RUN mkdir /myapp
