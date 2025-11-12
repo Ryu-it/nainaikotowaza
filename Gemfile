@@ -95,3 +95,7 @@ gem "ruby-vips"
 gem "aws-sdk-s3"
 
 gem "kaminari"
+
+# 動的OGP画像を生成するためのgem
+gem "mini_magick"
+gem "meta-tags"
