@@ -39,6 +39,81 @@
   }
 }
 
+@layer utilities {
+  .copy-stack {
+    position: relative;
+    min-height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .floating-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: floating-fade 4s ease-in-out forwards;
+    opacity: 0;
+  }
+
+  .floating-delay-0 {
+    animation-delay: 0s;
+  }
+
+  .floating-delay-1 {
+    animation-delay: 4s;
+  }
+
+  .delayed-reveal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.95);
+    animation: delayed-reveal 2.5s ease-out forwards;
+    animation-delay: 8s;
+  }
+}
+
+@keyframes floating-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+}
+
+@keyframes delayed-reveal {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @layer base {
   html {
     font-family: 'Zen Kurenaido', sans-serif;
