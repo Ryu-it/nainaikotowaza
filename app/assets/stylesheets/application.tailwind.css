@@ -48,16 +48,25 @@
     justify-content: center;
   }
 
-  .floating-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    animation: floating-fade 4s ease-in-out forwards;
-    opacity: 0;
-  }
+  /* ヒーローコピー用：画面中央固定 */
+.copy-floating-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: floating-fade 4s ease-in-out forwards;
+  opacity: 0;
+}
+
+/* ことわざタイトル用：位置はJSで決める */
+.floating-text {
+  position: absolute;
+  animation: floating-fade 4s ease-in-out forwards;
+  opacity: 0;
+}
+
 
   .floating-delay-0 {
     animation-delay: 0s;
@@ -67,17 +76,7 @@
     animation-delay: 4s;
   }
 
-  .delayed-reveal {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px) scale(0.95);
-    animation: delayed-reveal 2.5s ease-out forwards;
+  .floating-delay-2 {
     animation-delay: 8s;
   }
 }
@@ -98,19 +97,6 @@
   100% {
     opacity: 0;
     transform: translateY(-10px) scale(0.98);
-  }
-}
-
-@keyframes delayed-reveal {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
   }
 }
 

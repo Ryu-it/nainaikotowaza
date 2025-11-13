@@ -17,19 +17,27 @@
     data-motion-target="sakuraLayer"
   ></div>
 
+  <!-- ふわっと浮かぶことわざタイトル層 -->
+  <div
+    data-controller="proverb-titles"
+    data-proverb-titles-titles-value="<%= @recent_proverb_titles.to_json %>"  <%# ここではjson文字列に変換している　%>
+    class="pointer-events-none absolute inset-0 overflow-hidden"
+  >
+  </div>
+
   <div class="relative z-10 max-w-4xl w-full px-6 text-center">
     <!-- ふわっと出て消えるコピー（同じ場所で切り替え） -->
     <div class="text-rose-100 copy-stack">
-      <p class="floating-text floating-delay-0 text-2xl sm:text-5xl leading-relaxed text-rose-50 drop-shadow-[0_15px_35px_rgba(10,10,20,0.65)]">
-        桜が散るように言葉も移ろう
+      <p class="copy-floating-text floating-delay-0 text-2xl sm:text-5xl leading-relaxed text-rose-50 drop-shadow-[0_15px_35px_rgba(10,10,20,0.65)]">
+        桜が散るように言葉も移ろいます
       </p>
-      <p class="floating-text floating-delay-1 text-2xl sm:text-5xl leading-relaxed text-rose-50 drop-shadow-[0_15px_35px_rgba(10,10,20,0.65)]">
+      <p class="copy-floating-text floating-delay-1 text-2xl sm:text-5xl leading-relaxed text-rose-50 drop-shadow-[0_15px_35px_rgba(10,10,20,0.65)]">
         言葉をもっと自由に
       </p>
       <!-- コピーの後に現れるタイトルリンク（同じ位置に出現） -->
-      <%= link_to proverbs_path, class: "delayed-reveal text-4xl sm:text-6xl text-rose-100" do %>
+      <p class= "copy-floating-text floating-delay-2 text-4xl sm:text-6xl text-rose-100 drop-shadow-[0_15px_35px_rgba(10,10,20,0.65)]" >
         ないないことわざ
-      <% end %>
+      </p>
     </div>
   </div>
 

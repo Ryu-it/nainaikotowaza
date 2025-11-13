@@ -33,3 +33,6 @@ application.register("redirect", RedirectController)
 
 import RevealController from "./reveal_controller"
 application.register("reveal", RevealController)
+
+import ProverbTitlesController from "./proverb_titles_controller"
+application.register("proverb-titles", ProverbTitlesController)
