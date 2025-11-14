@@ -5,4 +5,8 @@ class Invitation < ApplicationRecord
 
   validates :expires_at, presence: true
   validates :revoked, inclusion: { in: [ true, false ] }
+
+  def invalid?
+    expires_at.past? || revoked?
+  end
 end
