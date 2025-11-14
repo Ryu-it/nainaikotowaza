@@ -56,7 +56,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  animation: floating-fade 4s ease-in-out forwards;
+  animation: floating-fade 3s ease-in-out forwards;
   opacity: 0;
 }
 
@@ -73,11 +73,11 @@
   }
 
   .floating-delay-1 {
-    animation-delay: 4s;
+    animation-delay: 3s;
   }
 
   .floating-delay-2 {
-    animation-delay: 8s;
+    animation-delay: 6s;
   }
 }
 
