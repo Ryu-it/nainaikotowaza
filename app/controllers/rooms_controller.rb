@@ -61,6 +61,14 @@ class RoomsController < ApplicationController
     render :new, status: :unprocessable_entity
   end
 
+  def index
+    @rooms = current_user.rooms
+                         .joins(:proverb)
+                         .merge(Proverb.where.not(status: :completed))
+                         .includes(:users, :room_users)
+                         .order(created_at: :desc)
+  end
+
   private
   def room_params
     params.require(:room).permit(:name).merge(owner: current_user)

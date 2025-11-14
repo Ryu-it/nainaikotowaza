@@ -15,7 +15,7 @@
                           user_path(notification.actor),
                           class: "font-bold text-gray-900 hover:underline" %>
               」さんがあなたを招待しました
-              <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %>
+              <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %> <%# 特定のinvitationモデルのレコード一件にトークンを付与 %>
               <%= link_to "部屋に参加する", accept_invitation_url(token: token),
                           class: "ml-3 font-semibold text-blue-600 hover:underline" %>
             </div>

@@ -2,21 +2,21 @@ class InvitationsController < ApplicationController
   before_action :authenticate_user!
 
   def accept
-    invitation = Invitation.find_signed(params[:token], purpose: :invite)
-    room       = invitation&.room
+    invitation = Invitation.find_signed(params[:token], purpose: :invite) # トークンを解析して招待レコードを取得
+    room       = invitation&.room # 招待に紐づくルームを取得
     return redirect_to messages_path, alert: "招待リンクが無効です。" unless invitation && room
 
     # 招待先本人か
     return redirect_to messages_path, alert: "招待先ではありません。" unless current_user == invitation.invitee
 
-    # 招待されたルームのメンバーがいるかどうか
+    # 招待されたルームに今のユーザーがすでに参加済みかどうか
     already_member = room.room_users.exists?(user_id: current_user.id)
 
     # 期限切れ or 取り消しされているかの確認
-    if invitation.expires_at.past? || invitation.revoked?
+    if invitation.invalid?
       return already_member ?
         redirect_to(edit_room_proverb_path(room, room.proverb), notice: "すでに参加済みのため入室しました。") :
-        redirect_to(messages_path, alert: "招待の有効期限が切れています。再招待を依頼してください。")
+        redirect_to(messages_path, alert: "この招待は無効です。再招待を依頼してください。")
     end
 
     # 2回目以降（used_atあり）

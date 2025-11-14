@@ -93,6 +93,13 @@
       <% end %>
     </li>
 
+    <li>
+      <%= link_to rooms_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-comments text-3xl"></i>
+        <span>進行中の部屋</span>
+      <% end %>
+    </li>
+
     <li class="pt-4">
       <%= link_to destroy_user_session_path,
                   method: :delete,
