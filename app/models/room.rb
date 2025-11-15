@@ -27,4 +27,8 @@ class Room < ApplicationRecord
       [ room, proverb, invitation ]
     end
   end
+
+  def role_for(user)
+    room_users.find_by(user_id: user.id)&.role
+  end
 end
