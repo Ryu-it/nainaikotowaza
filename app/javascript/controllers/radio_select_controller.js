@@ -3,17 +3,18 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="radio-select"
 export default class extends Controller {
   static targets = ["radio", "field"]
-  static values = { name: String } // 行クリック用（rowClick）
 
   connect() {
     // 初期選択があれば反映
     const checked = this.radioTargets.find((r) => r.checked)
-    if (checked) this.fieldTarget.value = checked.value
+    if (checked) {
+      this.fieldTarget.value = checked.dataset.radioSelectName
+    }
   }
 
   // ラジオの change で反映
   pick(event) {
-    this.fieldTarget.value = event.target.value
+    this.fieldTarget.value = event.target.dataset.radioSelectName
   }
 
   // 行全体クリックで選択（フォローボタンは除外）
@@ -25,7 +26,7 @@ export default class extends Controller {
     const radio = event.currentTarget.querySelector('input[type="radio"]')
     if (radio) {
       radio.checked = true
-      this.fieldTarget.value = radio.value
+      this.fieldTarget.value = radio.dataset.radioSelectName
     }
   }
 }
