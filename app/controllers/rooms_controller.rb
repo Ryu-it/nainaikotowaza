@@ -32,10 +32,10 @@ class RoomsController < ApplicationController
       @room.save!
       # RoomUserを2つ作成する
       @room.room_users.create!(user: current_user, role: :word_giver)
-      @room.room_users.create!(user: user, role: :proverb_maker)
+
       @proverb = @room.create_proverb!(status: :draft)   # ← 必須項目を要求しない段階で作る
       @proverb.proverb_contributors.create!(user: current_user, role: :word_giver)
-      @proverb.proverb_contributors.create!(user: user, role: :proverb_maker)
+
 
       # 招待を作成する
       @invitation = Invitation.create!(
