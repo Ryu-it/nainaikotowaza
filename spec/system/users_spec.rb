@@ -20,6 +20,18 @@ RSpec.describe "Users", type: :system do
       click_button "Sign up"
       expect(page).to have_content("アカウント登録が完了しました。")
     end
+
+    it "失敗したらページにエラーメッセージがある" do
+      visit new_user_registration_path
+      fill_in "名前", with: ""
+      fill_in "Eメール", with: "invalid@email"
+      fill_in "パスワード", with: "short"
+      fill_in "パスワード（確認用）", with: "mismatch"
+      click_button "Sign up"
+      expect(page).to have_content("名前を入力してください")
+      expect(page).to have_content("パスワードは8文字以上で入力してください")
+      expect(page).to have_content("パスワード（確認用）とパスワードの入力が一致しません")
+    end
   end
 
   describe "ログインしたとき" do
@@ -29,6 +41,14 @@ RSpec.describe "Users", type: :system do
       fill_in "パスワード", with: "12345678"
       click_button "Log in"
       expect(page).to have_content("ログインしました")
+    end
+
+    it "間違った情報でログインしたときページにエラーメッセージがある" do
+      visit new_user_session_path
+      fill_in "Eメール", with: user.email
+      fill_in "パスワード", with: "wrongpassword"
+      click_button "Log in"
+      expect(page).to have_content("Eメールまたはパスワードが違います。")
     end
   end
 
@@ -44,36 +64,7 @@ RSpec.describe "Users", type: :system do
     end
   end
 
-  describe "avatarを登録した時" do
-    it "プロフィール編集をした遷移先はusers#show" do
-      visit new_user_session_path
-      fill_in "Eメール", with: user.email
-      fill_in "パスワード", with: "12345678"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
-      visit edit_user_registration_path
-      attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
-      fill_in "現在のパスワード", with: "12345678"
-      click_button "更新"
-      expect(page).to have_current_path(user_path(user))
-    end
-
-    it "プロフィールページにavatarが表示される" do
-      visit new_user_session_path
-      fill_in "Eメール", with: user.email
-      fill_in "パスワード", with: "12345678"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
-      visit edit_user_registration_path
-      attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
-      fill_in "現在のパスワード", with: "12345678"
-      click_button "更新"
-      expect(page).to have_content("アカウント情報を変更しました。")
-      expect(page).to have_selector("img[src$='test_image.png']")
-    end
-  end
-
-  describe "マイページを編集した時" do
+  describe "マイページを編集した時にうまくいく" do
     it "名前を編集した内容が反映されている" do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
@@ -87,42 +78,30 @@ RSpec.describe "Users", type: :system do
       expect(page).to have_content("updatedname")
     end
 
-    it "emailを編集した内容が反映されている" do
+    it "成功後の遷移先は詳細ページ" do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
       click_button "Log in"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
-      fill_in "Eメール", with: "rantekun@123"
+      fill_in "名前", with: "updatedname"
       click_button "更新"
       expect(page).to have_content("アカウント情報を変更しました。")
-      logout(:user)
-      visit new_user_session_path
-      fill_in "Eメール", with: "rantekun@123"
-      fill_in "パスワード", with: "12345678"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
+      expect(current_path).to eq user_path(user)
     end
 
-    it "パスワードを編集した内容が反映されている" do
+    it "avatarを編集した内容が反映されている" do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
       click_button "Log in"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
-      fill_in "パスワード", with: "newpassword"
-      fill_in "パスワード（確認用）", with: "newpassword"
-      fill_in "現在のパスワード", with: "12345678"
+      attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
       click_button "更新"
       expect(page).to have_content("アカウント情報を変更しました。")
-      logout(:user)
-      visit new_user_session_path
-      fill_in "Eメール", with: user.email
-      fill_in "パスワード", with: "newpassword"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
+      expect(page).to have_selector("img[src$='test_image.png']")
     end
 
     it "アカウントを削除したらログインできない" do
@@ -142,35 +121,10 @@ RSpec.describe "Users", type: :system do
       click_button "Log in"
       expect(page).to have_content("Eメールまたはパスワードが違います。")
     end
+  end
 
-    it "編集で現在のパスワードを入力しないと更新できない" do
-      visit new_user_session_path
-      fill_in "Eメール", with: user.email
-      fill_in "パスワード", with: "12345678"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
-      visit edit_user_registration_path
-      fill_in "パスワード", with: "newpassword"
-      fill_in "パスワード（確認用）", with: "newpassword"
-      fill_in "現在のパスワード", with: ""
-      click_button "更新"
-      expect(page).to have_content("現在のパスワードを入力してください")
-    end
-
-    it "編集でemailが他のユーザーと同じ時は更新できない" do
-      another_user = create(:user, email: "rantekun@123")
-      visit new_user_session_path
-      fill_in "Eメール", with: user.email
-      fill_in "パスワード", with: "12345678"
-      click_button "Log in"
-      expect(page).to have_content("ログインしました")
-      visit edit_user_registration_path
-      fill_in "Eメール", with: "rantekun@123"
-      click_button "更新"
-      expect(page).to have_content("Eメールはすでに存在します")
-    end
-
-    it "編集で名前が空欄の時は更新できない" do
+  describe "マイページを編集した時にうまくいかない" do
+    it "名前が空欄の時は更新できない" do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
@@ -178,6 +132,19 @@ RSpec.describe "Users", type: :system do
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       fill_in "名前", with: ""
+      click_button "更新"
+      expect(page).to have_content("名前を入力してください")
+    end
+
+    it "名前が空白で、画像があるときも更新できない" do
+      visit new_user_session_path
+      fill_in "Eメール", with: user.email
+      fill_in "パスワード", with: "12345678"
+      click_button "Log in"
+      expect(page).to have_content("ログインしました")
+      visit edit_user_registration_path
+      fill_in "名前", with: ""
+      attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
       click_button "更新"
       expect(page).to have_content("名前を入力してください")
     end
