@@ -2,36 +2,27 @@ class InvitationsController < ApplicationController
   before_action :authenticate_user!
 
   def accept
-    invitation = Invitation.find_signed(params[:token], purpose: :invite) # トークンを解析して招待レコードを取得
-    room       = invitation&.room # 招待に紐づくルームを取得
-    return redirect_to messages_path, alert: "招待リンクが無効です。" unless invitation && room
+    invitation = Invitation.find_signed!(params[:token], purpose: :invite)
+    room       = invitation.room
 
-    # 招待先本人か
-    return redirect_to messages_path, alert: "招待先ではありません。" unless current_user == invitation.invitee
-
-    # 招待されたルームに今のユーザーがすでに参加済みかどうか
-    already_member = room.room_users.exists?(user_id: current_user.id)
-
-    # 期限切れ or 取り消しされているかの確認
-    if invitation.invalid?
-      return already_member ?
-        redirect_to(edit_room_proverb_path(room, room.proverb), notice: "すでに参加済みのため入室しました。") :
-        redirect_to(messages_path, alert: "この招待は無効です。再招待を依頼してください。")
+    # この招待はこのユーザー用か？
+    if invitation.wrong_recipient?(current_user)
+      redirect_to root_path, alert: "この招待リンクは無効です"
+      return
     end
 
-    # 2回目以降（used_atあり）
-    if invitation.used_at.present?
-      return already_member ?
-        redirect_to(edit_room_proverb_path(room, room.proverb), notice: "この招待は使用済みですが、あなたは参加済みです。") :
-        redirect_to(messages_path, alert: "この招待は使用済みです。再招待を依頼してください。")
+    # このユーザーがすでに部屋のメンバーか？
+    if invitation.already_member?(current_user)
+      redirect_to rooms_path, notice: "すでにこの部屋のメンバーです。「進行中の部屋」からアクセスしてください。"
+      return
     end
 
-    # —— 初回受け入れ（ここでidempotentにメンバー化）——
-    room.room_users.find_or_create_by!(user: current_user) # 役割があれば role: :proverb_maker 等
-    invitation.update!(used_at: Time.current)              # ワンタイム消費
+    # 部屋 & ことわざへの参加処理
+    invitation.add_member!(current_user)
 
-    redirect_to edit_room_proverb_path(room, room.proverb), notice: "招待を受け入れました。"
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    redirect_to messages_path, alert: "招待リンクが無効です。"
+    redirect_to edit_room_proverb_path(room, room.proverb), notice: "部屋に参加しました"
+
+  rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "招待リンクが無効か、有効期限が切れています"
   end
 end

@@ -34,17 +34,23 @@
             <div class="mt-6 grid gap-4 sm:grid-cols-2">
               <% room.room_users.each do |room_user| %>
                 <% role_label = room_user.role == "word_giver" ? "言葉担当" : "ことわざ担当" %>
-                <% participant = room.users.detect { |user| user.id == room_user.user_id } %>
+                <% participant = room_user.user %>
                 <% avatar_text = participant&.name.to_s.first.presence || "?" %>
-                <div class="flex items-start gap-3 bg-rose-50/60 border border-rose-100 rounded-2xl px-4 py-3">
-                  <div class="flex items-center justify-center w-11 h-11 rounded-full bg-pink-200 text-pink-800 font-bold text-lg">
-                    <%= avatar_text %>
+                <%= link_to user_path(participant),
+                            class: "flex items-start gap-3 bg-rose-50/60 border border-rose-100 rounded-2xl px-4 py-3 hover:bg-rose-100/70 transition" do %>
+                  <div class="flex items-center justify-center w-12 h-12 rounded-full bg-pink-200 text-pink-800 font-bold text-lg overflow-hidden border border-pink-200">
+                    <% if participant&.avatar&.attached? %>
+                      <%= image_tag participant.avatar.variant(resize_to_fill: [48, 48]),
+                                    class: "w-12 h-12 object-cover" %>
+                    <% else %>
+                      <span><%= avatar_text %></span>
+                    <% end %>
                   </div>
                   <div class="flex flex-col">
                     <span class="text-xs font-semibold tracking-wide text-rose-400/80"><%= role_label %></span>
                     <span class="text-lg font-semibold text-gray-900"><%= participant&.name %></span>
                   </div>
-                </div>
+                <% end %>
               <% end %>
             </div>
 
@@ -60,14 +66,12 @@
 <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
   <%= link_to edit_room_proverb_path(room, proverb),
-              class: "inline-flex items-center justify-center gap-2 rounded-2xl bg-pink-500 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pink-600" do %>
+              class: "inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-600" do %>
     <i class="fa-solid fa-pen-to-square"></i>
     <span>部屋に入る</span>
   <% end %>
 </div>
-
             </div>
-          </div>
         <% end %>
       </div>
     <% else %>
