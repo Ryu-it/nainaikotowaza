@@ -20,7 +20,7 @@ RSpec.describe "Proverbs", type: :system do
         fill_in "q_name_cont", with: other_user.name
         find_field("q_name_cont").send_keys(:enter)
       end
-      choose "room_user_name_#{other_user.name}"
+      choose "room_user_id_#{other_user.id}"
         within('form[action="/rooms"]', visible: :all) do
           click_button "部屋を作る"
         end
@@ -37,7 +37,7 @@ RSpec.describe "Proverbs", type: :system do
         fill_in "q_name_cont", with: other_user.name
         find_field("q_name_cont").send_keys(:enter)
       end
-      choose "room_user_name_#{other_user.name}"
+      choose "room_user_id_#{other_user.id}"
         within('form[action="/rooms"]', visible: :all) do
           click_button "部屋を作る"
         end
@@ -54,7 +54,7 @@ RSpec.describe "Proverbs", type: :system do
         fill_in "q_name_cont", with: other_user.name
         find_field("q_name_cont").send_keys(:enter)
       end
-      choose "room_user_name_#{other_user.name}"
+      choose "room_user_id_#{other_user.id}"
         within('form[action="/rooms"]', visible: :all) do
           click_button "部屋を作る"
         end

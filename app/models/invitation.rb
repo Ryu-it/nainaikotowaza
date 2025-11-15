@@ -6,6 +6,8 @@ class Invitation < ApplicationRecord
   validates :expires_at, presence: true
   validates :revoked, inclusion: { in: [ true, false ] }
 
+  after_create :notify_invitee
+
   # この招待はこのユーザー用か？
   def wrong_recipient?(user)
     invitee_id.present? && invitee_id != user.id
@@ -25,5 +27,16 @@ class Invitation < ApplicationRecord
 
       proverb.proverb_contributors.create!(user:, role: :proverb_maker)
     end
+  end
+
+  private
+
+  def notify_invitee
+    Notification.create!(
+      actor:     inviter,          # 招待した人
+      recipient: invitee,          # 招待された人
+      action:    :invitation,
+      notifiable: self
+    )
   end
 end
