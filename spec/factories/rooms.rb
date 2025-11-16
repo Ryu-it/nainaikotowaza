@@ -4,18 +4,20 @@ FactoryBot.define do
 
     trait :with_members_for do
       transient do
-        current_user { nil }      # ← 渡さなければ自動生成にフォールバック
-        invited_user { nil }      # ← 渡さなければ自動生成にフォールバック
+        inviter { nil }   # ← owner にあたる人
+        invitee { nil }   # ← 招待された人
       end
 
       after(:create) do |room, evaluator|
         create(:proverb, room: room)
 
-        wg_user = evaluator.current_user || create(:user)
-        pm_user = evaluator.invited_user || create(:user)
+        inviter_user = evaluator.inviter || create(:user)
+        invitee_user = evaluator.invitee || create(:user)
 
-        create(:room_user, room: room, user: wg_user, role: :word_giver)
-        create(:room_user, room: room, user: pm_user, role: :proverb_maker)
+        create(:invitation, room: room, inviter: inviter_user, invitee: invitee_user)
+
+        create(:room_user, room: room, user: inviter_user, role: :word_giver)
+        create(:room_user, room: room, user: invitee_user, role: :proverb_maker)
       end
     end
   end

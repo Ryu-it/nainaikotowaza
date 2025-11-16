@@ -3,12 +3,34 @@ require 'rails_helper'
 RSpec.describe "Users", type: :system do
   let(:user) { create(:user) }
 
-  describe "トップページの確認" do
-    it "トップページに特定の文字がある" do
-        visit root_path
-        expect(page).to have_content("ないないことわざ")
-      end
+  describe "ユーザーページの確認" do
+    it "本人にはプロフィール編集ボタンが表示される" do
+      login_as(user, scope: :user)
+      visit user_path(user)
+      expect(page).to have_link "プロフィールを編集"
     end
+
+    it "他人にはプロフィール編集ボタンが表示されない" do
+      other_user = create(:user)
+      login_as(other_user, scope: :user)
+      visit user_path(user)
+      expect(page).not_to have_link "プロフィールを編集"
+    end
+  end
+
+  describe "未登録者の挙動確認" do
+    it "未登録ユーザーはマイページに入れない" do
+      visit user_path(user)
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+
+    it "未登録ユーザーは編集ページに入れない" do
+      visit edit_user_registration_path
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+  end
 
   describe "ユーザー登録" do
     it "成功したらページにフラッシュメッセージがある" do

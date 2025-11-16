@@ -57,6 +57,21 @@ RSpec.describe "notifications", type: :system do
       expect(page).to have_link(actor.name, href: user_path(actor))
       expect(page).to have_text("コメント」に「いいね」をしました")
     end
+
+    scenario "コメントをするとリアクション通知がある" do
+      proverb = create(:proverb, owner: recipient)
+      login_as(actor, scope: :user)
+      visit proverb_path(proverb)
+      fill_in "comment_content", with: "素晴らしいことわざですね！"
+      click_button "送信"
+      expect(page).to have_text("素晴らしいことわざですね！")
+
+      logout(:user)
+      login_as(recipient, scope: :user)
+      visit notifications_path
+      expect(page).to have_link(actor.name, href: user_path(actor))
+      expect(page).to have_text("「投稿」にコメントしました")
+    end
   end
 
   describe "通知削除の確認" do
@@ -160,6 +175,33 @@ RSpec.describe "notifications", type: :system do
       login_as(recipient, scope: :user)
       visit notifications_path
       expect(page).to have_no_text("コメント」に「いいね」をしました")
+    end
+
+    scenario "コメントをしてコメントを削除すると通知が削除される" do
+      proverb = create(:proverb, owner: recipient)
+      login_as(actor, scope: :user)
+      visit proverb_path(proverb)
+      fill_in "comment_content", with: "素晴らしいことわざですね！"
+      click_button "送信"
+      expect(page).to have_text("素晴らしいことわざですね！")
+      logout(:user)
+
+      login_as(recipient, scope: :user)
+      visit notifications_path
+      expect(page).to have_text("「投稿」にコメントしました")
+      logout(:user)
+
+      login_as(actor, scope: :user)
+      visit proverb_path(proverb)
+      accept_confirm do
+        find("i.fa-solid.fa-trash").click
+      end
+      expect(page).to have_no_text("素晴らしいことわざですね！")
+      logout(:user)
+
+      login_as(recipient, scope: :user)
+      visit notifications_path
+      expect(page).to have_no_text("「投稿」にコメントしました")
     end
   end
 end

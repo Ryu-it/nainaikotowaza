@@ -14,7 +14,7 @@ class Rooms::ProverbsController < ApplicationController
     if @proverb.save
       case @room.role_for(current_user)
       when "word_giver"
-        redirect_to root_path, notice: "ことわざの言葉を送りました"
+        redirect_to rooms_path, notice: "ことわざの言葉を送りました"
       when "proverb_maker"
         redirect_to proverbs_path, notice: "ことわざを作成しました"
       else

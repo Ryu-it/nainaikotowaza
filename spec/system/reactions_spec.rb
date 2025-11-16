@@ -7,6 +7,35 @@ RSpec.describe "Reactions", type: :system do
     login_as(user, scope: :user)
   end
 
+  describe "未登録ユーザーがリアクションをした時" do
+    scenario "笑えるアイコンをクリックするとログインページに遷移する" do
+      logout(:user)
+      proverb = create(:proverb)
+      visit proverb_path(proverb)
+      find("i.fa-face-laugh-squint").click
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+
+    scenario "深いアイコンをクリックするとログインページに遷移する" do
+      logout(:user)
+      proverb = create(:proverb)
+      visit proverb_path(proverb)
+      find("i.fa-lightbulb").click
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+
+    scenario "いいねアイコンをクリックするとログインページに遷移する" do
+      logout(:user)
+      comment = create(:comment)
+      visit proverb_path(comment.proverb)
+      find("i.fa-heart").click
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+  end
+
   describe "ことわざへのリアクション" do
     scenario "笑えるアイコンをクリックして作成", js: true do
       visit proverb_path(create(:proverb))
