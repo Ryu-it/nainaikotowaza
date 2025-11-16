@@ -3,11 +3,37 @@ require 'rails_helper'
 RSpec.describe "Proverbs", type: :system do
   let(:user)    { create(:user) }
   before do
-    visit new_user_session_path
-    fill_in "Eメール", with: user.email
-    fill_in "パスワード", with: "12345678"
-    click_button "Log in"
-    expect(page).to have_content("ログインしました") # まずはここで保証
+    login_as(user, scope: :user)
+  end
+
+  describe "ログインしてないユーザーが部屋に入ろうとした時" do
+    scenario "ログインしていないユーザーはルーム作成ページに入れない" do
+      logout(:user)
+      visit new_room_path
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+
+    scenario "ログインしていないユーザーはルームページに入れない" do
+      logout(:user)
+      room = create(:room, :with_members_for, inviter: user)
+      visit edit_room_proverb_path(room, room.reload.proverb)
+      expect(page).to have_content("ログインもしくはアカウント登録してください。")
+      expect(page).to have_content("新規登録")
+    end
+  end
+
+  describe "ログインしているユーザーが部屋に入ろうとした時" do
+    scenario "ルーム作成ページに入れる" do
+      visit new_room_path
+      expect(page).to have_content("誰と一緒に作りますか？")
+    end
+
+    scenario "ルームページに入れる" do
+      room = create(:room, :with_members_for, inviter: user)
+      visit edit_room_proverb_path(room, room.reload.proverb)
+      expect(page).to have_content("この言葉で作ってもらう")
+    end
   end
 
   describe "ルーム作成が成功した時" do
