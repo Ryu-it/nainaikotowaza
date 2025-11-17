@@ -22,7 +22,7 @@ RSpec.describe "Comments", type: :system do
     scenario "ことわざ詳細ページに特定の文字がある" do
       proverb = create(:proverb)
       visit proverb_path(proverb)
-      expect(page).to have_content("コメント")
+      expect(page).to have_content("感想を届けよう")
     end
 
     scenario "投稿したユーザーには削除ボタンがある" do

@@ -1,93 +1,98 @@
-<div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950">
-  <div class="flex flex-col space-y-4 w-full max-w-2xl p-6">
-    <div class="border bg-pink-50 rounded-xl py-8 px-6 shadow-sm">
+<div class="min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 flex items-center justify-center px-4 py-10">
+  <div class="w-full max-w-4xl space-y-8">
+    <div class="bg-white/90 border border-white/30 rounded-2xl shadow-xl p-8 backdrop-blur">
+      <div class="flex flex-col gap-2 mb-6 text-center">
+        <h1 class="mb-4 text-3xl font-semibold text-slate-900">通知のお知らせ</h1>
+      </div>
 
-      <% visible_notifications = @notifications.reject { |n| n.action == "invitation" } %>
+      <% if @notifications.present? %>
+        <div class="space-y-4">
+          <% @notifications.each do |notification| %>
+            <div class="flex items-start gap-4 rounded-xl border border-rose-100 bg-gradient-to-br from-white via-rose-50/80 to-white p-5 shadow-sm">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-500">
+                <% case notification.action %>
+                <% when "follow" %>
+                  <i class="fa-solid fa-user text-xl"></i>
+                <% when "reaction" %>
+                  <i class="fa-regular fa-face-smile text-xl"></i>
+                <% when "comment" %>
+                  <i class="fa-regular fa-comment-dots text-xl"></i>
+                <% else %>
+                  <i class="fa-regular fa-bell text-xl"></i>
+                <% end %>
+              </div>
 
-      <% if visible_notifications.present? %>
-        <% visible_notifications.each do |notification| %>
-          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
-            <!-- アイコン -->
-            <% case notification.action %>
-            <% when "follow" %>
-              <i class="fa-solid fa-user text-2xl mr-3"></i>
-            <% when "reaction" %>
-              <i class="fa-regular fa-face-smile text-2xl mr-3"></i>
-            <% when "comment" %>
-              <i class="fa-regular fa-comment-dots text-2xl mr-3"></i>
-            <% else %>
-              <i class="fa-regular fa-bell text-2xl mr-3"></i>
-            <% end %>
+              <div class="flex-1 text-gray-900 text-base leading-relaxed">
+                「
+                <%= link_to notification.actor.name,
+                            user_path(notification.actor),
+                            class: "text-xl font-semibold text-slate-900 hover:text-rose-500 transition-colors" %>
+                」さんが
+                <% case notification.action %>
+                <% when "follow" %>
+                  あなたをフォローしました
 
-            <!-- テキスト -->
-            <div class="text-gray-900 text-lg leading-snug">
-              「
-              <%= link_to notification.actor.name,
-                          user_path(notification.actor),
-                          class: "font-bold text-gray-900 hover:underline" %>
-              」さんが
-              <% case notification.action %>
-              <% when "follow" %>
-                あなたをフォローしました
+                <% when "reaction" %>
+<% reactable = notification.notifiable.reactable %>
 
-              <% when "reaction" %>
-  <% reactable = notification.notifiable&.reactable %>
-
-  <%
+<%
 post_link = (
   case reactable
   when Proverb
     link_to "投稿", proverb_path(reactable),
-            class: "font-semibold text-gray-800 hover:underline"
+            class: "text-xl font-semibold text-gray-800 hover:underline"
   when Comment
     link_to "コメント",
             proverb_path(reactable.proverb, anchor: "comment-#{reactable.id}"),
-            class: "font-semibold text-gray-800 hover:underline"
+            class: "text-xl font-semibold text-gray-800 hover:underline"
   else
     "投稿"
   end
 )
 %>
 
-  <% case notification.notifiable.kind %>
-  <% when "like"  %>
-    「<%= post_link %>」に「いいね」をしました
-  <% when "laugh" %>
-    「<%= post_link %>」に「わらえる」をしました
-  <% when "deep"  %>
-    「<%= post_link %>」に「深い」をしました
-  <% else %>
-    「<%= post_link %>」にリアクションしました
+<% case notification.notifiable.kind %>
+<% when "like"  %>
+  「<%= post_link %>」に「いいね」をしました
+<% when "laugh" %>
+  「<%= post_link %>」に「わらえる」をしました
+<% when "deep"  %>
+  「<%= post_link %>」に「深い」をしました
+<% else %>
+  「<%= post_link %>」にリアクションしました
 <% end %>
 
 
-              <% when "comment" %>
-                <% comment = notification.notifiable if notification.notifiable.is_a?(Comment) %>
-                <% if comment.present? %>
-                  <% comment_link =
-                    link_to "投稿",
-                            proverb_path(comment.proverb, anchor: "comment_#{comment.id}"),
-                            class: "font-semibold text-gray-800 hover:underline"
-                  %>
-                  「<%= comment_link %>」にコメントしました
-                <% else %>
-                  コメントしました
-                <% end %>
+                <% when "comment" %>
+                  <% comment = notification.notifiable %>
+                  <% if comment.present? %>
+                    <% comment_link =
+                      link_to "投稿",
+                              proverb_path(comment.proverb, anchor: "comment_#{comment.id}"),
+                              class: "text-xl font-semibold text-gray-800 hover:underline"
+                    %>
+                    「<%= comment_link %>」にコメントしました
+                  <% else %>
+                    コメントしました
+                  <% end %>
 
-              <% else %>
-                通知が届きました
-              <% end %>
+                <% else %>
+                  通知が届きました
+                <% end %>
+              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% else %>
-        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
+        <div class="rounded-xl bg-rose-50 border border-rose-100 p-6 text-center">
+          <p class="text-lg font-semibold text-rose-500">お知らせはありません</p>
+          <p class="text-sm text-rose-300 mt-1">アクションがあるとここに表示されます</p>
+        </div>
       <% end %>
     </div>
 
-    <div class="mt-8 flex justify-center">
-    <%= paginate @notifications, window: 2 %>
+    <div class="flex justify-center">
+      <%= paginate @notifications, window: 2 %>
     </div>
-
   </div>
 </div>

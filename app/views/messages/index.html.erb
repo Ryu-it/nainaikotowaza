@@ -1,34 +1,43 @@
-<div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950">
-  <div class="flex flex-col space-y-4 w-full max-w-2xl p-6">
-    <div class="border bg-pink-50 rounded-xl py-8 px-6 shadow-sm">
+<div class="min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 flex items-center justify-center px-4 py-10">
+  <div class="w-full max-w-4xl space-y-8">
+    <div class="bg-white/90 border border-white/30 rounded-2xl shadow-xl p-8 backdrop-blur">
+      <div class="flex flex-col gap-2 mb-6 text-center">
+        <h1 class="mb-4 text-3xl font-semibold text-slate-900">メッセージのお知らせ</h1>
+      </div>
 
       <% if @notifications.present? %>
-        <% @notifications.each do |notification| %>
-          <% next unless notification.action == "invitation" %>
+        <div class="space-y-4">
+          <% @notifications.each do |notification| %>
 
-          <div class="flex items-center bg-white rounded-lg p-4 mb-3 shadow-sm">
-            <i class="fa-regular fa-envelope text-2xl mr-3"></i>
-
-            <div class="text-gray-900 text-lg leading-snug">
-              「
-              <%= link_to notification.actor.name,
-                          user_path(notification.actor),
-                          class: "font-bold text-gray-900 hover:underline" %>
-              」さんがあなたを招待しました
-              <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %> <%# 特定のinvitationモデルのレコード一件にトークンを付与 %>
-              <%= link_to "部屋に参加する", accept_invitation_url(token: token),
-                          class: "ml-3 font-semibold text-blue-600 hover:underline" %>
+            <div class="flex items-start gap-4 rounded-xl border border-rose-100 bg-gradient-to-br from-white via-rose-50/80 to-white p-5 shadow-sm">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-500">
+                <i class="fa-regular fa-envelope text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-base text-gray-800 leading-relaxed">
+                  「
+                  <%= link_to notification.actor.name,
+                              user_path(notification.actor),
+                              class: "text-xl font-semibold text-gray-900 hover:text-gray-600 transition-colors" %>
+                  」さんがあなたを招待しました
+                </p>
+                <% token = notification.notifiable.signed_id(purpose: :invite, expires_in: 3.days) %> <%# 特定のinvitationモデルのレコード一件にトークンを付与 %>
+                <%= link_to "部屋に参加する", accept_invitation_url(token: token),
+                            class: "text-xl inline-flex items-center mt-3 font-medium text-blue-600 hover:text-blue-700" %>
+              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% else %>
-        <p class="text-xl font-bold text-center text-gray-700">お知らせはありません</p>
+        <div class="rounded-xl bg-rose-50 border border-rose-100 p-6 text-center">
+          <p class="text-lg font-semibold text-rose-500">お知らせはありません</p>
+          <p class="text-sm text-rose-300 mt-1">新しい招待が届くとここに表示されます</p>
+        </div>
       <% end %>
     </div>
 
-    <div class="mt-8 flex justify-center">
-    <%= paginate @notifications, window: 2 %>
+    <div class="flex justify-center">
+      <%= paginate @notifications, window: 2 %>
     </div>
-
   </div>
 </div>

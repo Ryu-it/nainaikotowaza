@@ -1,9 +1,17 @@
 <%= render "shared/flash_message" %>
-<div class="min-h-screen w-full overflow-hidden bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 grid place-items-center"
+<div class="min-h-screen w-full bg-gradient-to-b from-slate-900 via-rose-950/80 to-slate-950 py-16 px-4"
      data-controller="ai">
+  <div class="max-w-5xl mx-auto space-y-20">
+    <div class="text-center text-white space-y-4">
+      <h1 class="text-4xl md:text-5xl font-bold">世界にひとつだけのことわざを投稿しよう</h1>
+      <p class="text-base md:text-lg text-white/80">
+        2つの言葉から、あなただけの新しいことわざを生み出せます。
+        AIの助けで、ひらめきがすぐ形になります。
+      </p>
+    </div>
 
-  <turbo-frame id="proverb_form" target="_top" class="w-full flex justify-center">
-    <%= render "proverbs/form", proverb: @proverb %>
-  </turbo-frame>
-
+    <turbo-frame id="proverb_form" target="_top" class="w-full flex justify-center">
+      <%= render "proverbs/form", proverb: @proverb %>
+    </turbo-frame>
+  </div>
 </div>

@@ -25,6 +25,7 @@ class ProverbsController < ApplicationController
   def index
     @q = Proverb.ransack(params[:q])
     @proverbs = @q.result(distinct: true)
+                  .titled
                   .includes(proverb_contributors: :user)
                   .order(created_at: :desc)
                   .page(params[:page]).per(12)
