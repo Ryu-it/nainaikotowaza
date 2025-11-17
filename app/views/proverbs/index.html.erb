@@ -1,84 +1,107 @@
 <%= render "shared/flash_message" %>
-<div class="bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 min-h-screen py-12 px-8">
-  <%= search_form_for @q, url: proverbs_path, method: :get do |f| %>
-    <div class="mb-20 max-w-3xl mx-auto">
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <%= f.search_field :title_or_meaning_or_users_name_cont,
-                             placeholder: "タイトル・意味・ユーザー名で検索",
-                             class: "flex-1 border border-white/30 bg-white/80 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 transition" %>
-          <%= f.submit "検索", class: "whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl px-6 py-3 transition" %>
+<div class="bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 min-h-screen py-16 px-4">
+  <div class="max-w-6xl mx-auto space-y-12">
+    <div class="text-center text-white space-y-4">
+      <h1 class="text-4xl md:text-5xl font-bold">みんなのことわざを覗いてみよう</h1>
+      <p class="text-base md:text-lg text-white/85">
+        物語をそっと覗いてみてください。
+        共鳴した相手をフォローして、次の“言葉づくり”を一緒に楽しみましょう。
+      </p>
+    </div>
+
+    <%= search_form_for @q, url: proverbs_path, method: :get do |f| %>
+      <div class="bg-white/10 border border-white/20 rounded-3xl p-6 md:p-8 backdrop-blur">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/70"></i>
+            <%= f.search_field :title_or_meaning_or_users_name_cont,
+                               placeholder: "タイトル・意味・ユーザー名で検索",
+                               class: "w-full border border-white/30 bg-white/90 text-gray-900 rounded-2xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 transition" %>
+          </div>
+          <%= f.submit "検索",
+                       class: "w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-2xl px-8 py-3 transition" %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-    <% @proverbs.each do |proverb| %>
-    <%# タイトルが空なら表示させない %>
-    <% next if proverb.title.blank? %>
-      <div class="space-y-3">
-        <%# 投稿をクリックしたときに詳細のurlに飛ぶように %>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+      <% @proverbs.each do |proverb| %>
+        <% primary_contributor = proverb.proverb_contributors.first %>
+        <% secondary_contributor = proverb.proverb_contributors.second %>
+
         <div
           data-controller="redirect"
           data-redirect-url-value="<%= proverb_path(proverb) %>"
           data-action="click->redirect#navigate"
           role="button"
-          class="cursor-pointer"
+          class="cursor-pointer flex"
           data-turbo="false">
-          <div class="bg-white rounded-xl shadow-md p-8 flex flex-col items-center justify-between">
-            <!-- ユーザー情報 -->
-            <% primary_contributor = proverb.proverb_contributors.first %>
-            <% secondary_contributor = proverb.proverb_contributors.second %>
-            <div class="flex items-center justify-center space-x-4 text-gray-900 mb-3 w-full">
-              <% if primary_contributor&.user.present? %>
-                <% user = primary_contributor.user %>
-                <div class="flex items-center space-x-2">
-                  <%= link_to user_path(user), class: "flex items-center space-x-2 hover:opacity-80 transition" do %>
-                    <% if user.avatar.attached? %>
-                      <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
-                                    class: "h-10 w-10 rounded-full object-cover border border-rose-100 shadow-sm" %>
-                    <% else %>
-                      <div class="h-10 w-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs font-semibold border border-rose-200 shadow-sm">
-                        <%= (user.name.presence || "?").first.upcase %>
-                      </div>
-                    <% end %>
-                    <span class="font-medium"><%= user.name %></span>
-                  <% end %>
-                </div>
-              <% end %>
-
-              <% if secondary_contributor&.user.present? %>
-                <span class="text-gray-500 text-base">×</span>
-                <% user = secondary_contributor.user %>
-                <div class="flex items-center space-x-2">
-                  <%= link_to user_path(user), class: "flex items-center space-x-2 hover:opacity-80 transition" do %>
-                    <% if user.avatar.attached? %>
-                      <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
-                                    class: "h-10 w-10 rounded-full object-cover border border-rose-100 shadow-sm" %>
-                    <% else %>
-                      <div class="h-10 w-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs font-semibold border border-rose-200 shadow-sm">
-                        <%= (user.name.presence || "?").first.upcase %>
-                      </div>
-                    <% end %>
-                    <span class="font-medium"><%= user.name %></span>
-                  <% end %>
-                </div>
-              <% end %>
+          <div class="bg-white/95 rounded-3xl shadow-2xl p-8 space-y-6 flex flex-col w-full transition hover:-translate-y-1 hover:shadow-rose-200/60">
+            <div class="flex items-center justify-between text-xs font-semibold tracking-[0.4em] text-slate-400 uppercase">
+              <span>Proverb</span>
+              <span><%= proverb.created_at.strftime("%Y.%m.%d") %></span>
             </div>
-            <!-- ことわざタイトル -->
-            <div class="border rounded-xl px-4 py-3 text-center w-full">
-  <p class="font-semibold text-gray-900 line-clamp-2 break-words">
-    <%= proverb.title %>
-  </p>
-</div>
+
+            <div class="text-center space-y-2">
+              <p class="text-sm text-slate-500">組み合わせ</p>
+              <p class="text-2xl font-bold text-slate-900">
+                <%= [proverb.word1, proverb.word2].compact_blank.join(" × ") %>
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <div class="border border-slate-200 rounded-2xl px-4 py-3 text-center bg-slate-50">
+                <p class="font-semibold text-slate-900 text-lg line-clamp-2 break-words">
+                  <%= proverb.title %>
+                </p>
+              </div>
+              <p class="text-sm text-slate-600 line-clamp-3">
+                <%= proverb.meaning.presence || "意味がまだ入力されていません。" %>
+              </p>
+            </div>
+
+            <div class="mt-auto border-t border-slate-100 pt-5">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.3em] mb-3">Contributors</p>
+              <div class="flex items-center gap-4">
+                <% if primary_contributor&.user.present? %>
+                  <% user = primary_contributor.user %>
+                  <%= link_to user_path(user), class: "flex items-center gap-3 hover:opacity-80 transition" do %>
+                    <% if user.avatar.attached? %>
+                      <%= image_tag user.avatar.variant(resize_to_fill: [36, 36]),
+                                    class: "h-9 w-9 rounded-full object-cover border border-rose-100 shadow" %>
+                    <% else %>
+                      <div class="h-9 w-9 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs font-semibold border border-rose-200 shadow">
+                        <%= (user.name.presence || "?").first.upcase %>
+                      </div>
+                    <% end %>
+                    <div class="text-base text-slate-900 font-semibold tracking-wide"><%= user.name %></div>
+                  <% end %>
+                <% end %>
+
+                <% if secondary_contributor&.user.present? %>
+                  <span class="text-slate-300 font-bold">×</span>
+                  <% user = secondary_contributor.user %>
+                  <%= link_to user_path(user), class: "flex items-center gap-3 hover:opacity-80 transition" do %>
+                    <% if user.avatar.attached? %>
+                      <%= image_tag user.avatar.variant(resize_to_fill: [36, 36]),
+                                    class: "h-9 w-9 rounded-full object-cover border border-rose-100 shadow" %>
+                    <% else %>
+                      <div class="h-9 w-9 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs font-semibold border border-rose-200 shadow">
+                        <%= (user.name.presence || "?").first.upcase %>
+                      </div>
+                    <% end %>
+                    <div class="text-base text-slate-900 font-semibold tracking-wide"><%= user.name %></div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
 
-  <div class="mt-8 flex justify-center">
-    <%= paginate @proverbs, window: 2 %>
+    <div class="flex justify-center pt-4">
+      <%= paginate @proverbs, window: 2 %>
+    </div>
   </div>
 </div>

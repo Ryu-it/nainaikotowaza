@@ -1,118 +1,80 @@
-<!-- 🌸 左：フォーム -->
-<%= form_with(
-      model: [@room, @proverb],
-      class: "w-full max-w-full mx-auto px-4 sm:px-6 md:px-8 md:flex-1 md:col-start-2 justify-self-center"
-    ) do |f| %>
-  <div class="w-full max-w-full sm:max-w-[520px] md:max-w-[700px] mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-12 space-y-6 sm:space-y-8 text-center">
-
-    <!-- 上段：word1/word2（グレー・編集不可・hoverで案内・未入力時は「まだありません」） -->
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
-      <!-- word1 -->
-      <div class="relative group w-full sm:w-auto">
-        <div
-          class="w-full sm:w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed"
-          <span class="text-gray-800">
-            <%= @proverb.word1.presence || "まだありません" %>
-          </span>
-        </div>
-        <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
-                    bg-black/60 text-white text-sm font-medium rounded-xl
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          入力できません（言葉提供者が入力します）
-        </div>
-      </div>
-
-      <span class="text-2xl font-bold text-gray-700 select-none my-2 sm:my-0">✕</span>
-
-      <!-- word2 -->
-      <div class="relative group w-full sm:w-auto">
-        <div
-          class="w-full sm:w-[140px] py-3 px-4 rounded-xl border border-gray-300 bg-gray-200 text-center font-semibold select-none cursor-not-allowed">
-          <span class="text-gray-800">
-            <%= @proverb.word2.presence || "まだありません" %>
-          </span>
-        </div>
-        <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
-                    bg-black/60 text-white text-sm font-medium rounded-xl
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          入力できません（言葉提供者が入力します）
-        </div>
-      </div>
+<div class="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8 relative">
+  <div class="bg-white/95 rounded-3xl shadow-2xl p-8 md:p-12 space-y-10 text-center">
+    <div class="space-y-3">
+      <p class="text-xs font-semibold uppercase tracking-[0.4em] text-rose-400">Proverb Maker</p>
+      <h2 class="text-3xl font-bold text-slate-900">ことわざを仕上げよう</h2>
+      <p class="text-sm text-slate-500">送られてきた 2 つの言葉から、タイトル・意味・用例を紡いでください。</p>
     </div>
 
-    <div class="relative group mx-auto w-full sm:w-48">
-      <div class="bg-gray-300/70 w-full sm:w-48 border border-gray-400 rounded-xl py-3 px-6 text-center text-lg font-semibold cursor-not-allowed select-none"> <!-- CHANGED -->
-        <span class="text-gray-800">投稿</span>
+    <div class="grid sm:grid-cols-[1fr_auto_1fr] gap-6 items-center">
+      <% [[@proverb.word1, "Word 1"], [@proverb.word2, "Word 2"]].each_with_index do |(word, label), index| %>
+        <div class="relative group space-y-2">
+          <label class="text-xs uppercase tracking-[0.3em] text-slate-400"><%= label %></label>
+          <div class="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-slate-50 text-center font-semibold select-none">
+            <%= word.presence || "まだありません" %>
+          </div>
+          <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+            相手が入力します
+          </div>
+        </div>
+        <% if index.zero? %>
+          <span class="text-3xl font-black text-rose-400 select-none text-center">✕</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="space-y-4 text-left">
+      <div>
+        <label class="text-xs uppercase tracking-[0.3em] text-slate-400">タイトル</label>
+        <%= f.text_field :title,
+              placeholder: "ないないことわざ",
+              class: "w-full py-3 px-6 rounded-2xl border border-slate-200 bg-white text-center text-lg font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
       </div>
-      <div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center
-                  bg-black/60 text-white text-sm font-medium rounded-xl
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        入力できません（招待した相手が入力します）
+
+      <div>
+        <label class="text-xs uppercase tracking-[0.3em] text-slate-400">意味</label>
+        <%= f.text_area :meaning,
+              rows: 3,
+              placeholder: "意味",
+              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+      </div>
+
+      <div>
+        <label class="text-xs uppercase tracking-[0.3em] text-slate-400">用例</label>
+        <%= f.text_area :example,
+              rows: 4,
+              placeholder: "用例",
+              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
       </div>
     </div>
 
-    <!-- 中段：編集フォーム（白） -->
-    <!-- タイトル -->
-    <div>
-      <%= f.text_field :title,
-            placeholder: "ないないことわざ",
-            class: "w-full py-3 px-6 rounded-xl border border-gray-300 bg-white text-center text-lg font-semibold shadow-sm" %>
-    </div>
-
-    <!-- 意味 -->
-    <div>
-      <%= f.text_area :meaning,
-            rows: 3,
-            placeholder: "意味",
-            class: "w-full py-4 px-6 rounded-xl border border-gray-300 bg-white text-center text-base leading-relaxed shadow-sm" %>
-    </div>
-
-    <!-- 用例 -->
-    <div>
-      <%= f.text_area :example,
-            rows: 4,
-            placeholder: "用例",
-            class: "w-full py-4 px-6 rounded-xl border border-gray-300 bg-white text-center text-base leading-relaxed shadow-sm" %>
-    </div>
-
-    <!-- 送信ボタン（青） -->
-    <div class="pt-2">
+    <div class="pt-2 flex flex-col items-center gap-4">
       <%= f.hidden_field :status, value: "completed" %>
       <%= f.submit "投稿",
-            class: "w-full sm:w-40 mx-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow transition" %>
+            class: "w-full sm:w-56 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-2xl shadow-lg transition" %>
     </div>
-
   </div>
-<% end %>
 
-
-
-<!-- 🌸 右：使い方（アコーディオン） -->
-<aside
-  class="w-full mt-6 md:mt-0 md:w-64 md:absolute md:top-8 md:left-1/2 md:translate-x-[420px]"  data-controller="accordion">
-  <div class="text-center md:text-left space-y-3">
+  <aside class="bg-white/95 rounded-3xl shadow-xl p-6 space-y-4 self-start" data-controller="accordion">
     <div class="text-center space-y-2">
-      <p class="font-semibold text-gray-800">一緒に作っているユーザー</p>
-      <div class="border rounded-md px-4 py-1 inline-block bg-white shadow-sm">
+      <p class="text-sm font-semibold text-slate-600">一緒に作っているユーザー</p>
+      <div class="border rounded-full px-5 py-1 inline-block bg-slate-50 text-sm font-medium text-slate-800 shadow-sm">
         <%= @room.invitation.inviter.name %>
       </div>
     </div>
 
-    <button
-      data-action="click->accordion#toggle"
-      class="block mx-auto md:mx-0 text-gray-700 font-semibold hover:text-blue-600 transition cursor-pointer">
+    <button type ="button"
+            data-action="click->accordion#toggle"
+            class="w-full bg-slate-900 text-white rounded-2xl py-2 text-sm font-semibold hover:bg-slate-800 transition">
       使い方をみる
     </button>
 
-    <div
-      data-accordion-target="content"
-      class="mt-2 text-sm text-gray-600 bg-white border rounded-xl p-4 shadow-sm transition-all duration-300"
-      hidden
-    >
-      <p><strong>Step1.</strong><br>あなたが好きな言葉を選ぶ（白い部分）</p>
-      <p class="mt-2"><strong>Step2.</strong><br>「この言葉で作ってもらう」ボタンをクリック</p>
-      <p class="mt-2"><strong>Step3.</strong><br>招待したユーザーがことわざを作る。部屋を作ったときに招待の通知が相手に伝わっています。</p>
+    <div data-accordion-target="content"
+         class="space-y-3 text-sm text-slate-600 bg-slate-50 border border-slate-100 rounded-2xl p-4 shadow-sm transition-all duration-300"
+         hidden>
+      <p><strong>Step1.</strong> 相手が送った 2 つの言葉を確認します。</p>
+      <p><strong>Step2.</strong> タイトル・意味・用例を入力します。</p>
+      <p><strong>Step3.</strong> 投稿ボタンで完成。ことわざが公開されます。</p>
     </div>
-  </div>
-</aside>
-
+  </aside>
+</div>

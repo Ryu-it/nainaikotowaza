@@ -1,48 +1,54 @@
-<div class="flex flex-col items-center min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 py-12">
-  <!-- 検索フォーム -->
-  <div class="w-full max-w-md mb-8">
-    <%= search_form_for @q, url: users_path, method: :get do |f| %>
-      <div class="relative">
-        <!-- 検索アイコン -->
-        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg"></i>
-        <%= f.search_field :name_cont,
-              class: "w-full rounded-xl border border-gray-300 bg-white px-12 py-3 text-lg text-gray-900 shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-300",
-              placeholder: "ユーザーを探す" %>
-        <%= f.submit "検索", class: "sr-only" %>
-      </div>
-    <% end %>
-  </div>
-  <!-- 一覧カード（白いパネル） -->
-  <div class="w-full max-w-2xl bg-white rounded-xl border shadow-md px-8 py-10">
-    <div class="space-y-8">
-      <% @users.each do |user| %>
-        <% next if user == current_user %> <!-- 自分は表示しない -->
+<div class="bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 min-h-screen py-16 px-4">
+  <div class="max-w-5xl mx-auto space-y-10">
+    <div class="text-center text-white space-y-3">
+      <h1 class="text-4xl md:text-5xl font-bold">気になるユーザーをフォローしよう</h1>
+      <p class="text-base md:text-lg text-white/85">気になる人がいたらぜひ声をかけてみてください。</p>
+    </div>
 
-        <div class="flex items-center justify-between">
-          <!-- 左：アイコン + 名前 -->
-          <%= link_to user_path(user), class: "flex items-center gap-3 hover:opacity-80 transition" do %>
+    <div class="bg-white/10 border border-white/20 rounded-3xl p-6 md:p-8 backdrop-blur">
+      <%= search_form_for @q, url: users_path, method: :get do |f| %>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-white/70 text-lg"></i>
+            <%= f.search_field :name_cont,
+                  class: "w-full rounded-2xl border border-white/40 bg-white/95 px-14 py-3 text-lg text-gray-900 shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-300",
+                  placeholder: "ユーザーを探す" %>
+          </div>
+          <%= f.submit "検索",
+                      class: "w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-2xl px-8 py-3 transition" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="bg-white/95 rounded-3xl shadow-2xl border border-rose-50 p-6 md:p-10 space-y-4">
+      <% @users.each do |user| %>
+        <% next if user == current_user %>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-100 rounded-2xl px-4 py-4 hover:border-rose-200 transition">
+          <%= link_to user_path(user), class: "flex items-center gap-4 hover:opacity-90 transition" do %>
             <% if user.avatar.attached? %>
-              <%= image_tag user.avatar.variant(resize_to_fill: [40, 40]),
-                            class: "h-10 w-10 rounded-full object-cover border border-rose-100 shadow-sm" %>
+              <%= image_tag user.avatar.variant(resize_to_fill: [48, 48]),
+                            class: "h-12 w-12 rounded-full object-cover border border-rose-100 shadow" %>
             <% else %>
-              <div class="h-10 w-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-semibold border border-rose-200 shadow-sm">
+              <div class="h-12 w-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-base font-semibold border border-rose-200 shadow">
                 <%= (user.name.presence || "?").first.upcase %>
               </div>
             <% end %>
-            <p class="text-base sm:text-lg text-gray-900 font-medium"><%= user.name %></p>
+            <div>
+              <p class="text-lg font-semibold text-slate-900"><%= user.name %></p>
+            </div>
           <% end %>
 
-          <!-- 右：フォローボタン（青/グレー） -->
           <% if current_user.following_users.include?(user) %>
             <%= link_to "フォローを外す",
                         user_follows_path(user.id),
                         data: { turbo_method: :delete },
-                        class: "px-4 py-1 border border-gray-400 bg-gray-200 text-sm text-gray-800 rounded-md hover:bg-gray-300 transition" %>
+                        class: "inline-flex justify-center px-5 py-2 border border-slate-300 bg-slate-100 text-sm font-semibold text-slate-700 rounded-2xl hover:bg-slate-200 transition" %>
           <% else %>
             <%= link_to "フォローする",
                         user_follows_path(user.id),
                         data: { turbo_method: :post },
-                        class: "px-4 py-1 border border-blue-800 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition" %>
+                        class: "inline-flex justify-center px-5 py-2 border border-blue-500 bg-blue-500 text-sm font-semibold text-white rounded-2xl hover:bg-blue-600 transition" %>
           <% end %>
         </div>
       <% end %>
