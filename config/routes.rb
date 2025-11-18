@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
   resources :messages, only: %i[index]
 
+  resources :rankings, only: %i[index]
+
   # スリープ対策のルーティング
   get "health", to: "health#show"
 
