@@ -20,6 +20,20 @@ class Proverb < ApplicationRecord
   scope :titled, -> { where.not(title: [ nil, "" ]) }
   scope :recent, -> { order(created_at: :desc) }
 
+  # 指定したリアクション数でランキング付けする
+  scope :ranked_by, ->(kind) {
+  kind_value = Reaction.kinds[kind]
+
+  left_joins(:reactions)
+    .group("proverbs.id")
+    .select(
+      "proverbs.*",
+      "COUNT(CASE WHEN reactions.kind = #{kind_value} THEN 1 END) AS reactions_count"
+    )
+    .order("reactions_count DESC")
+    .limit(10)
+}
+
   # link_to で使うために to_param をオーバーライド
   def to_param
     public_uid
