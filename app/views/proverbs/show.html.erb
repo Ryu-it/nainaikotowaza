@@ -72,7 +72,7 @@
             <%= render "reactions/laugh", reactable: @proverb %>
             <%= render "reactions/deep", reactable: @proverb %>
           </div>
-          <div class="text-slate-500">
+          <div class="text-slate-500 flex items-center gap-6">
             <% prepare_meta_tags @proverb %>
             <% twitter_params = { url: proverb_url(@proverb), text: "#{@proverb.title}\n#ないないことわざ" } %>
             <% twitter_share_url = "https://twitter.com/intent/tweet?#{URI.encode_www_form(twitter_params)}" %>
@@ -80,9 +80,25 @@
                         target: '_blank',
                         rel: 'noopener',
                         data: { toggle: "tooltip", placement: "bottom" },
-                        title: "Xでシェア" do %>
+                        title: "Xでシェア",
+                        class: "flex items-center justify-center" do %>
               <i class="fa-brands fa-square-x-twitter fa-2xl"></i>
             <% end %>
+
+            <div class="line-share-button flex justify-center items-center">
+              <div class="line-it-button" 
+                   data-lang="ja" 
+                   data-type="share-a" 
+                   data-env="REAL"
+                   data-url="<%= proverb_url(@proverb) %>" 
+                   data-text="<%= @proverb.title %>" 
+                   data-color="default" 
+                   data-size="large" 
+                   data-count="true" 
+                   data-ver="3" 
+                   style="display: none;">
+              </div>
+            </div>
           </div>
         </div>
       </div>
