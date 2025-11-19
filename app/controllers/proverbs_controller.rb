@@ -23,10 +23,23 @@ class ProverbsController < ApplicationController
   end
 
   def index
+    @following_only = params[:following] == "true"
     @q = Proverb.ransack(params[:q])
-    @proverbs = @q.result(distinct: true)
-                  .titled
-                  .includes(proverb_contributors: :user)
+
+    base_scope = @q.result(distinct: true)
+                   .titled
+                   .includes(proverb_contributors: :user)
+
+    # フォロー中ユーザーのことわざだけに絞る
+    if @following_only && user_signed_in?
+    following_user_ids = current_user.following_users.ids
+
+    base_scope = base_scope.joins(proverb_contributors: :user)
+                           .where(users: { id: following_user_ids })
+                           .distinct
+    end
+
+    @proverbs = base_scope
                   .order(created_at: :desc)
                   .page(params[:page]).per(12)
   end
