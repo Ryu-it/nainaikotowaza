@@ -11,6 +11,7 @@
 
     <%= search_form_for @q, url: proverbs_path, method: :get do |f| %>
       <div class="bg-white/10 border border-white/20 rounded-3xl p-6 md:p-8 backdrop-blur">
+        <%= hidden_field_tag :following, "true" if @following_only %>
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div class="relative flex-1">
             <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/70"></i>
@@ -21,6 +22,22 @@
           <%= f.submit "検索",
                        class: "w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-2xl px-8 py-3 transition" %>
         </div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <div class="flex justify-end">
+      <% query_params = request.query_parameters.deep_dup %>
+
+      <% target_params = @following_only ?
+                        query_params.except("following") :
+                        query_params.merge("following" => "true") %>
+
+      <% label = @following_only ? "すべてのことわざを見る" : "フォロワーのみ表示する" %>
+
+      <%= link_to label,
+                proverbs_path(target_params),
+                class: "inline-flex items-center gap-2 rounded-2xl border px-5 py-2 text-sm font-semibold transition #{@following_only ? "bg-rose-500/90 text-white border-rose-400 shadow-lg shadow-rose-500/30" : "bg-white/20 text-white border-white/30 hover:bg-white/30"}" %>
       </div>
     <% end %>
 
