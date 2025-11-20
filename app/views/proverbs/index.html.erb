@@ -112,6 +112,10 @@
                 <% end %>
               </div>
             </div>
+            <div class="mt-4 flex items-center justify-end gap-6 text-slate-500" data-action="click->redirect#stop">
+              <%= render "reactions/laugh", reactable: proverb %>
+              <%= render "reactions/deep", reactable: proverb %>
+            </div>
           </div>
         </div>
       <% end %>
