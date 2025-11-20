@@ -21,8 +21,8 @@ class RoomsController < ApplicationController
     end
 
     unless current_user.following?(user)
-      flash.now[:alert] = "フォローしているユーザーのみです"
-      return render :new, status: :unprocessable_entity
+      flash[:alert] = "フォローしているユーザーのみです"
+      return redirect_back fallback_location: new_room_path
     end
 
     @room, @proverb, @invitation =
