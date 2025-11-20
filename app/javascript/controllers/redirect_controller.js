@@ -11,4 +11,8 @@ export default class extends Controller {
       window.location.href = this.urlValue
     }
   }
+
+  stop(event) {
+    event.stopPropagation()
+  }
 }
