@@ -28,41 +28,20 @@
                         edit_user_registration_path,
                         class: "inline-block rounded-xl border border-rose-200 bg-rose-50 px-6 py-2 text-sm font-medium text-rose-700 hover:bg-rose-100 transition" %>
           <% elsif current_user.present? %>
-            <% if current_user.following?(@user) %>
-              <%= link_to "フォローを外す",
-                          user_follows_path(@user),
-                          data: { turbo_method: :delete },
-                          class: "inline-block rounded-xl border border-gray-400 bg-gray-200 px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 transition" %>
-            <% else %>
-              <%= link_to "フォローする",
-                          user_follows_path(@user),
-                          data: { turbo_method: :post },
-                          class: "inline-block rounded-xl border border-blue-800 bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 transition" %>
-            <% end %>
-          <% end %>
-
-          <% if user_signed_in? && current_user != @user %>
-            <%= link_to "この人と一緒にことわざを作る",
-                        rooms_path(room: { user_id: @user.id }),
-                        data: { turbo_method: :post },
-                        class: "inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-emerald-500 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-400 transition" %>
+            <%= render "shared/follow_button", user: @user %>
           <% end %>
         </div>
       </div>
 
-      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:max-w-md">
-        <%= link_to following_user_path(@user),
-                    class: "flex flex-col justify-between rounded-xl border border-rose-200 bg-rose-50 px-6 py-4 hover:bg-rose-100 transition" do %>
-          <span class="text-xs text-gray-500">フォロー中</span>
-          <span class="mt-1 text-2xl font-semibold text-gray-900"><%= @following_count %></span>
-        <% end %>
+      <%= render "users/follow_counts", user: @user %>
 
-        <%= link_to followers_user_path(@user),
-                    class: "flex flex-col justify-between rounded-xl border border-rose-200 bg-rose-50 px-6 py-4 hover:bg-rose-100 transition" do %>
-          <span class="text-xs text-gray-500">フォロワー</span>
-          <span class="mt-1 text-2xl font-semibold text-gray-900"><%= @followers_count %></span>
-        <% end %>
-      </div>
+      <% if user_signed_in? && current_user != @user %>
+            <%= link_to "この人と一緒にことわざを作る",
+                        rooms_path(room: { user_id: @user.id }),
+                        data: { turbo_method: :post },
+                        class: "inline-flex mt-4 rounded-xl border border-emerald-600 bg-emerald-500 px-6 py-2 font-semibold text-white hover:bg-emerald-400 transition" %>
+          <% end %>
+          
     </section>
 
     <!-- ことわざリスト -->
