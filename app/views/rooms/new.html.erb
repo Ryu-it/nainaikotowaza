@@ -59,17 +59,7 @@
 
               <!-- 右：フォローボタン（このクリックは選択に反応しない） -->
               <div data-radio-select-ignore>
-                <% if current_user.following_users.include?(user) %>
-                  <%= link_to "フォローを外す",
-                              user_follows_path(user.id),
-                              data: { turbo_method: :delete },
-                              class: "px-4 py-1.5 border border-gray-300 bg-gray-100 text-sm text-gray-700 rounded-full hover:bg-gray-200 transition" %>
-                <% else %>
-                  <%= link_to "フォローする",
-                              user_follows_path(user.id),
-                              data: { turbo_method: :post },
-                              class: "px-4 py-1.5 border border-rose-200 bg-rose-500 text-white text-sm rounded-full hover:bg-rose-600 transition" %>
-                <% end %>
+                <%= render "shared/follow_button", user: user %>
               </div>
             </div>
           <% end %>

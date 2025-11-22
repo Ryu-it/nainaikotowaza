@@ -36,17 +36,7 @@
                 <% end %>
 
                 <% if current_user != user %>
-                  <% if current_user.following?(user) %>
-                    <%= link_to "フォローを外す",
-                                user_follows_path(user),
-                                data: { turbo_method: :delete },
-                                class: "inline-flex items-center justify-center rounded-lg border border-gray-400 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 transition" %>
-                  <% else %>
-                    <%= link_to "フォローする",
-                                user_follows_path(user),
-                                data: { turbo_method: :post },
-                                class: "inline-flex items-center justify-center rounded-lg border border-blue-800 bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition" %>
-                  <% end %>
+                  <%= render "shared/follow_button", user: user %>
                 <% end %>
               </div>
             <% end %>
