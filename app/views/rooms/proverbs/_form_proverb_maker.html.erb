@@ -6,29 +6,49 @@
       <p class="text-sm text-slate-500">送られてきた 2 つの言葉から、タイトル・意味・用例を紡いでください。</p>
     </div>
 
+    <!-- ✅ Word1 / Word2 のライブプレビュー（ループなし） -->
     <div class="grid sm:grid-cols-[1fr_auto_1fr] gap-6 items-center">
-      <% [[@proverb.word1, "Word 1"], [@proverb.word2, "Word 2"]].each_with_index do |(word, label), index| %>
-        <div class="relative group space-y-2">
-          <label class="text-xs uppercase tracking-[0.3em] text-slate-400"><%= label %></label>
-          <div class="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-slate-50 text-center font-semibold select-none">
-            <%= word.presence || "まだありません" %>
-          </div>
-          <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
-            相手が入力します
-          </div>
+      <!-- Word 1 -->
+      <div class="relative group space-y-2">
+        <label class="text-xs uppercase tracking-[0.3em] text-slate-400">Word 1</label>
+        <div class="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-slate-50 text-center font-semibold select-none">
+          <span data-typing-target="word1Preview">
+            <%= @proverb.word1.presence || "まだありません" %>
+          </span>
         </div>
-        <% if index.zero? %>
-          <span class="text-3xl font-black text-rose-400 select-none text-center">✕</span>
-        <% end %>
-      <% end %>
+        <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+          相手が入力します
+        </div>
+      </div>
+
+      <!-- ✕ -->
+      <span class="text-3xl font-black text-rose-400 select-none text-center">✕</span>
+
+      <!-- Word 2 -->
+      <div class="relative group space-y-2">
+        <label class="text-xs uppercase tracking-[0.3em] text-slate-400">Word 2</label>
+        <div class="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-slate-50 text-center font-semibold select-none">
+          <span data-typing-target="word2Preview">
+            <%= @proverb.word2.presence  %>
+          </span>
+        </div>
+        <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+          相手が入力します
+        </div>
+      </div>
     </div>
 
+    <!-- ✅ タイトル / 意味 / 用例（入力＋ライブ送信） -->
     <div class="space-y-4 text-left">
       <div>
         <label class="text-xs uppercase tracking-[0.3em] text-slate-400">タイトル</label>
         <%= f.text_field :title,
               placeholder: "ないないことわざ",
-              class: "w-full py-3 px-6 rounded-2xl border border-slate-200 bg-white text-center text-lg font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+              class: "w-full py-3 px-6 rounded-2xl border border-slate-200 bg-white text-center text-lg font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200",
+              data: {
+                typing_target: "title",
+                action: "input->typing#syncFromForm"
+              } %>
       </div>
 
       <div>
@@ -36,7 +56,11 @@
         <%= f.text_area :meaning,
               rows: 3,
               placeholder: "意味",
-              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200",
+              data: {
+                typing_target: "meaning",
+                action: "input->typing#syncFromForm"
+              } %>
       </div>
 
       <div>
@@ -44,7 +68,11 @@
         <%= f.text_area :example,
               rows: 4,
               placeholder: "用例",
-              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+              class: "w-full py-4 px-6 rounded-2xl border border-slate-200 bg-white text-base leading-relaxed shadow-sm focus:border-rose-400 focus:ring-rose-200",
+              data: {
+                typing_target: "example",
+                action: "input->typing#syncFromForm"
+              } %>
       </div>
     </div>
 
@@ -78,3 +106,4 @@
     </div>
   </aside>
 </div>
+

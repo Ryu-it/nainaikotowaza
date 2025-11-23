@@ -22,6 +22,9 @@ application.register("motion", MotionController)
 import PreviewsController from "./previews_controller"
 application.register("previews", PreviewsController)
 
+import ProverbTitlesController from "./proverb_titles_controller"
+application.register("proverb-titles", ProverbTitlesController)
+
 import RadioSelectController from "./radio_select_controller"
 application.register("radio-select", RadioSelectController)
 
@@ -34,5 +37,5 @@ application.register("redirect", RedirectController)
 import RevealController from "./reveal_controller"
 application.register("reveal", RevealController)
 
-import ProverbTitlesController from "./proverb_titles_controller"
-application.register("proverb-titles", ProverbTitlesController)
+import TypingController from "./typing_controller"
+application.register("typing", TypingController)

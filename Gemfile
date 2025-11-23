@@ -102,3 +102,6 @@ gem "kaminari"
 # 動的OGP画像を生成するためのgem
 gem "mini_magick"
 gem "meta-tags"
+
+# redisを利用するためのgem
+gem "redis", "~> 5.0"
