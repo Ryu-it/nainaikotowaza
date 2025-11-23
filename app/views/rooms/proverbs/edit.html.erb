@@ -5,7 +5,9 @@
       <h1 class="text-4xl md:text-5xl font-bold">ふたりで仕上げることわざルーム</h1>
     </div>
 
-    <div class="relative">
+    <div class="relative"
+         data-controller="typing"
+         data-typing-room-id-value="<%= @room.id %>">
       <% my_ru = @room.room_users.find_by(user_id: current_user.id) %>
       <%= form_with model: [@room, @proverb], class: "space-y-8" do |f| %>
         <% if my_ru&.word_giver? %>

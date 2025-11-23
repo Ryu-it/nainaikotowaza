@@ -10,7 +10,11 @@
         <label class="text-xs uppercase tracking-[0.3em] text-slate-400">Word 1</label>
         <%= f.text_field :word1,
               placeholder: "言葉を選んでいません",
-              class: "w-full py-3 px-4 rounded-2xl border border-slate-200 bg-white text-center font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+              class: "w-full py-3 px-4 rounded-2xl border border-slate-200 bg-white text-center font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200",
+              data: {
+        typing_target: "word1",
+        action: "input->typing#syncFromForm"
+      } %>
       </div>
 
       <span class="text-3xl font-black text-rose-400 select-none text-center">✕</span>
@@ -19,7 +23,11 @@
         <label class="text-xs uppercase tracking-[0.3em] text-slate-400">Word 2</label>
         <%= f.text_field :word2,
               placeholder: "言葉を選んでいません",
-              class: "w-full py-3 px-4 rounded-2xl border border-slate-200 bg-white text-center font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200" %>
+              class: "w-full py-3 px-4 rounded-2xl border border-slate-200 bg-white text-center font-semibold shadow-sm focus:border-rose-400 focus:ring-rose-200",
+              data: {
+        typing_target: "word2",
+        action: "input->typing#syncFromForm"
+      } %>
       </div>
     </div>
 
@@ -30,19 +38,46 @@
     </div>
 
     <div class="space-y-4 text-left">
-      <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400 text-center">Preview</p>
-      <% [["ことわざ", @proverb.title.presence || "ないないことわざ"],
-          ["意味", @proverb.meaning.presence || "意味"],
-          ["用例", @proverb.example.presence || "用例"]].each do |label, value| %>
-        <div class="relative group">
-          <div class="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-5 text-center text-base font-semibold text-slate-700 cursor-not-allowed select-none">
-            <span><%= value %></span>
-          </div>
-          <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
-            <%= label %>は相手が入力します
-          </div>
-        </div>
-      <% end %>
+  <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400 text-center">
+    Preview
+  </p>
+
+  <!-- ことわざタイトル -->
+  <div class="relative group">
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-5 text-center text-base font-semibold text-slate-700 cursor-not-allowed select-none">
+      <span data-typing-target="titlePreview">
+        <%= @proverb.title.presence || "ないないことわざ" %>
+      </span>
+    </div>
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+      ことわざは相手が入力します
+    </div>
+  </div>
+
+  <!-- 意味 -->
+  <div class="relative group">
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-5 text-center text-base font-semibold text-slate-700 cursor-not-allowed select-none">
+      <span data-typing-target="meaningPreview">
+        <%= @proverb.meaning.presence || "意味" %>
+      </span>
+    </div>
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+      意味は相手が入力します
+    </div>
+  </div>
+
+  <!-- 用例 -->
+  <div class="relative group">
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-5 text-center text-base font-semibold text-slate-700 cursor-not-allowed select-none">
+      <span data-typing-target="examplePreview">
+        <%= @proverb.example.presence || "用例" %>
+      </span>
+    </div>
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+      用例は相手が入力します
+    </div>
+  </div>
+
 
       <div class="relative group max-w-xs mx-auto">
         <div class="bg-slate-100 border border-slate-200 rounded-2xl px-6 py-3 text-center font-semibold text-slate-400 cursor-not-allowed select-none">
