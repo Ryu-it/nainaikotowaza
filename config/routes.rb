@@ -59,4 +59,6 @@ Rails.application.routes.draw do
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 
   get "term", to: "static_pages#term"
+
+  get "privacy", to: "static_pages#privacy"
 end
