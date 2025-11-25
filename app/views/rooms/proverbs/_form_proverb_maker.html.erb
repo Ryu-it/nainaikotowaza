@@ -13,7 +13,7 @@
         <label class="text-xs uppercase tracking-[0.3em] text-slate-400">Word 1</label>
         <div class="w-full py-3 px-4 rounded-2xl border border-slate-200 bg-slate-50 text-center font-semibold select-none">
           <span data-typing-target="word1Preview">
-            <%= @proverb.word1.presence || "まだありません" %>
+            <%= @proverb.word1.presence  %>
           </span>
         </div>
         <div class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-slate-900/70 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "static_pages/term"
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     registrations: "users/registrations"
@@ -56,4 +57,6 @@ Rails.application.routes.draw do
 
   # OGP画像生成用ルーティング
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
+
+  get "term", to: "static_pages#term"
 end
