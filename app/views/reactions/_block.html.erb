@@ -1,0 +1,4 @@
+<%= turbo_frame_tag dom_id(reactable, :reactions), class: "flex items-center gap-6"  do %>
+  <%= render "reactions/laugh", reactable: reactable %>
+  <%= render "reactions/deep", reactable: reactable %>
+<% end %>

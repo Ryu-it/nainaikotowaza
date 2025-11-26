@@ -7,17 +7,22 @@ class ReactionsController < ApplicationController
       user: current_user,
       kind: params[:kind]
     )
-    if @reaction.save
-      redirect_back(fallback_location: root_path)
-    else
-      redirect_back(fallback_location: root_path)
+    @reaction.save
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: root_path }
     end
   end
 
   def destroy
     @reaction = @reactable.reactions.find(params[:id])
     @reaction.destroy!
-    redirect_back(fallback_location: root_path)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: root_path }
+    end
   end
 
   private
