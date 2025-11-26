@@ -42,14 +42,6 @@ RSpec.describe "Comments", type: :system do
   end
 
   describe "コメント投稿に成功した時" do
-    scenario "コメント投稿に成功した時フラッシュメッセージが出る" do
-      proverb = create(:proverb)
-      visit proverb_path(proverb)
-      fill_in "comment_content", with: "素晴らしいことわざですね！"
-      click_button "送信"
-      expect(page).to have_content("コメントが投稿されました。")
-    end
-
     scenario "コメント投稿に成功した時その文字が存在する" do
       proverb = create(:proverb)
       visit proverb_path(proverb)

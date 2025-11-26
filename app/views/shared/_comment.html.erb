@@ -1,4 +1,4 @@
-<div id="comment_<%= comment.id %>" class="border-b border-gray-200 py-2">
+<div id="<%= dom_id(comment) %>" class="border-b border-gray-200 py-2">
   <div class="flex items-start justify-between">
     <div>
       <strong><%= comment.user.name %></strong>

@@ -6,10 +6,13 @@ class CommentsController < ApplicationController
     @comment = @proverb.comments.build(comment_params)
     @comment.user = current_user
 
-    if @comment.save
-      redirect_to @proverb, notice: "コメントが投稿されました。"
-    else
-      redirect_to @proverb, alert: "コメントの投稿に失敗しました。"
+    respond_to do |format|
+      if @comment.save
+        format.turbo_stream
+        format.html { redirect_to @proverb }
+      else
+        format.html { redirect_to @proverb, alert: "コメントの投稿に失敗しました。" }
+      end
     end
   end
 
