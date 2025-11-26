@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "static_pages/term"
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     registrations: "users/registrations"
@@ -61,4 +60,8 @@ Rails.application.routes.draw do
   get "term", to: "static_pages#term"
 
   get "privacy", to: "static_pages#privacy"
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

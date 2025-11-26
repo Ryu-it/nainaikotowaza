@@ -60,6 +60,9 @@ group :development do
 
   # 定義ジャンプなどのLSP機能を提供するgem
   gem "ruby-lsp"
+
+  # メールを開発環境で確認するためのgem
+  gem "letter_opener_web"
 end
 
 group :test do
