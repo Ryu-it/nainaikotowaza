@@ -4,6 +4,7 @@
 <%= button_to polymorphic_path([reactable, (rv.active ? rv.existing : :reactions)]),
               params: { kind: :like },
               method: (rv.active ? :delete : :post),
+              data: (user_signed_in? ? {} : { turbo: false }),
               class: "inline-flex items-center gap-1 cursor-pointer" do %>
 
   <i class="fa-solid fa-heart text-xl transition-transform duration-200

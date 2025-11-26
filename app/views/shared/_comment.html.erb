@@ -9,7 +9,9 @@
               <i class="fa-solid fa-trash text-2xl"></i>
     <% end %>
     <% else %>
-    <%= render "reactions/like", reactable: comment %>
+      <%= turbo_frame_tag dom_id(comment, :reactions) do %>
+        <%= render "reactions/like", reactable: comment %>
+      <% end %>
     <% end %>
   </div>
 </div>

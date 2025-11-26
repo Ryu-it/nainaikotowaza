@@ -1,0 +1,7 @@
+<%= turbo_stream.update dom_id(@reactable, :reactions) do %>
+  <% if @reactable.is_a?(Comment) %>
+    <%= render "reactions/like", reactable: @reactable %>
+  <% else %>
+    <%= render "reactions/block", reactable: @reactable %>
+  <% end %>
+<% end %>

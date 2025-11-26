@@ -51,8 +51,7 @@
           data-redirect-url-value="<%= proverb_path(proverb) %>"
           data-action="click->redirect#navigate"
           role="button"
-          class="cursor-pointer flex"
-          data-turbo="false">
+          class="cursor-pointer flex">
           <div class="bg-white/95 rounded-3xl shadow-2xl p-8 space-y-6 flex flex-col w-full transition hover:-translate-y-1 hover:shadow-rose-200/60">
             <div class="flex items-center justify-between text-xs font-semibold tracking-[0.4em] text-slate-400 uppercase">
               <span>Proverb</span>
@@ -112,9 +111,8 @@
                 <% end %>
               </div>
             </div>
-            <div class="mt-4 flex items-center justify-end gap-6 text-slate-500" data-action="click->redirect#stop">
-              <%= render "reactions/laugh", reactable: proverb %>
-              <%= render "reactions/deep", reactable: proverb %>
+            <div class="mt-4 flex items-center justify-end text-slate-500" data-action="click->redirect#stop">
+              <%= render "reactions/block", reactable: proverb %>
             </div>
           </div>
         </div>
