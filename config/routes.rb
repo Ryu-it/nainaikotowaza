@@ -61,6 +61,8 @@ Rails.application.routes.draw do
 
   get "privacy", to: "static_pages#privacy"
 
+  get "usage", to: "static_pages#usage"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

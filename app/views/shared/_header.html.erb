@@ -100,6 +100,12 @@
       <% end %>
     </li>
 
+    <li>
+      <%= link_to usage_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+        <i class="fa-solid fa-circle-info text-3xl"></i>
+        <span>使い方</span>
+      <% end %>
+
     <li class="pt-4">
       <%= link_to destroy_user_session_path,
                   method: :delete,
@@ -147,7 +153,7 @@
     <div class="hidden md:flex gap-6 pr-8">
       <%= link_to "新規登録", new_user_registration_path, class: "py-2 px-4 font-bold" %>
       <%= link_to "ログイン", new_user_session_path, class: "py-2 px-4 font-bold" %>
-      <%= link_to "使い方", "#", class: "py-2 px-4 font-bold" %>
+      <%= link_to "使い方", usage_path, class: "py-2 px-4 font-bold" %>
     </div>
   </div>
 <% end %>
