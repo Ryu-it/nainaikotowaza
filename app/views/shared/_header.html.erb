@@ -13,8 +13,8 @@
                 </span>
               <% end %>
           </span>
-          <!-- 下段: ラベル -->
-          <span class="text-sm mt-2">お知らせ</span>
+          <!-- 下段: ラベル（スマホでは非表示） -->
+        <span class="mt-2 text-sm hidden sm:inline-block">お知らせ</span>
         <% end %>
 
         <%= link_to messages_path, class: "flex flex-col items-center font-bold" do %>
@@ -28,17 +28,17 @@
               <% end %>
           </span>
           <!-- 下段: ラベル -->
-          <span class="text-sm mt-2">メッセージ</span>
+          <span class="mt-2 text-sm hidden sm:inline-block">メッセージ</span>
         <% end %>
 
         <%= link_to new_room_path, class: "flex flex-col items-center font-bold" do %>
           <i class="fa-solid fa-users text-2xl"></i>
-          <span class="text-sm mt-2">誰かとことわざを作る</span>
+          <span class="mt-2 text-sm hidden sm:inline-block">誰かとことわざを作る</span>
         <% end %>
 
         <%= link_to new_proverb_path, class: "flex flex-col items-center font-bold" do %>
           <i class="fa-solid fa-user text-2xl"></i>
-          <span class="text-sm mt-2">1人でことわざを作る</span>
+          <span class="mt-2 text-sm hidden sm:inline-block">1人でことわざを作る</span>
         <% end %>
 
         <%#　stimulusでハンバーカーメニューを表示 %>
@@ -116,22 +116,41 @@
 </div>
 
     <% else %>
-      <!-- 🏠 未ログイン時のメニュー -->
-      <div class="flex justify-between items-center">
-        <!-- 左端 -->
-        <div>
-          <%= link_to root_path do %>
-            <i class="fa-solid fa-house text-2xl pl-8"></i>
-          <% end %>
-        </div>
+  <div class="flex justify-between items-center">
+    <!-- 左：ホームアイコン（共通） -->
+    <div>
+      <%= link_to root_path do %>
+        <i class="fa-solid fa-house text-2xl pl-8"></i>
+      <% end %>
+    </div>
 
-        <!-- 右端 -->
-        <div class="flex gap-6 pr-8">
-          <%= link_to "新規登録", new_user_registration_path, class: "py-2 px-4 font-bold" %>
-          <%= link_to "ログイン", new_user_session_path, class: "py-2 px-4 font-bold" %>
-          <%= link_to "使い方", "#", class: "py-2 px-4 font-bold" %>
-        </div>
-      </div>
-    <% end %>
+    <!-- ========================= -->
+    <!-- 📱 スマホ専用メニュー -->
+    <!-- ========================= -->
+    <div class="flex flex-col items-start gap-3 pr-8 md:hidden mt-3">
+
+      <!-- 新規登録（太め・目立つ） -->
+      <%= link_to "新規登録",
+                  new_user_registration_path,
+                  class: "w-full text-center py-2 px-4 rounded-xl text-base bg-rose-500 text-white shadow-md" %>
+
+      <!-- ログイン（控えめ） -->
+      <%= link_to "ログイン",
+                  new_user_session_path,
+                  class: "w-full text-center py-2 px-4 rounded-xl text-base border border-rose-500 text-rose-500 bg-white" %>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 🖥 PC / タブレット専用（従来どおり） -->
+    <!-- ========================================= -->
+    <div class="hidden md:flex gap-6 pr-8">
+      <%= link_to "新規登録", new_user_registration_path, class: "py-2 px-4 font-bold" %>
+      <%= link_to "ログイン", new_user_session_path, class: "py-2 px-4 font-bold" %>
+      <%= link_to "使い方", "#", class: "py-2 px-4 font-bold" %>
+    </div>
+  </div>
+<% end %>
+
   </div>
 </header>

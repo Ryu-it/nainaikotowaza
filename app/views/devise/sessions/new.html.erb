@@ -2,25 +2,25 @@
 <div class = "flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950">
   <div class = "w-full flex flex-col space-y-8">
     <div class="mx-auto rounded-xl py-12 px-6 sm:px-10 md:px-15 lg:px-30
-            w-full max-w-xl md:max-w-xl lg:max-w-xl border-0 sm:border bg-transparent sm:bg-pink-50">
+            w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-xl border-0 sm:border bg-transparent sm:bg-pink-50">
 
       <div class = "flex flex-col items-center">
-      <h2 class="text-4xl font-bold text-center mb-12">
+      <h2 class="text-4xl font-bold text-center mb-12 text-white sm:text-black">
         ログイン
       </h2>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="field">
-          <%= f.label :email %><br />
+          <%= f.label :email, class: "text-white sm:text-black" %><br />
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "bg-white border rounded-xl py-4 px-12 mb-8" %>
         </div>
 
         <div class="field">
-          <%= f.label :password %><br />
+          <%= f.label :password, class: "text-white sm:text-black" %><br />
           <%= f.password_field :password, autocomplete: "current-password", class: "bg-white border rounded-xl py-4 px-12 mb-8" %>
         </div>
 
         <% if devise_mapping.rememberable? %>
-          <div class="field">
+          <div class="field text-white sm:text-black">
             <%= f.check_box :remember_me %>
             <%= f.label :remember_me %>
           </div>
