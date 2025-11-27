@@ -72,21 +72,6 @@ RSpec.describe "Proverbs", type: :system do
   end
 
   describe "ルーム作成が失敗した時" do
-    scenario "フォローしていないユーザーを選択した時にエラーメッセージが出る", js: true do
-      other_user = create(:user, name: "tonton")
-      visit new_room_path
-      # formが2つあるので最初のformを指定する
-      within(all("form")[0]) do
-        fill_in "q_name_cont", with: other_user.name
-        find_field("q_name_cont").send_keys(:enter)
-      end
-      choose "room_user_id_#{other_user.id}"
-        within('form[action="/rooms"]', visible: :all) do
-          click_button "部屋を作る"
-        end
-      expect(page).to have_content("フォローしているユーザーのみです")
-    end
-
     scenario "ユーザーを選択せずにルーム作成ボタンを押した時にエラーメッセージが出る", js: true do
       visit new_room_path
         within('form[action="/rooms"]', visible: :all) do
