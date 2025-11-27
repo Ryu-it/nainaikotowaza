@@ -78,6 +78,16 @@ class User < ApplicationRecord
     end
   end
 
+  # 過去に一緒にことわざを作ったユーザーを取得
+  def past_collaborators
+    completed_proverb_ids = proverbs.where(status: :completed).select(:id)
+
+    User.joins(:proverb_contributors)
+        .where(proverb_contributors: { proverb_id: completed_proverb_ids })
+        .where.not(id: id) # 自分自身を除外
+        .distinct
+  end
+
   private
   def self.ransackable_attributes(auth_object = nil)
     %w[ name ]
