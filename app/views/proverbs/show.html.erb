@@ -1,7 +1,11 @@
 <%= render "shared/flash_message" %>
 <div class="bg-gradient-to-b from-slate-900 via-rose-950/70 to-slate-950 min-h-screen py-16 px-4">
-  <div class="max-w-5xl mx-auto grid lg:grid-cols-[2fr,1fr] gap-8">
-    <div class="bg-white/95 rounded-3xl shadow-2xl p-10 space-y-10">
+  <div class="max-w-md sm:max-w-xl lg:max-w-5xl mx-auto 
+            grid gap-4 sm:gap-6 lg:grid-cols-[2fr,1fr] lg:gap-8">
+
+  <div class="bg-white/95 rounded-3xl shadow-2xl 
+              p-4 sm:p-6 md:p-8 lg:p-10 space-y-6 lg:space-y-10">
+
       <div class="text-center space-y-3 text-slate-500">
         <h1 class="text-3xl md:text-4xl font-bold text-slate-900"><%= @proverb.title %></h1>
         <p class="text-sm">投稿日 <%= @proverb.created_at.strftime("%Y.%m.%d") %></p>
@@ -30,7 +34,7 @@
         <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400 mb-4">作り手</p>
         <% contributors = @proverb.proverb_contributors.limit(2).map(&:user).compact %>
         <% if contributors.any? %>
-          <div class="flex flex-wrap items-center justify-center gap-6 text-center">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center">
             <% contributors.each_with_index do |user, index| %>
               <%= link_to user_path(user), class: "flex items-center gap-3 bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 hover:border-rose-200 transition" do %>
                 <% if user.avatar.attached? %>
@@ -56,7 +60,7 @@
       <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
         <%= link_to "一覧に戻る", proverbs_path,
                     class: "text-rose-500 hover:text-rose-400 font-semibold" %>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 flex-wrap">
           <% if user_signed_in? && current_user.id == @proverb.proverb_contributors.first.user_id %>
             <%= link_to edit_proverb_path, class: "text-slate-400 hover:text-rose-400 transition" do %>
               <i class="fa-solid fa-pen-to-square text-2xl"></i>
@@ -71,7 +75,7 @@
           <div class="flex items-center gap-6 text-slate-500">
             <%= render "reactions/block", reactable: @proverb %>
           </div>
-          <div class="text-slate-500 flex items-center gap-6">
+          <div class="flex items-center gap-4 justify-start sm:justify-center text-slate-500">
             <% prepare_meta_tags @proverb %>
             <% twitter_params = { url: proverb_url(@proverb), text: "#{@proverb.title}\n#ないないことわざ" } %>
             <% twitter_share_url = "https://twitter.com/intent/tweet?#{URI.encode_www_form(twitter_params)}" %>

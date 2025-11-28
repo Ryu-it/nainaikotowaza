@@ -5,7 +5,7 @@
     <!-- プロフィールカード -->
     <section class="bg-white border border-rose-100 rounded-2xl shadow-sm px-8 py-10">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div class="flex items-center gap-5">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <% if @user.avatar.attached? %>
             <%= image_tag @user.avatar.variant(resize_to_fill: [120, 120]),
                           class: "h-24 w-24 rounded-full object-cover border border-rose-100 shadow-sm" %>
@@ -16,7 +16,6 @@
           <% end %>
 
           <div class="space-y-2">
-            <p class="text-sm text-gray-500">ユーザー名</p>
             <h1 class="text-3xl font-semibold text-gray-900"><%= @user.name %></h1>
             <p class="text-sm text-gray-500">登録日 <%= @user.created_at.strftime("%Y/%m/%d") %></p>
           </div>
