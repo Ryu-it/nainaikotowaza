@@ -39,7 +39,7 @@ RSpec.describe "Users", type: :system do
       fill_in "Eメール", with: "test@example.com"
       fill_in "パスワード", with: "password"
       fill_in "パスワード（確認用）", with: "password"
-      click_button "Sign up"
+      click_button "登録"
       expect(page).to have_content("アカウント登録が完了しました。")
     end
 
@@ -49,7 +49,7 @@ RSpec.describe "Users", type: :system do
       fill_in "Eメール", with: "invalid@email"
       fill_in "パスワード", with: "short"
       fill_in "パスワード（確認用）", with: "mismatch"
-      click_button "Sign up"
+      click_button "登録"
       expect(page).to have_content("名前を入力してください")
       expect(page).to have_content("パスワードは8文字以上で入力してください")
       expect(page).to have_content("パスワード（確認用）とパスワードの入力が一致しません")
@@ -61,7 +61,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
     end
 
@@ -69,7 +69,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "wrongpassword"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("Eメールまたはパスワードが違います。")
     end
   end
@@ -79,7 +79,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       find(".hamburger-button").click
       click_on "ログアウト"
       expect(page).to have_content("ログアウトしました")
@@ -91,7 +91,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       fill_in "名前", with: "updatedname"
@@ -104,7 +104,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       fill_in "名前", with: "updatedname"
@@ -117,7 +117,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       attach_file "user_avatar", Rails.root.join("spec/fixtures/test_image.png")
@@ -130,7 +130,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       accept_confirm do
@@ -140,7 +140,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("Eメールまたはパスワードが違います。")
     end
   end
@@ -150,7 +150,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       fill_in "名前", with: ""
@@ -162,7 +162,7 @@ RSpec.describe "Users", type: :system do
       visit new_user_session_path
       fill_in "Eメール", with: user.email
       fill_in "パスワード", with: "12345678"
-      click_button "Log in"
+      click_button "ログイン"
       expect(page).to have_content("ログインしました")
       visit edit_user_registration_path
       fill_in "名前", with: ""

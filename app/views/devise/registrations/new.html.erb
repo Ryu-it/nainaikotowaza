@@ -35,7 +35,7 @@
     <%= f.label :password, class: "text-white sm:text-black" %>
     <% if @minimum_password_length %>
     <em class="text-white sm:text-black">
-    (<%= @minimum_password_length %> characters minimum)
+    (<%= @minimum_password_length %> 文字以上)
   </em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password", class: "w-full border bg-white rounded-xl py-4 px-12 mb-8" %>
@@ -47,7 +47,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "w-full text-white border rounded-xl px-6 py-4 bg-blue-500 text-black mt-8" %>
+    <%= f.submit "登録", class: "w-full text-white border rounded-xl px-6 py-4 bg-blue-500 text-black mt-8" %>
   </div>
 
   </div>
@@ -60,7 +60,7 @@
   <div class="flex-1 border-t border-gray-400"></div>
 </div>
 <!-- ✅ ここにGoogleボタンを追加 -->
-<div class="mt-6 max-w-xs mx-auto">
+<div class="mt-6 max-w-xs mx-auto font-sans">
       <%= button_to user_google_oauth2_omniauth_authorize_path,
             method: :post,
             data: { turbo: false },

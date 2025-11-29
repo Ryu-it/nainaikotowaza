@@ -27,7 +27,7 @@
         <% end %>
 
         <div class="actions">
-          <%= f.submit "Log in", class: "text-white border rounded-xl px-6 py-4 bg-blue-500 text-black mt-8" %>
+          <%= f.submit "ログイン", class: "text-white border rounded-xl px-6 py-4 bg-blue-500 text-black mt-8" %>
         </div>
       <% end %>
       </div>
@@ -39,7 +39,7 @@
   <div class="flex-1 border-t border-gray-400"></div>
 </div>
 <!-- ✅ ここにGoogleボタンを追加 -->
-<div class="mt-6 max-w-xs mx-auto">
+<div class="mt-6 max-w-xs mx-auto font-sans">
       <%= button_to user_google_oauth2_omniauth_authorize_path,
             method: :post,
             data: { turbo: false },
