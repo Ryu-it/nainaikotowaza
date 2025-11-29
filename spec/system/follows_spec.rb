@@ -7,7 +7,7 @@ RSpec.describe "follows", type: :system do
     visit new_user_session_path
     fill_in "Eメール", with: user.email
     fill_in "パスワード", with: "12345678"
-    click_button "Log in"
+    click_button "ログイン"
     expect(page).to have_content("ログインしました") # まずはここで保証
   end
 
