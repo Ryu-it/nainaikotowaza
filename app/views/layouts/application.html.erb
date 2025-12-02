@@ -28,6 +28,17 @@
 
     <%# ライン公式のJSライブラリ %>
     <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+
+    <% if Rails.env.production? %>
+    <!-- Google Analyticsの為 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GA_MEASUREMENT_ID"] %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%= ENV["GA_MEASUREMENT_ID"] %>');
+    </script>
+    <% end %>
   </head>
 
   <body class="flex flex-col">
