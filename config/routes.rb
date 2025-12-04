@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   # スリープ対策のルーティング
   get "health", to: "health#show"
 
-  # InvitationのURLヘルパーメソッド用ルーティング
+  # 招待を許可するためのルーティング
   get "invitations/accept", to: "invitations#accept", as: :accept_invitation
 
   # aiで言葉かことわざを作成するルーティング
