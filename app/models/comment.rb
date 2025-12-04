@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
 
   private
   def create_notification_comment
-    # 貢献者から、自分を除外して自分だけなら通知を作成しない
+    # コメントした本人は除外する
     recipients = proverb.users.where.not(id: user_id).distinct
     return if recipients.blank?
 
