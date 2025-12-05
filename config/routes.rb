@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   # aiで言葉かことわざを作成するルーティング
   namespace :ai do
     post :generate_words,   to: "words#generate"
-    post :generate_proverb, to: "proverbs#generate"
+    get :generate_proverb, to: "proverbs#generate"
   end
 
   # OGP画像生成用ルーティング
