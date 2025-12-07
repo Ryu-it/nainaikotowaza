@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     if session.delete(:oauth_first_login)
       edit_user_registration_path                               # 初回のみユーザー編集ページ
     else
-      root_path                                                 # 元いた場所
+      root_path
     end
   end
 

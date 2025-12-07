@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @proverb.comments.build(comment_params)
+    # user_id カラムに現在のユーザーのIDを設定
     @comment.user = current_user
 
     respond_to do |format|

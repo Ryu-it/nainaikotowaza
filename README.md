@@ -168,4 +168,4 @@ AIが作ったないことわざと意味・用例を見て笑って、ほっと
 [Figmaで見る](https://www.figma.com/design/Whvv7ajTtLstt9xWFO6quF/%E7%84%A1%E9%A1%8C?node-id=0-1&t=UN6kyosDwpZGuYSt-1)
 
 ## ER図
-[ER図を見る](https://drive.google.com/file/d/1bRcr3Rr8B4Y8wuqyrq8CN_fscoVXne0j/view?usp=sharing)
+![ER Diagram](app/assets/ER-dbdiagram.png)
