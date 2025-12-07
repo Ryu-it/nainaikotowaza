@@ -34,7 +34,7 @@ class Proverb < ApplicationRecord
     .limit(10)
 }
 
-  # link_to で使うために to_param をオーバーライド
+  #  URL生成時に id の代わりに public_uid を使うために to_param を上書き
   def to_param
     public_uid
   end
