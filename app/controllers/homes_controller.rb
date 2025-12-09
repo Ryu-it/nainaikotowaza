@@ -7,7 +7,7 @@ class HomesController < ApplicationController
         user_names =
           p.proverb_contributors
            .map { |pc| pc.user.name }
-           .uniq
+           .uniq      # 予防的処理
 
         {
           title: p.title,
