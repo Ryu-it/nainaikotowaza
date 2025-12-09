@@ -22,14 +22,6 @@ class Ai::ProverbsController < ApplicationController
       when :final
         result = payload
 
-        @proverb = Proverb.new(
-          word1: word1,
-          word2: word2,
-          title:   result[:title],
-          meaning: result[:meaning],
-          example: result[:example]
-        )
-
         # 最終の全文をブラウザに送る
         data = {
           event: "final",
