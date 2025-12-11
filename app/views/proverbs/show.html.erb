@@ -4,34 +4,34 @@
             grid gap-4 sm:gap-6 lg:grid-cols-[2fr,1fr] lg:gap-8">
 
   <div class="bg-white/95 rounded-3xl shadow-2xl 
-              p-4 sm:p-6 md:p-8 lg:p-10 space-y-6 lg:space-y-10">
+              p-4 sm:p-6 md:p-8 lg:p-10 space-y-6 lg:space-y-10
+              transition hover:-translate-y-1 hover:shadow-rose-200/60">
 
-      <div class="text-center space-y-3 text-slate-500">
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900"><%= @proverb.title %></h1>
-        <p class="text-sm">投稿日 <%= @proverb.created_at.strftime("%Y.%m.%d") %></p>
+      <div class="text-center text-slate-500">
+        <p class="text-sm">タイトル</p>
       </div>
 
       <div class="border border-slate-200 rounded-3xl p-6 bg-slate-50">
-        <p class="text-2xl font-bold text-center text-slate-900"><%= [@proverb.word1, @proverb.word2].compact_blank.join(" × ") %></p>
+        <p class="text-2xl font-bold text-center text-slate-900"><%= @proverb.title %></p>
       </div>
 
       <div class="space-y-6 text-slate-800">
         <section class="space-y-2">
-          <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">意味</p>
-          <div class="rounded-2xl border border-slate-200 bg-white/70 p-6 leading-relaxed">
+          <p class="text-center text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">意味</p>
+          <div class="font-bold rounded-2xl border border-slate-200 bg-white/70 p-6 leading-relaxed">
             <%= simple_format(@proverb.meaning, {}, wrapper_tag: "p") %>
           </div>
         </section>
         <section class="space-y-2">
-          <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">用例</p>
-          <div class="rounded-2xl border border-slate-200 bg-white/70 p-6 leading-relaxed">
+          <p class="text-center text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">用例</p>
+          <div class="font-bold rounded-2xl border border-slate-200 bg-white/70 p-6 leading-relaxed">
             <%= simple_format(@proverb.example, {}, wrapper_tag: "p") %>
           </div>
         </section>
       </div>
 
       <div class="border-t border-slate-100 pt-6">
-        <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400 mb-4">作り手</p>
+        <p class="text-center text-xs font-semibold uppercase tracking-[0.4em] text-slate-400 mb-4">作り手</p>
         <% contributors = @proverb.proverb_contributors.limit(2).map(&:user).compact %>
         <% if contributors.any? %>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center">
