@@ -4,6 +4,7 @@ FactoryBot.define do
     sequence(:email)      { |n| "test#{n}@gmail.com" }
     password              { "12345678" }
     password_confirmation { "12345678" }
+    uid { SecureRandom.uuid }
 
     # 誰かをフォローした状態
     trait :with_active_follows do
