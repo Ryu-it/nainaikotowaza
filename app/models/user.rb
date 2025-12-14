@@ -88,6 +88,11 @@ class User < ApplicationRecord
         .distinct
   end
 
+  #  URL生成時に id の代わりに uid を使うために to_param を上書き
+  def to_param
+    uid
+  end
+
   private
   def self.ransackable_attributes(auth_object = nil)
     %w[ name ]
