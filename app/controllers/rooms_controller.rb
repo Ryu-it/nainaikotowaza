@@ -17,6 +17,14 @@ class RoomsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
+    unless current_user.following?(user)
+      redirect_back(
+        fallback_location: root_path,
+        alert: "フォローしているユーザーのみです"
+      )
+      return
+    end
+
     @room, @proverb, @invitation =
       Room.create_with_owner_and_invitee!(
         owner:   current_user,

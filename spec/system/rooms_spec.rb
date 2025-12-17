@@ -79,5 +79,12 @@ RSpec.describe "Proverbs", type: :system do
         end
       expect(page).to have_content("ユーザーを選択してください")
     end
+
+    scenario "フォローしていないユーザーを選択してこの人と一緒にことわざを作るを押した時にエラーメッセージが出る", js: true do
+      other_user = create(:user, name: "tonton")
+      visit user_path(other_user)
+      click_link "この人と一緒にことわざを作る"
+      expect(page).to have_content("フォローしているユーザーのみです")
+    end
   end
 end
