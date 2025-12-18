@@ -39,11 +39,7 @@ class RoomsController < ApplicationController
   end
 
   def index
-    @rooms = current_user.rooms
-                         .joins(:proverb)
-                         .merge(Proverb.where.not(status: :completed))
-                         .includes(:users, :room_users)
-                         .order(created_at: :desc)
+    @rooms = current_user.in_progress_proverb_rooms
   end
 
   private
