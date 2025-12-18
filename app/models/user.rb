@@ -93,6 +93,14 @@ class User < ApplicationRecord
     uid
   end
 
+  def in_progress_proverb_rooms
+    rooms
+      .joins(:proverb)
+      .merge(Proverb.where.not(status: :completed))
+      .includes(:users, :room_users)
+      .order(created_at: :desc)
+  end
+
   private
   def self.ransackable_attributes(auth_object = nil)
     %w[ name ]
