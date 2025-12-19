@@ -1,4 +1,5 @@
 class HomesController < ApplicationController
+  skip_before_action :authenticate_user!
   def index
     @recent_proverbs = Proverb.titled.order(created_at: :desc).limit(10)
 

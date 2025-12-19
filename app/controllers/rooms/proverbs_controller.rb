@@ -1,5 +1,4 @@
 class Rooms::ProverbsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_room, only: %i[edit update]
 
   def edit

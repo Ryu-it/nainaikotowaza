@@ -1,6 +1,4 @@
 class InvitationsController < ApplicationController
-  before_action :authenticate_user!
-
   def accept
     invitation = Invitation.find_signed!(params[:token], purpose: :invite)
     room       = invitation.room

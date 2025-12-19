@@ -1,5 +1,4 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
   before_action :mark_invitations_as_read, only: :index
 
   def index

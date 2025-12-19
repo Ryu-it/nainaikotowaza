@@ -1,5 +1,4 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
   before_action :setup_user_search, only: %i[new create]
 
   def new

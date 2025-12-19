@@ -1,5 +1,4 @@
 class ReactionsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_reactable
 
   def create

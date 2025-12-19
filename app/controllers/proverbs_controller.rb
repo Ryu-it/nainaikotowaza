@@ -1,7 +1,7 @@
 class ProverbsController < ApplicationController
   helper_method :prepare_meta_tags
 
-  before_action :authenticate_user!, except: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_params, only: %i[ edit update destroy ]
 
   def new
