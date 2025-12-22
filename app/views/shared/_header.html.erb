@@ -3,7 +3,7 @@
     <% if current_user %>
       <!-- 🔔 ログイン時のメニュー -->
       <div class="flex justify-between items-center px-12">
-        <%= link_to notifications_path, class: "flex flex-col items-center font-bold" do %>
+        <%= link_to notifications_path, class: "flex flex-col items-center font-bold #{'text-rose-500' if current_page?(notifications_path)}" do %>
           <!-- 上段: アイコン + バッジを横並び -->
           <span class="inline-flex items-center">
             <i class="fa-solid fa-bell text-2xl"></i>
@@ -17,7 +17,7 @@
         <span class="mt-2 text-sm hidden sm:inline-block">お知らせ</span>
         <% end %>
 
-        <%= link_to messages_path, class: "flex flex-col items-center font-bold" do %>
+        <%= link_to messages_path, class: "flex flex-col items-center font-bold #{'text-rose-500' if current_page?(messages_path)}" do %>
           <!-- 上段: アイコン + バッジを横並び -->
           <span class="inline-flex items-center">
             <i class="fa-regular fa-envelope text-2xl"></i>
@@ -31,12 +31,12 @@
           <span class="mt-2 text-sm hidden sm:inline-block">メッセージ</span>
         <% end %>
 
-        <%= link_to new_room_path, class: "flex flex-col items-center font-bold" do %>
+        <%= link_to new_room_path, class: "flex flex-col items-center font-bold #{'text-rose-500' if current_page?(new_room_path)}" do %>
           <i class="fa-solid fa-users text-2xl"></i>
           <span class="mt-2 text-sm hidden sm:inline-block">誰かとことわざを作る</span>
         <% end %>
 
-        <%= link_to new_proverb_path, class: "flex flex-col items-center font-bold" do %>
+        <%= link_to new_proverb_path, class: "flex flex-col items-center font-bold #{'text-rose-500' if current_page?(new_proverb_path)}" do %>
           <i class="fa-solid fa-user text-2xl"></i>
           <span class="mt-2 text-sm hidden sm:inline-block">1人でことわざを作る</span>
         <% end %>
@@ -59,49 +59,49 @@
         <nav class="w-72 bg-pink-50 border rounded-xl p-6">
   <ul class="space-y-8">
     <li>
-      <%= link_to root_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to root_path, class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(root_path)}" do %>
         <i class="fa-solid fa-house text-3xl"></i>
         <span>ホーム</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to user_path(current_user), class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to user_path(current_user), class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(user_path(current_user))}" do %>
         <i class="fa-regular fa-user text-3xl"></i>
         <span>プロフィール</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to rankings_path(type: "laugh"), class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to rankings_path(type: "laugh"), class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(rankings_path)}" do %>
         <i class="fa-solid fa-crown text-3xl"></i>
         <span>ランキング</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to proverbs_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to proverbs_path, class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(proverbs_path)}" do %>
         <i class="fa-regular fa-eye text-3xl"></i>
         <span>ことわざを見にいく</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to users_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to users_path, class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(users_path)}" do %>
         <i class="fa-solid fa-magnifying-glass text-3xl"></i>
         <span>ユーザーを探す</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to rooms_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to rooms_path, class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(rooms_path)}" do %>
         <i class="fa-solid fa-comments text-3xl"></i>
         <span>進行中の部屋</span>
       <% end %>
     </li>
 
     <li>
-      <%= link_to usage_path, class: "flex items-center gap-6 font-bold hover:opacity-80" do %>
+      <%= link_to usage_path, class: "flex items-center gap-6 font-bold hover:opacity-80 #{'text-rose-500' if current_page?(usage_path)}" do %>
         <i class="fa-solid fa-circle-info text-3xl"></i>
         <span>使い方</span>
       <% end %>
