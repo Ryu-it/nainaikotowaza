@@ -61,7 +61,7 @@ class User < ApplicationRecord
 
   # other_user を自分がフォローしているかどうか
   def following?(other_user)
-    following_users.include?(other_user)
+    active_follows.exists?(followed_id: other_user.id)
   end
 
   # uidをランダムに生成して返す
