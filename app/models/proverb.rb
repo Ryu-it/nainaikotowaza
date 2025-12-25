@@ -19,6 +19,10 @@ class Proverb < ApplicationRecord
 
   scope :titled, -> { where.not(title: [ nil, "" ]) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :recent_limit_10, ->(limit = 10) {
+    titled.recent.limit(limit)
+  }
+
 
   # 指定したリアクション数でランキング付けする
   scope :ranked_by, ->(kind) {
