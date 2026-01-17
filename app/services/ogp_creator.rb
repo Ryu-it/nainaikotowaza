@@ -18,6 +18,8 @@ class OgpCreator
       config.pointsize FONT_SIZE
       config.draw "text #{TEXT_POSITION} '#{text}'"
     end
+
+    image
   end
 
   private
