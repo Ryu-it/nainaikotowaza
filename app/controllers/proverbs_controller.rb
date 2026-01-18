@@ -47,7 +47,9 @@ class ProverbsController < ApplicationController
   def show
     @proverb = Proverb.includes(proverb_contributors: :user)
                       .find_by!(public_uid: params[:id])
-    @comments = @proverb.comments.includes(:user).order(created_at: :desc)
+    @comments = @proverb.comments
+                        .includes(:user)
+                        .order(created_at: :desc)
     @comment = @proverb.comments.build
 
     prepare_meta_tags(@proverb)
