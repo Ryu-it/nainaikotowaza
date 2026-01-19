@@ -15,7 +15,7 @@ class Room < ApplicationRecord
       proverb = room.create_proverb!(status: :draft)
       proverb.proverb_contributors.create!(user: owner, role: :word_giver)
 
-      # 招待を作成
+      # revokedは将来的に、招待を無効にするために必要なカラム
       invitation = Invitation.create!(
         inviter:   owner,
         invitee:   invitee,
