@@ -15,4 +15,3 @@ class CreateContests < ActiveRecord::Migration[7.2]
     add_index :contests, :ends_at
   end
 end
-
