@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_14_103436) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_22_012709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,6 +51,19 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_14_103436) do
     t.datetime "updated_at", null: false
     t.index ["proverb_id"], name: "index_comments_on_proverb_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "contests", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "fixed_word", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.string "thumbnail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ends_at"], name: "index_contests_on_ends_at"
+    t.index ["starts_at"], name: "index_contests_on_starts_at"
   end
 
   create_table "follows", force: :cascade do |t|
