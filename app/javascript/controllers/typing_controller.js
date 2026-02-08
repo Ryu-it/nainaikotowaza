@@ -26,7 +26,7 @@ export default class extends Controller {
         room_id: this.roomIdValue,
       },
       {
-        received: (data) => this.updatePreviewFromServer(data),
+        received: (data) => this.applyPreview(data),
       },
     )
   }
@@ -49,10 +49,6 @@ export default class extends Controller {
   
     this.subscription.send(payload)
     this.applyPreview(payload)
-  }
-
-  updatePreviewFromServer(data) {
-    this.applyPreview(data)
   }
 
   applyPreview(data) {
