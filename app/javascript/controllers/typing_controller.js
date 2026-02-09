@@ -54,27 +54,27 @@ export default class extends Controller {
   applyPreview(data) {
     if (this.hasWord1PreviewTarget && "word1" in data) {
       this.word1PreviewTarget.textContent =
-        data.word1 && data.word1.length > 0 ? data.word1 : "まだありません"
+        data.word1 || "まだありません"
     }
   
     if (this.hasWord2PreviewTarget && "word2" in data) {
       this.word2PreviewTarget.textContent =
-        data.word2 && data.word2.length > 0 ? data.word2 : "まだありません"
+        data.word2 || "まだありません"
     }
   
     if (this.hasTitlePreviewTarget && "title" in data) {
       this.titlePreviewTarget.textContent =
-        data.title && data.title.length > 0 ? data.title : "ないないことわざ"
+        data.title || "ないないことわざ"
     }
   
     if (this.hasMeaningPreviewTarget && "meaning" in data) {
       this.meaningPreviewTarget.textContent =
-        data.meaning && data.meaning.length > 0 ? data.meaning : "意味"
+        data.meaning || "意味"
     }
   
     if (this.hasExamplePreviewTarget && "example" in data) {
       this.examplePreviewTarget.textContent =
-        data.example && data.example.length > 0 ? data.example : "用例"
+        data.example || "用例"
     }
-  }  
+  }
 }
