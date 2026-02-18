@@ -12,7 +12,7 @@ class Comment < ApplicationRecord
   private
   def create_notification_comment
     # コメントした本人は除外する
-    recipients = proverb.users.where.not(id: user_id).distinct
+    recipients = proverb.users.where.not(id: user_id)
     return if recipients.blank?
 
     recipients.find_each do |recipient|
